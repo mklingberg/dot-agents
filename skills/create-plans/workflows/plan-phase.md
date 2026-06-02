@@ -10,7 +10,7 @@
 6. Read `.planning/BRIEF.md`
 
 **If domain expertise should be loaded (determined by intake):**
-7. Read domain SKILL.md: `~/.claude/skills/expertise/[domain]/SKILL.md`
+7. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md`
 8. Determine phase type from ROADMAP (UI, database, API, etc.)
 9. Read ONLY relevant references from domain's `<references_index>` section
 </required_reading>
@@ -224,10 +224,10 @@ Output: [What artifacts will be created by this plan]
 </objective>
 
 <execution_context>
-@~/.claude/skills/create-plans/workflows/execute-phase.md
-@~/.claude/skills/create-plans/templates/summary.md
+@~/.agents/skills/create-plans/workflows/execute-phase.md
+@~/.agents/skills/create-plans/templates/summary.md
 [If plan has ANY checkpoint tasks (type="checkpoint:*"), add:]
-@~/.claude/skills/create-plans/references/checkpoints.md
+@~/.agents/skills/create-plans/references/checkpoints.md
 </execution_context>
 
 <context>

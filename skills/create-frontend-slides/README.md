@@ -37,17 +37,17 @@ Copy the skill files to your Claude Code skills directory:
 
 ```bash
 # Create the skill directory
-mkdir -p ~/.claude/skills/frontend-slides/scripts
+mkdir -p ~/.agents/skills/frontend-slides/scripts
 
 # Copy all files (or clone this repo directly)
-cp SKILL.md STYLE_PRESETS.md viewport-base.css html-template.md animation-patterns.md ~/.claude/skills/frontend-slides/
-cp scripts/extract-pptx.py ~/.claude/skills/frontend-slides/scripts/
+cp SKILL.md STYLE_PRESETS.md viewport-base.css html-template.md animation-patterns.md ~/.agents/skills/frontend-slides/
+cp scripts/extract-pptx.py ~/.agents/skills/frontend-slides/scripts/
 ```
 
 Or clone directly:
 
 ```bash
-git clone https://github.com/zarazhangrui/frontend-slides.git ~/.claude/skills/frontend-slides
+git clone https://github.com/zarazhangrui/frontend-slides.git ~/.agents/skills/frontend-slides
 ```
 
 Then use it by typing `/frontend-slides` in Claude Code.

@@ -11,7 +11,7 @@ Domain expertise provides context-specific knowledge (Swift/macOS patterns, Next
 ## File Structure
 
 ```
-~/.claude/skills/expertise/[domain-name]/
+~/.agents/skills/expertise/[domain-name]/
 ├── SKILL.md              # Core principles + references_index (5-7k tokens)
 ├── references/           # Selective loading based on phase type
 │   ├── always-useful.md  # Conventions, patterns used in all phases

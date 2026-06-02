@@ -19,10 +19,10 @@ Output: [What artifacts will be created]
 </objective>
 
 <execution_context>
-@~/.claude/skills/create-plans/workflows/execute-phase.md
-@~/.claude/skills/create-plans/templates/summary.md
+@~/.agents/skills/create-plans/workflows/execute-phase.md
+@~/.agents/skills/create-plans/templates/summary.md
 [If plan contains checkpoint tasks (type="checkpoint:*"), add:]
-@~/.claude/skills/create-plans/references/checkpoints.md
+@~/.agents/skills/create-plans/references/checkpoints.md
 </execution_context>
 
 <context>
@@ -167,8 +167,8 @@ Output: Working Next.js app with JWT auth, protected routes, and user model.
 </objective>
 
 <execution_context>
-@~/.claude/skills/create-plans/workflows/execute-phase.md
-@~/.claude/skills/create-plans/templates/summary.md
+@~/.agents/skills/create-plans/workflows/execute-phase.md
+@~/.agents/skills/create-plans/templates/summary.md
 </execution_context>
 
 <context>

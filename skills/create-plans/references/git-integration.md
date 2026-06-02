@@ -18,7 +18,7 @@ The git log should read like a changelog of what shipped, not a diary of plannin
 | Handoff created | YES | WIP state preserved |
 
 ## Git Check on Invocation
-
+´´´
 ```bash
 git rev-parse --git-dir 2>/dev/null || echo "NO_GIT_REPO"
 ```
