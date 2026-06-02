@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if any skill uses JS tooling)
+node_modules/
+npm-debug.log*
+
+# Python (if any skill uses Python tooling)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Temp & logs
+*.log
+tmp/
+.tmp/
