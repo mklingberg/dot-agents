@@ -2,17 +2,16 @@
 
 <required_reading>
 **Read these files NOW:**
-1. templates/phase-prompt.md
-2. references/plan-format.md
-3. references/scope-estimation.md
-4. references/checkpoints.md
-5. Read `.planning/ROADMAP.md`
-6. Read `.planning/BRIEF.md`
+1. `~/.agents/skills/to-plan/SKILL.md` — canonical PLAN.md format and writing rules
+2. references/scope-estimation.md
+3. references/checkpoints.md
+4. Read `.planning/ROADMAP.md`
+5. Read `.planning/BRIEF.md`
 
 **If domain expertise should be loaded (determined by intake):**
-7. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md`
-8. Determine phase type from ROADMAP (UI, database, API, etc.)
-9. Read ONLY relevant references from domain's `<references_index>` section
+6. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md`
+7. Determine phase type from ROADMAP (UI, database, API, etc.)
+8. Read ONLY relevant references from domain's `<references_index>` section
 </required_reading>
 
 <purpose>
@@ -195,75 +194,11 @@ Loop until "Create phase prompt" selected.
 </step>
 
 <step name="write_phase_prompt">
-Use template from `templates/phase-prompt.md`.
+Follow `~/.agents/skills/to-plan/SKILL.md` to write the PLAN.md artifact(s).
 
-**If single plan:**
-Write to `.planning/phases/XX-name/{phase}-01-PLAN.md`
+Output path: `.planning/phases/XX-name/{phase}-{plan}-PLAN.md`
 
-**If multiple plans:**
-Write multiple files:
-- `.planning/phases/XX-name/{phase}-01-PLAN.md`
-- `.planning/phases/XX-name/{phase}-02-PLAN.md`
-- `.planning/phases/XX-name/{phase}-03-PLAN.md`
-
-Each file follows the template structure:
-
-```markdown
----
-phase: XX-name
-plan: {plan-number}
-type: execute
-domain: [if domain expertise loaded]
----
-
-<objective>
-[Plan-specific goal - what this plan accomplishes]
-
-Purpose: [Why this plan matters for the phase]
-Output: [What artifacts will be created by this plan]
-</objective>
-
-<execution_context>
-@~/.agents/skills/create-plans/workflows/execute-phase.md
-@~/.agents/skills/create-plans/templates/summary.md
-[If plan has ANY checkpoint tasks (type="checkpoint:*"), add:]
-@~/.agents/skills/create-plans/references/checkpoints.md
-</execution_context>
-
-<context>
-@.planning/BRIEF.md
-@.planning/ROADMAP.md
-[If research done:]
-@.planning/phases/XX-name/FINDINGS.md
-[If continuing from previous plan:]
-@.planning/phases/XX-name/{phase}-{prev}-SUMMARY.md
-[Relevant source files:]
-@src/path/to/relevant.ts
-</context>
-
-<tasks>
-[Tasks in XML format with type attribute]
-[Mix of type="auto" and type="checkpoint:*" as needed]
-</tasks>
-
-<verification>
-[Overall plan verification checks]
-</verification>
-
-<success_criteria>
-[Measurable completion criteria for this plan]
-</success_criteria>
-
-<output>
-After completion, create `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
-[Include summary structure from template]
-</output>
-```
-
-**For multi-plan phases:**
-- Each plan has focused scope (3-6 tasks)
-- Plans reference previous plan summaries in context
-- Last plan's success criteria includes "Phase X complete"
+The confirmed breakdown from `confirm_breakdown` is your task list — pass it directly into `to-plan`'s process at step 4 (skip re-confirmation since the user already approved it here).
 </step>
 
 <step name="offer_next">
