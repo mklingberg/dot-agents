@@ -74,6 +74,52 @@ Only freeze what you configure (`A.CallTo`) or verify (`MustHaveHappened`). Do n
 Do NOT reconfigure any of the above in tests.
 </conventions>
 
+<setup_strategy>
+**Happy-path-first with minimal per-test setup**
+
+Structure every test class around one canonical happy path, then express each scenario as the *smallest possible deviation* from it.
+
+1. **Define the happy path** — identify the configuration where all dependencies succeed, all inputs are valid, and the expected result is the normal case. Build this via a custom `[Data]` attribute (or `[AutoTestData]` if no complex setup is needed) composed of focused, reusable customizations.
+
+2. **One change per test** — each test should only configure what makes *that scenario* different from the happy path. Override one return value, mutate one field, disable one flag. Everything else comes from the happy-path baseline.
+
+3. **Extract when repeated** — if the same setup appears in 2 or more tests, pull it into its own `Customization`. The threshold is **2 tests**.
+
+4. **Composable customizations** — each `Customization` must have a single responsibility. Build the happy path by composing several small customizations, not by writing one big one. This makes individual customizations reusable across test classes.
+
+```csharp
+// ✅ Composable: each customization does one thing
+public class MyHandlerData() : AutoDataAttribute(() => new Fixture()
+    .Customize(new DefaultCustomizations())
+    .Customize(new ActiveAccountCustomization())   // account state
+    .Customize(new ValidContractCustomization())    // contract shape
+    .Customize(new FeatureFlagEnabledCustomization())); // flag override
+
+// Then in each test, only change what differs:
+[Theory, MyHandlerData]
+public async Task Return_error_when_contract_is_expired(
+    [Frozen] IContractRepository repo,
+    MyHandler sut,
+    MyQuery query,
+    CancellationToken cancellationToken)
+{
+    // Only this one thing differs from the happy path:
+    A.CallTo(() => repo.GetAsync(query.ContractId, cancellationToken))
+        .Returns(new Contract { Status = ContractStatus.Expired });
+
+    var result = await sut.Handle(query, cancellationToken);
+
+    result.IsError.ShouldBeTrue();
+}
+```
+
+**Decision flow**
+- Need custom setup for 1 test → configure inline on the frozen dependency or mutate the input object
+- Same setup in 2+ tests → extract to a new `Customization` in `AutoData/Customizations/`
+- Multiple customizations always needed together → compose them in a custom `[Data]` attribute
+- Never add all setup into one large customization — keep each one focused and independently reusable
+</setup_strategy>
+
 <common_patterns>
 <pattern name="handler_test">
 ```csharp
@@ -131,9 +177,11 @@ public class {Validator}Tests
 - Do not use `fixture.Customize` for interface mocks — use `fixture.Freeze<T>()` + FakeItEasy
 - Do not use `[Fact]` when `[Theory, AutoTestData]` works
 - Do not create customizations for one-off setup — modify frozen objects inline
+- Do not put all test setup in a single monolithic customization — keep each customization single-purpose and composable
 - One test per behavior — small, focused tests
 - Validators: one nested class per field, one test per rule
 - Keep tests DRY — use custom attributes and customizations for shared setup, but avoid over-abstraction that makes tests hard to read
+- Do not repeat inline setup across tests — if the same override appears in 2+ tests, extract it to a `Customization`
 </anti_patterns>
 
 <tdd_workflow>
@@ -151,5 +199,6 @@ Tests are well-written when:
 - Shouldly assertions are used (except `Assert.ThrowsAsync<T>` for exceptions)
 - No AAA comments, no redundant mock setup, no over-customization
 - File placement mirrors the source structure
+- Test setup is DRY with reusable custom attributes and customizations
 - All tests pass: `dotnet test`
 </success_criteria>
