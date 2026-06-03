@@ -19,47 +19,7 @@ When a skill is invoked, Claude reads SKILL.md. Use this guarantee:
 - Workflow-specific content goes in workflows/
 - Reusable knowledge goes in references/
 
-### 3. Router Pattern for Complex Skills
-
-```
-skill-name/
-├── SKILL.md              # Router + principles
-├── workflows/            # Step-by-step procedures (FOLLOW)
-├── references/           # Domain knowledge (READ)
-├── templates/            # Output structures (COPY + FILL)
-└── scripts/              # Reusable code (EXECUTE)
-```
-
-SKILL.md asks "what do you want to do?" → routes to workflow → workflow specifies which references to read.
-
-**When to use each folder:**
-- **workflows/** - Multi-step procedures Claude follows
-- **references/** - Domain knowledge Claude reads for context
-- **templates/** - Consistent output structures Claude copies and fills (plans, specs, configs)
-- **scripts/** - Executable code Claude runs as-is (deploy, setup, API calls)
-
-### 4. Pure XML Structure
-
-No markdown headings (#, ##, ###) in skill body. Use semantic XML tags:
-```xml
-<objective>...</objective>
-<process>...</process>
-<success_criteria>...</success_criteria>
-```
-
-Keep markdown formatting within content (bold, lists, code blocks).
-
-### 5. Progressive Disclosure
-
-SKILL.md should contain only what's needed on every invocation. Anything conditional on user choice or workflow branch goes in a sub-file. Hard ceiling: 500 lines.
-</essential_principles>
-
-<intake>
-What would you like to do?
-
-1. Create new skill
-2. Audit/modify existing skill
-3. Add component (workflow/reference/template/script)
+### 3. Router Pattern for Complex Skills11212
 4. Get guidance
 
 **Wait for response before proceeding.**

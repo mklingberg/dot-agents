@@ -38,7 +38,7 @@ Skills live in `skills/<name>/SKILL.md` and are automatically discovered by pi. 
 
 ### Skill Authoring
 - **[create-agent-skills](skills/create-agent-skills/SKILL.md)** — Expert guidance for creating, writing, building, and refining Claude Code Skills. Use when working with SKILL.md files or authoring new skills.
-- **[write-a-skill](skills/write-a-skill/SKILL.md)** — Create new agent skills with proper structure, progressive disclosure, and bundled resources.
+- **[create-subagents](skills/create-subagents/SKILL.md)** — Expert guidance for creating and using Claude Code subagents and the Task tool. Use when working with subagents, orchestration patterns, or launching specialized agents.
 
 ---
 
@@ -127,4 +127,13 @@ If `.planning/` is noise on a shared repo, add it to `.gitignore` and keep it lo
 3. Write the skill instructions in the body
 4. Pi will auto-discover it on next session
 
-> Tip: Use the **write-a-skill** or **create-agent-skills** skills to get guided help authoring new skills.
+> Tip: Use the **create-agent-skills** skill to get guided help authoring new skills.
+
+---
+
+## Kudos
+
+Some skills in this library are adapted from the work of others — thanks to:
+
+- **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`.
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — prolific skill author, great resource for skill inspiration and patterns.
