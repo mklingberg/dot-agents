@@ -492,7 +492,7 @@ See [basic-operations.md](basic-operations.md) for campaign creation and managem
 ```
 
 **Benefits**:
-- SKILL.md stays under 500 lines
+- SKILL.md stays lean — only universal content inline, conditional content in sub-files (hard ceiling: 500 lines)
 - Claude only reads relevant reference files
 - Token usage scales with task complexity
 - Easier to maintain and update

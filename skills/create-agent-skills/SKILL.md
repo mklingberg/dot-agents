@@ -51,7 +51,7 @@ Keep markdown formatting within content (bold, lists, code blocks).
 
 ### 5. Progressive Disclosure
 
-SKILL.md under 500 lines. Split detailed content into reference files. Load only what's needed for the current workflow.
+SKILL.md should contain only what's needed on every invocation. Anything conditional on user choice or workflow branch goes in a sub-file. Hard ceiling: 500 lines.
 </essential_principles>
 
 <intake>
@@ -186,7 +186,7 @@ A well-structured skill:
 - Uses pure XML structure (no markdown headings in body)
 - Has essential principles inline in SKILL.md
 - Routes directly to appropriate workflows based on user intent
-- Keeps SKILL.md under 500 lines
+- SKILL.md contains only what's needed on every invocation (conditional content in sub-files, hard ceiling 500 lines)
 - Asks minimal clarifying questions only when truly needed
 - Has been tested with real usage
 </success_criteria>

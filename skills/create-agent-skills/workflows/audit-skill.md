@@ -53,7 +53,7 @@ Evaluate against each criterion:
 - [ ] Description is third person ("Use when...")
 
 ### Structure
-- [ ] SKILL.md under 500 lines
+- [ ] SKILL.md contains only content needed on every invocation (conditional content in sub-files; hard ceiling 500 lines)
 - [ ] Pure XML structure (no markdown headings # in body)
 - [ ] All XML tags properly closed
 - [ ] Has required tags: objective OR essential_principles
@@ -118,7 +118,7 @@ If fixing:
 ## Common Anti-Patterns to Flag
 
 **Skippable principles**: Essential principles in separate file instead of inline
-**Monolithic skill**: Single file over 500 lines
+**Monolithic skill**: Conditional/workflow-specific content kept inline instead of split into sub-files (hard ceiling: 500 lines)
 **Mixed concerns**: Procedures and knowledge in same file
 **Vague steps**: "Handle the error appropriately"
 **Untestable criteria**: "User is satisfied"

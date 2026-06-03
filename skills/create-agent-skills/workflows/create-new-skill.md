@@ -148,7 +148,7 @@ Check:
 - [ ] No markdown headings (#) in body - use XML tags
 - [ ] Required tags present: objective, quick_start, success_criteria
 - [ ] All referenced files exist
-- [ ] SKILL.md under 500 lines
+- [ ] SKILL.md contains only content needed on every invocation (conditional content in sub-files; hard ceiling 500 lines)
 - [ ] XML tags properly closed
 
 ## Step 9: Create Slash Command

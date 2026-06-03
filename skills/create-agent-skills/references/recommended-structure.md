@@ -29,8 +29,8 @@ A "build" task loads debugging references. A "debug" task loads build references
 **Solution:** Intake question determines intent → routes to specific workflow → workflow specifies which references to read.
 
 **Problem 3: Monolithic skills are overwhelming**
-500+ lines of mixed content makes it hard to find relevant parts.
-**Solution:** Small router (SKILL.md) + focused workflows + reference library.
+SKILL.md bloated with conditional/workflow-specific content that only applies to some tasks.
+**Solution:** Small router (SKILL.md with only universal content) + focused workflows + reference library. Hard ceiling: 500 lines.
 
 **Problem 4: Procedures mixed with knowledge**
 "How to do X" mixed with "What X means" creates confusion.

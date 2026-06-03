@@ -56,7 +56,7 @@ A well-structured skill has:
 - Valid YAML frontmatter with descriptive name and description
 - Pure XML structure with no markdown headings in body
 - Required tags: objective, quick_start, success_criteria
-- Progressive disclosure (SKILL.md < 500 lines, details in reference files)
+- Progressive disclosure (SKILL.md contains only universal content; conditional content in sub-files; hard ceiling 500 lines)
 - Real-world testing and iteration based on observed behavior
 </success_criteria>
 ```

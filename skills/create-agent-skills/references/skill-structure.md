@@ -182,8 +182,8 @@ SKILL.md serves as an overview that points to detailed materials as needed. This
 </principle>
 
 <practical_guidance>
-- Keep SKILL.md body under 500 lines
-- Split content into separate files when approaching this limit
+- SKILL.md should contain only what's needed on every invocation — anything conditional on user choice or workflow branch goes in a sub-file
+- Hard ceiling: 500 lines
 - Keep references one level deep from SKILL.md
 - Add table of contents to reference files over 100 lines
 </practical_guidance>
@@ -365,7 +365,7 @@ Before finalizing a skill, verify:
 - ✅ Required tags present: objective, quick_start, success_criteria
 - ✅ Conditional tags appropriate for complexity level
 - ✅ All XML tags properly closed
-- ✅ Progressive disclosure applied (SKILL.md < 500 lines)
+- ✅ Progressive disclosure applied (SKILL.md contains only universal content; conditional content in sub-files)
 - ✅ Reference files use pure XML structure
 - ✅ File paths use forward slashes
 - ✅ Descriptive file names

@@ -311,7 +311,7 @@ Add through iteration:
 - Examples when patterns aren't clear from description
 - Edge cases when observed in real usage
 - Advanced features when users need them
-- Reference files when SKILL.md approaches 500 lines
+- Reference files when content is conditional on user choice or workflow branch (don't wait for 500 lines — split on logic, not length)
 - Validation scripts when errors are common
 </iteration_additions>
 

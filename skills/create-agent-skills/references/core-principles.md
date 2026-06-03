@@ -383,8 +383,8 @@ Without progressive disclosure, every task loads all content regardless of need.
 </token_efficiency>
 
 <implementation>
-- Keep SKILL.md under 500 lines
-- Split detailed content into reference files
+- Keep SKILL.md to content needed on every invocation — split anything conditional on user choice or workflow into sub-files
+- Hard ceiling: 500 lines
 - Keep references one level deep from SKILL.md
 - Link to references from relevant sections
 - Use descriptive reference file names
