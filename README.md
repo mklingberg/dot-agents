@@ -42,6 +42,74 @@ Skills live in `skills/<name>/SKILL.md` and are automatically discovered by pi. 
 
 ---
 
+## Skill Relationships & Usage Patterns
+
+### Planning workflow
+
+The planning skills form a layered stack. Understanding which layer you're at determines which skill to reach for:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  grill-with-docs  →  CONTEXT.md + ADRs              │  Domain layer
+│                      (why decisions were made)       │  Universal — humans & agents
+├─────────────────────────────────────────────────────┤
+│  create-plans     →  BRIEF.md + ROADMAP.md + PLANs  │  Execution layer
+│                      (what Claude should do)         │  Claude execution pipeline
+└─────────────────────────────────────────────────────┘
+```
+
+**`grill-with-docs` first, then `create-plans`** — on any serious project, run a grilling session to establish the domain model and lock in architectural decisions as ADRs before writing execution plans. BRIEF.md should reference existing ADRs rather than duplicate them.
+
+**ADRs are agent context too** — CONTEXT.md and ADRs aren't just team documentation. They're the institutional memory an agent lacks at the start of every session. Without them, agents will "fix" intentional decisions, re-open settled debates, and violate system-wide constraints. Load relevant ADRs into PLAN.md `<context>` blocks:
+
+```xml
+<context>
+@.planning/BRIEF.md
+@docs/adr/0003-jose-over-jsonwebtoken.md
+@src/relevant/file.ts
+</context>
+```
+
+### grill-me vs grill-with-docs
+
+- **`grill-me`** — pure thinking session, no codebase, no artifacts. Good for stress-testing an idea before any code exists.
+- **`grill-with-docs`** — challenges your plan against the *existing* domain model. Cross-references code, sharpens terminology against CONTEXT.md, produces ADRs for hard decisions. Use this on brownfield work.
+
+### create-plans vs grill-with-docs for teams
+
+| | create-plans | grill-with-docs |
+|---|---|---|
+| Primary executor | Claude | Humans (with AI assistance) |
+| Artifacts useful to | Claude sessions | Anyone reading the repo |
+| History format | Phase summaries, ROADMAP.md | ADRs, CONTEXT.md glossary |
+| Lifespan | Per-feature or continuous | Lives in the repo permanently |
+| Team noise | `.planning/` is Claude infrastructure | ADRs are standard team artifacts |
+
+`create-plans` is optimized for solo developer + Claude. On team projects, prefer persisting decisions as ADRs via `grill-with-docs` — they survive tool changes, onboarding, and time. Use `create-plans` as the execution layer on top.
+
+### create-plans: extend vs clear
+
+The skill is designed to **accumulate** — new features become new phases appended to ROADMAP.md, not a fresh `.planning/` folder. Clearing `.planning/` per feature loses the phase summaries (architectural decisions, deviations, the "why") and forces re-briefing the agent from scratch every time.
+
+Prefer:
+- **Extend** — append new phases (`05-payments`, `06-notifications`) to the existing ROADMAP.md
+- **Milestone** — mark shipped versions (`v1.1`) in MILESTONES.md
+- **Archive** — only clear for separate codebases or complete rewrites
+
+If `.planning/` is noise on a shared repo, add it to `.gitignore` and keep it local — you still get continuity without commit noise.
+
+### to-plan vs create-plans
+
+- **`create-plans`** — full planning session from scratch: brief → roadmap → phases → plans. Starts a conversation.
+- **`to-plan`** — converts the *current conversation* into a PLAN.md. Use after a grilling session or design discussion where the plan is already clear and just needs capturing.
+
+### to-prd vs write-a-prd
+
+- **`write-a-prd`** — interview-driven: asks questions, explores the codebase, designs modules, then publishes as a GitHub issue.
+- **`to-prd`** — capture-driven: turns the current conversation context into a PRD and publishes it. Use when the design is already discussed.
+
+---
+
 ## Structure
 
 ```
