@@ -1,5 +1,5 @@
 ---
-name: ld-csharp
+name: feature-flags-csharp
 description: "Create, use, test, and remove LaunchDarkly feature flags in C# .NET projects. Follows team conventions: FeatureFlag<T> subclasses, IFeatureFlagProvider, Jira-ticket-based naming."
 ---
 
