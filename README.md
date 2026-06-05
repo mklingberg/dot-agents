@@ -1,129 +1,159 @@
 # ~/.agents
 
-Your skills. Your workflows. No compromises.
+A personal skill library for [pi](https://github.com/earendil-works/pi-coding-agent): planning, grilling, workflow control, and a few sharp domain tools that make the agent more useful than raw prompting.
 
-A personal skills library for [pi](https://github.com/earendil-works/pi-coding-agent). Skills live under `skills/<category>/<name>/SKILL.md` and are automatically discovered by pi recursively. Each skill provides specialized instructions that activate when the task matches its description.
+This is not a pile of prompt snippets. It is a working system for getting from vague idea to durable execution with less drift, less context loss, and better decisions.
 
----
+> Better plans. Harder questions. Cleaner execution.
+
+## What this library is really for
+
+The center of gravity is not “more skills.” It is **better agent behavior**:
+- challenge weak plans early
+- turn discussion into executable artifacts
+- preserve context across long work
+- break work into reviewable chunks
+- keep specialist knowledge reusable
 
 ## Structure
 
-```
+```text
 ~/.agents/
 └── skills/
-    ├── code/           Code quality, testing, feature flags
-    ├── experimental/   Skills being evaluated — not yet promoted
-    ├── misc/           Skill authoring, presentations, workflow utilities
-    ├── planning/       Plans, PRDs, issues, stories
-    └── thinking/       Grilling, analysis, decision-making
+    ├── code/           Targeted implementation conventions
+    ├── experimental/   Useful, but still being proven
+    ├── misc/           Meta-tools and workflow helpers
+    ├── planning/       PRDs, plans, issues, stories
+    └── thinking/       Pressure-testing and decision support
 ```
 
----
+## The real spine of the library
 
-## Skills
+### 1. Thinking before action
 
-### `code/`
-- **[feature-flags-csharp](skills/code/feature-flags-csharp/SKILL.md)** — Create, use, test, and remove LaunchDarkly feature flags in C# .NET projects. Follows team conventions: `FeatureFlag<T>` subclasses, `IFeatureFlagProvider`, Jira-ticket-based naming.
-- **[write-tests-autofixture](skills/code/write-tests-autofixture/SKILL.md)** — Write unit tests using xUnit, AutoFixture, AutoData, and FakeItEasy following project conventions.
+These skills improve the idea before code starts.
 
-### `planning/`
-- **[create-plans](skills/planning/create-plans/SKILL.md)** — Create hierarchical project plans optimized for solo agentic development. Produces Claude-executable plans with verification criteria. Handles briefs, roadmaps, phase plans, and context handoffs.
-- **[to-plan](skills/planning/to-plan/SKILL.md)** — Convert the current conversation context into a PLAN.md. Use after a grilling session or design discussion where the plan is already clear.
-- **[to-issues](skills/planning/to-issues/SKILL.md)** — Break a plan, spec, or PRD into independently-grabbable issues using tracer-bullet vertical slices.
-- **[write-a-prd](skills/planning/write-a-prd/SKILL.md)** — Create a PRD through user interview, codebase exploration, and module design, then submit as a GitHub issue.
-- **[to-prd](skills/planning/to-prd/SKILL.md)** — Turn the current conversation context into a PRD and publish it to the project issue tracker.
-- **[write-jira-stories](skills/planning/write-jira-stories/SKILL.md)** — Plan and create Jira stories and subtasks. Scrum-based, with frontend/backend subtask splits, Figma integration, and agent-directive subtasks.
+- **`grill-me`** — stress-tests a plan in pure conversation
+- **`grill-with-docs`** — pressure-tests a plan against the real codebase and docs
+- **`pros-cons`** — forces a decision instead of endless “maybe” analysis
 
-### `thinking/`
-- **[grill-me](skills/thinking/grill-me/SKILL.md)** — Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree.
-- **[grill-with-docs](skills/thinking/grill-with-docs/SKILL.md)** — Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise.
-- **[pros-cons](skills/thinking/pros-cons/SKILL.md)** — Weighted pros/cons analysis with a challenging mindset, clear verdict, and alternative proposals.
+This layer exists for one reason: most bad implementation work starts as bad framing.
 
-### `misc/`
-- **[create-agent-skills](skills/misc/create-agent-skills/SKILL.md)** — Expert guidance for creating, writing, building, and refining Claude Code Skills.
-- **[create-subagents](skills/misc/create-subagents/SKILL.md)** — Expert guidance for creating and using Claude Code subagents and the Task tool.
-- **[handoff](skills/misc/handoff/SKILL.md)** — Compact the current conversation into a handoff document for another agent to pick up.
-- **[create-frontend-slides](skills/misc/create-frontend-slides/SKILL.md)** — Create animation-rich HTML presentations from scratch or by converting PowerPoint files.
+### 2. Planning that survives long sessions
 
-### `experimental/`
-Skills under evaluation — may be promoted, revised, or dropped.
+This is the strongest part of the library.
 
-- **[review-code](skills/experimental/review-code/SKILL.md)** — Senior-level code reviews covering correctness, security (OWASP 2025), performance, maintainability, DRY, test coverage, and technical debt.
-- **[manage-worktrees](skills/experimental/manage-worktrees/SKILL.md)** — Manage git worktrees for parallel branch development. Set up bare repos, create worktrees, work on multiple branches simultaneously.
+- **`create-plans`** — builds a durable planning system with `BRIEF.md`, `ROADMAP.md`, phase plans, summaries, and handoffs
+- **`to-plan`** — fast path when the conversation is already clear and just needs to become an executable `PLAN.md`
+- **`handoff`** — compresses working state so another agent/session can resume without guessing
 
----
+The goal is not documentation theater. The goal is executable planning and continuity.
 
-## Skill Relationships & Usage Patterns
+### 3. Breaking work into trackable follow-ups
 
-### Planning workflow
+Once direction is clear, these skills turn it into project-management artifacts.
 
-The planning skills form a layered stack:
+- **`to-issues`** — splits work into grab-able implementation slices
+- **`write-a-prd`** — interview-driven PRD creation
+- **`to-prd`** — capture-driven PRD from an already-developed discussion
+- **`write-jira-stories`** — Jira story/subtask generation for a specific workflow
 
-```
-┌─────────────────────────────────────────────────────┐
-│  grill-with-docs  →  CONTEXT.md + ADRs              │  Domain layer
-│                      (why decisions were made)       │  Universal — humans & agents
-├─────────────────────────────────────────────────────┤
-│  create-plans     →  BRIEF.md + ROADMAP.md + PLANs  │  Execution layer
-│                      (what Claude should do)         │  Claude execution pipeline
-└─────────────────────────────────────────────────────┘
-```
+### 4. Focused specialist help
 
-**`grill-with-docs` first, then `create-plans`** — on any serious project, run a grilling session to establish the domain model and lock in architectural decisions as ADRs before writing execution plans. BRIEF.md should reference existing ADRs rather than duplicate them.
+A few skills encode concrete patterns so the agent does not reinvent them badly.
 
-**ADRs are agent context too** — CONTEXT.md and ADRs aren't just team documentation. They're the institutional memory an agent lacks at the start of every session. Without them, agents will "fix" intentional decisions, re-open settled debates, and violate system-wide constraints. Load relevant ADRs into PLAN.md `<context>` blocks:
+- **`write-tests-autofixture`** — opinionated xUnit + AutoFixture + FakeItEasy test conventions
+- **`feature-flags-csharp`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
+- **`create-subagents`** — how to structure and use subagents well
+- **`create-agent-skills`** — how to write better skills instead of cargo-culting prompt files
+- **`create-frontend-slides`** — presentation-building specialist
 
-```xml
-<context>
-@.planning/BRIEF.md
-@docs/adr/0003-jose-over-jsonwebtoken.md
-@src/relevant/file.ts
-</context>
+## Recommended usage patterns
+
+### Brownfield feature work
+
+```text
+grill-with-docs
+  ↓
+to-plan           (small/clear work)
+or
+create-plans      (larger/multi-phase work)
+  ↓
+to-issues         (if work needs tracking)
 ```
 
-### grill-me vs grill-with-docs
+### Greenfield / early exploration
 
-- **`grill-me`** — pure thinking session, no codebase, no artifacts. Good for stress-testing an idea before any code exists.
-- **`grill-with-docs`** — challenges your plan against the *existing* domain model. Cross-references code, sharpens terminology against CONTEXT.md, produces ADRs for hard decisions. Use this on brownfield work.
+```text
+grill-me
+  ↓
+pros-cons         (if decision is fuzzy)
+  ↓
+write-a-prd or to-prd
+  ↓
+to-plan or create-plans
+```
 
-### to-plan vs create-plans
+### Long-running work
 
-- **`create-plans`** — full planning session from scratch: brief → roadmap → phases → plans. Starts a conversation.
-- **`to-plan`** — converts the *current conversation* into a PLAN.md. Use after a grilling session where the plan is already clear and just needs capturing.
+```text
+create-plans
+  ↓
+handoff           (when pausing)
+  ↓
+resume later with less context loss
+```
 
-### to-prd vs write-a-prd
+## Key distinctions that matter
 
-- **`write-a-prd`** — interview-driven: asks questions, explores the codebase, designs modules, then publishes as a GitHub issue.
-- **`to-prd`** — capture-driven: turns the current conversation context into a PRD and publishes it. Use when the design is already discussed.
+### `grill-me` vs `grill-with-docs`
+- **`grill-me`** = idea pressure test, no project grounding required
+- **`grill-with-docs`** = design pressure test against actual docs, terminology, and code reality
 
-### create-plans: extend vs clear
+### `to-plan` vs `create-plans`
+- **`to-plan`** = one-shot capture of a clear conversation into a `PLAN.md`
+- **`create-plans`** = durable planning system for larger or staged work
 
-The skill is designed to **accumulate** — new features become new phases appended to ROADMAP.md, not a fresh `.planning/` folder. Clearing `.planning/` per feature loses the phase summaries (architectural decisions, deviations, the "why") and forces re-briefing the agent from scratch every time.
+### `to-prd` vs `write-a-prd`
+- **`to-prd`** = convert existing discussion into a PRD
+- **`write-a-prd`** = discover the PRD through guided questioning and exploration
 
-Prefer:
-- **Extend** — append new phases (`05-payments`, `06-notifications`) to the existing ROADMAP.md
-- **Milestone** — mark shipped versions (`v1.1`) in MILESTONES.md
-- **Archive** — only clear for separate codebases or complete rewrites
+## Experimental skills
 
----
+`experimental/` holds skills that are useful but not yet promoted as core.
 
-## Adding a New Skill
+Current examples:
+- **`review-code`** — structured senior-style code review
+- **`manage-worktrees`** — git worktree workflow support
 
-1. Create `skills/<category>/<your-skill-name>/SKILL.md`
-2. Add YAML frontmatter with `name` and `description`
-3. Write the skill instructions in the body
-4. Pi will auto-discover it on next session
+These are real tools, just not as central to the library’s identity as planning + thinking.
 
-New or unproven skills go in `experimental/` first.
+## Adding a new skill
 
-> Tip: Use the **create-agent-skills** skill to get guided help authoring new skills.
+1. Create `skills/<category>/<name>/SKILL.md`
+2. Add frontmatter with `name` and `description`
+3. Write focused instructions for a real repeated problem
+4. Promote only if it proves durable in actual use
 
----
+Rule of thumb: if a skill is just a fancy alias for a one-off prompt, it probably should not exist.
+
+## Why this repo matters
+
+Raw model capability is not usually the bottleneck.
+
+The bottleneck is:
+- weak problem framing
+- context loss
+- oversized tasks
+- no durable memory
+- no repeatable workflow
+
+This library exists to fix that.
 
 ## Kudos
 
-Some skills in this library are adapted from the work of others — thanks to:
+Some skills here are adapted from strong existing work:
 
-- **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`.
-- **[Matt Pocock](https://github.com/mattpocock/skills)** — prolific skill author, great resource for skill inspiration and patterns.
-- **[Marwen Amamou](https://github.com/mamamou/ai-coding-skills)** — source of `review-code`.
+- **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — strong skill patterns and inspiration
+- **[Marwen Amamou](https://github.com/mamamou/ai-coding-skills)** — source of `review-code`
