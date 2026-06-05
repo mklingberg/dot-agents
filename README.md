@@ -1,8 +1,8 @@
 # ~/.agents
 
-Personal agent skills library for [pi](https://github.com/earendil-works/pi-coding-agent) — a coding agent harness powered by Claude.
+Your skills. Your workflows. No compromises.
 
-Skills live under `skills/<category>/<name>/SKILL.md` and are automatically discovered by pi recursively. Each skill provides specialized instructions that activate when the task matches its description.
+A personal skills library for [pi](https://github.com/earendil-works/pi-coding-agent). Skills live under `skills/<category>/<name>/SKILL.md` and are automatically discovered by pi recursively. Each skill provides specialized instructions that activate when the task matches its description.
 
 ---
 
