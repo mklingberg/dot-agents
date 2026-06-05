@@ -19,7 +19,14 @@ When a skill is invoked, Claude reads SKILL.md. Use this guarantee:
 - Workflow-specific content goes in workflows/
 - Reusable knowledge goes in references/
 
-### 3. Router Pattern for Complex Skills11212
+### 3. Router Pattern for Complex Skills
+
+<intake>
+What would you like to do?
+
+1. Create new skill
+2. Audit/modify existing skill
+3. Add component (workflow/reference/template/script)
 4. Get guidance
 
 **Wait for response before proceeding.**
