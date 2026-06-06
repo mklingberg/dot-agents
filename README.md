@@ -157,3 +157,9 @@ Some skills here are adapted from strong existing work:
 - **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
 - **[Matt Pocock](https://github.com/mattpocock/skills)** — strong skill patterns and inspiration
 - **[Marwen Amamou](https://github.com/mamamou/ai-coding-skills)** — source of `review-code`
+
+## Related repos
+
+- [dot-pi](https://github.com/mklingberg/dot-pi) — pi setup, agents, planning workflow
+- [dot-config](https://github.com/mklingberg/dot-config) — macOS/dev environment config
+- [dot-agents](https://github.com/mklingberg/dot-agents) — personal pi skill library
