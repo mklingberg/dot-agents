@@ -33,7 +33,7 @@ Non-critical enhancements discovered during execution. Address in future phases 
 - **Description:** UserService has grown to 400 lines with mixed concerns (auth, profile, settings). Would be cleaner as separate services (AuthService, ProfileService, SettingsService). Currently works but harder to test and reason about.
 - **Impact:** Low (works correctly, just organizational)
 - **Effort:** Substantial (4-6 hours - need to split, update imports, ensure no breakage)
-- **Suggested phase:** Phase 7 (Code health milestone)
+- **Suggested phase:** Phase 7 (Code health)
 
 ## Closed Enhancements
 
@@ -78,7 +78,7 @@ Non-critical enhancements discovered during execution. Address in future phases 
 
 ### Phase 6: Performance Optimization (Planned)
 
-**Milestone Goal:** Address performance issues discovered during v1.0 usage
+**Goal:** Address performance issues discovered during usage
 
 **Includes:**
 - ISS-002: Redis connection pooling (Medium effort)

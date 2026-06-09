@@ -96,28 +96,6 @@ See: workflows/execute-phase.md (deviation_rules section)
 <principle name="ship_fast_iterate_fast">
 No enterprise process. No approval gates. No multi-week timelines.
 Plan → Execute → Ship → Learn → Repeat.
-
-**Milestone-driven:** Ship v1.0 → mark milestone → plan v1.1 → ship → repeat.
-Milestones mark shipped versions and enable continuous iteration.
-</principle>
-
-<principle name="milestone_boundaries">
-Milestones mark shipped versions (v1.0, v1.1, v2.0).
-
-**Purpose:**
-- Historical record in MILESTONES.md (what shipped when)
-- Greenfield → Brownfield transition marker
-- Git tags for releases
-- Clear completion rituals
-
-**Default approach:** Extend existing roadmap with new phases.
-- v1.0 ships (phases 1-4) → add phases 5-6 for v1.1
-- Continuous phase numbering (01-99)
-- Milestone groupings keep roadmap organized
-
-**Archive ONLY for:** Separate codebases or complete rewrites (rare).
-
-See: references/milestone-management.md
 </principle>
 
 <principle name="anti_enterprise_patterns">
@@ -367,7 +345,6 @@ What would you like to do?
 | "handoff", "pack up", "stopping", 3 (has structure) | `workflows/handoff.md` |
 | "resume", "continue", 1 (has handoff) | `workflows/resume.md` |
 | "transition", "complete", "done", "next" | `workflows/transition.md` |
-| "milestone", "ship", "v1.0", "release" | `workflows/complete-milestone.md` |
 | "guidance", "help", 4 | `workflows/get-guidance.md` |
 
 **Critical:** Plan execution should NOT invoke this skill. Use `/run-plan` for context efficiency (skill loads ~20k tokens, /run-plan loads ~5-7k).
@@ -436,7 +413,7 @@ All in `references/`:
 **Structure:** directory-structure.md, hierarchy-rules.md
 **Formats:** handoff-format.md, plan-format.md
 **Patterns:** context-scanning.md, context-management.md
-**Planning:** scope-estimation.md, checkpoints.md, milestone-management.md
+**Planning:** scope-estimation.md, checkpoints.md
 **Process:** user-gates.md, git-integration.md, research-pitfalls.md
 **Domain:** domain-expertise.md (guide for creating context-efficient domain skills)
 </reference_index>
@@ -447,11 +424,10 @@ All in `templates/`:
 | Template | Purpose |
 |----------|---------|
 | brief.md | Project vision document with current state |
-| roadmap.md | Phase structure with milestone groupings |
+| roadmap.md | Phase structure |
 | phase-prompt.md | Executable phase prompt (PLAN.md) |
 | research-prompt.md | Research prompt (RESEARCH.md) |
 | summary.md | Phase outcome (SUMMARY.md) with deviations |
-| milestone.md | Milestone entry for MILESTONES.md |
 | issues.md | Deferred enhancements log (ISSUES.md) |
 | continue-here.md | Context handoff format |
 </templates_index>
@@ -468,7 +444,6 @@ All in `workflows/`:
 | research-phase.md | Create and run research prompt |
 | plan-chunk.md | Plan immediate next tasks |
 | transition.md | Mark phase complete, advance |
-| complete-milestone.md | Mark shipped version, create milestone entry |
 | handoff.md | Create context handoff for pausing |
 | resume.md | Load handoff, restore context |
 | get-guidance.md | Help decide planning approach |
