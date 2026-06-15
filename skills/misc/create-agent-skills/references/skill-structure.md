@@ -104,11 +104,19 @@ description: What it does and when to use it (third person, specific triggers)
 </name_field>
 
 <description_field>
+**Purpose**: Descriptions live in the agent's system prompt on *every* conversation. They exist for one job: trigger detection. Optimize for keyword density, not prose quality.
+
 **Validation rules**:
-- Non-empty, maximum 1024 characters
+- Non-empty, maximum 1024 characters (but target 80–150)
 - No XML tags
 - Third person (never first or second person)
 - Include what it does AND when to use it
+- Include literal user phrases as triggers
+- Include distinctive scope markers (language, tool, project name) when they disambiguate from sibling skills
+- Exclude internals (how it works — that's loaded when the skill activates)
+- Exclude selling adjectives (`expert`, `stunning`, `senior-level`, `comprehensive`)
+
+**Recommended format**: `{Verb + object + scope}. Triggers: '{phrase1}', '{phrase2}', {context cue}.`
 
 **Critical rule**: Always write in third person.
 - ✅ "Processes Excel files and generates reports"
@@ -330,6 +338,25 @@ Form filling...
 <pitfall name="vague_descriptions">
 - ❌ "Helps with documents"
 - ✅ "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction."
+</pitfall>
+
+<pitfall name="bloated_descriptions">
+Descriptions that document the skill instead of triggering it. These waste system-prompt tokens on every conversation.
+- ❌ "Expert guidance for creating, writing, building, and refining Claude Code Skills. Use when working with SKILL.md files, authoring new skills, improving existing skills, or understanding skill structure and best practices." (235 chars, redundant verbs, no literal triggers)
+- ✅ "Create or improve Claude Code SKILL.md files. Triggers: 'write a skill', 'new skill', editing SKILL.md, skill-structure questions." (~130 chars)
+</pitfall>
+
+<pitfall name="missing_disambiguator">
+When two skills overlap, descriptions must encode the discriminator and name the sibling.
+- ❌ Two skills both saying "Create a PRD" — the agent can't pick.
+- ✅ `to-prd`: "Turn current conversation into a PRD and publish to the issue tracker."
+- ✅ `write-a-prd`: "Greenfield PRD via user interview + codebase exploration. For converting current conversation, use to-prd."
+</pitfall>
+
+<pitfall name="selling_adjectives">
+Adjectives don't aid detection.
+- ❌ "Create stunning, animation-rich HTML presentations..."
+- ✅ "Build HTML/animated presentations from scratch or from PPT/PPTX. Triggers: 'make slides', 'build a presentation', 'convert pptx'."
 </pitfall>
 
 <pitfall name="inconsistent_pov">

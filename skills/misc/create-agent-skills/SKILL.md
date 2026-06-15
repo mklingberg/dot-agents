@@ -140,12 +140,42 @@ Required fields:
 ```yaml
 ---
 name: skill-name          # lowercase-with-hyphens, matches directory
-description: ...          # What it does AND when to use it (third person)
+description: ...          # See <description_authoring> below
 ---
 ```
 
 Name conventions: `create-*`, `manage-*`, `setup-*`, `generate-*`, `build-*`
 </yaml_requirements>
+
+<description_authoring>
+## Writing Descriptions (Critical)
+
+**Descriptions are always-loaded tax.** Every skill's description sits in the agent's system prompt for every conversation, used solely to decide *when to activate this skill*. Treat them as trigger detectors, not documentation.
+
+**Format:** `{Action + scope}. Triggers: '{phrase}', '{phrase}', {context cue}.`
+
+**Target:** 80–150 chars. Hard cap 200 unless the skill has unusual disambiguation needs.
+
+**Include:**
+- Verb + object (what it does)
+- Distinctive scope markers that disambiguate from sibling skills (language, tool, project name, e.g. `C#`, `Azure DevOps`, `Mina Sidor`)
+- Literal trigger phrases the user is likely to say
+- Explicit differentiator when a sibling skill overlaps (e.g. `For X, use other-skill.`)
+
+**Exclude:**
+- How it works internally (loaded when skill activates — belongs in SKILL.md body)
+- Selling adjectives (`expert`, `stunning`, `senior-level`, `comprehensive`)
+- Repeated nouns ("plans... planning... plan")
+- Generic verbs without scope ("helps with", "processes")
+
+**Examples:**
+- ✅ `Write xUnit + AutoFixture + FakeItEasy unit tests for C#. Triggers: 'write tests', 'test this handler/validator/service'.`
+- ✅ `Open a PR in Azure DevOps from a feature branch. Runs review-code first. Triggers: 'open PR', 'create PR', 'ready to merge'.`
+- ❌ `Expert guidance for creating, writing, building, and refining Claude Code Skills.` (selling, no triggers)
+- ❌ `Helps with documents` (no scope, no triggers)
+
+**When two skills overlap** (e.g. `to-prd` vs `write-a-prd`): each description must encode the discriminator, and at least one should name the other. Example: `...Triggers: greenfield 'write a PRD'. For converting current conversation, use to-prd.`
+</description_authoring>
 
 <success_criteria>
 A well-structured skill:

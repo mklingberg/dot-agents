@@ -51,6 +51,11 @@ Evaluate against each criterion:
 - [ ] Has `description:` field
 - [ ] Description says what it does AND when to use it
 - [ ] Description is third person ("Use when...")
+- [ ] Description is 80–200 chars (flag bloat; descriptions are always-loaded tax)
+- [ ] Description includes literal trigger phrases user is likely to say
+- [ ] Description includes distinctive scope markers (language, tool, project) if siblings overlap
+- [ ] Description excludes internals and selling adjectives (`expert`, `stunning`, `comprehensive`)
+- [ ] If a sibling skill overlaps, description names it and encodes the discriminator
 
 ### Structure
 - [ ] SKILL.md contains only content needed on every invocation (conditional content in sub-files; hard ceiling 500 lines)
