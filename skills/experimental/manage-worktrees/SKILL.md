@@ -1,6 +1,6 @@
 ---
 name: manage-worktrees
-description: Manage git worktrees for parallel branch development. Use when the user wants to work on multiple branches simultaneously, create worktrees, set up a bare repo with worktrees, or manage existing worktrees.
+description: Manage git worktrees for parallel branch work. Triggers: 'create worktree', 'work on multiple branches', bare-repo setup.
 ---
 
 <objective>

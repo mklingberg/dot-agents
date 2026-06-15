@@ -1,6 +1,6 @@
 ---
 name: to-plan
-description: Convert current conversation context into a Claude-executable PLAN.md. Use after a grill-me or grill-with-docs session, or whenever you have a clear implementation plan ready to capture as an executable prompt. Works outside the create-plans lifecycle — does not require an existing .planning/ structure.
+description: Convert current conversation into a standalone Claude-executable PLAN.md (no .planning/ needed). Trigger: 'turn this into a plan', after grill-me/grill-with-docs.
 ---
 
 <objective>

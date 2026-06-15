@@ -1,6 +1,6 @@
 ---
 name: write-jira-stories
-description: Plan and create Jira stories and subtasks for the Mina Sidor project. Scrum-based, with frontend/backend subtask splits, Figma integration, and agent-directive subtasks. Always plans before creating.
+description: Plan and create Jira stories + FE/BE subtasks for Mina Sidor (Scrum, Figma). Triggers: 'create Jira stories', 'write tickets for Mina Sidor'.
 ---
 
 <essential_principles>

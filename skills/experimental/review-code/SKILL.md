@@ -1,11 +1,6 @@
 ---
 name: review-code
-description: >
-  Senior-level code reviews covering correctness, security (OWASP 2025), performance,
-  maintainability, DRY, test coverage, and technical debt. Separates blocking issues
-  from suggestions. Auto-fixes code written this session; suggest-only for existing or
-  human-authored code. Use when reviewing PRs, functions, or pre-deploy changes.
-  Not for architecture-only or security-only reviews.
+description: Senior code review — correctness, security (OWASP), perf, maintainability, tests. Auto-fixes session code, suggest-only for existing code. Triggers: 'review this', PR review, pre-deploy check.
 ---
 
 <objective>

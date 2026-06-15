@@ -1,6 +1,6 @@
 ---
 name: write-tests-autofixture
-description: Write unit tests using xUnit, AutoFixture, AutoData, and FakeItEasy. Covers naming, layout, [Frozen] ordering, composable customizations, and the happy-path-first strategy. Use when writing tests, creating test classes, adding test cases, or when the user asks to test a handler, validator, or service.
+description: Write xUnit + AutoFixture + AutoData + FakeItEasy unit tests for C#. Triggers: 'write tests', 'test this handler/validator/service', adding test cases.
 argument-hint: [class-or-file-to-test]
 allowed-tools: Read, Grep, Glob, Bash(dotnet test *), Write, Edit, Agent
 ---

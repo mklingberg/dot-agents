@@ -1,6 +1,6 @@
 ---
 name: create-feature-branch
-description: Creates a git feature branch with the correct naming convention for this project. Use when starting work on a Jira ticket or when the user says "create a branch", "new branch", or "start working on [ticket]".
+description: Create a git feature branch with project naming convention. Triggers: starting a Jira ticket, 'create a branch', 'new branch', 'start working on [ticket]'.
 ---
 
 <objective>

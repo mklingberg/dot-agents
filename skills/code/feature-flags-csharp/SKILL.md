@@ -1,6 +1,6 @@
 ---
 name: feature-flags-csharp
-description: "Create, use, test, and remove LaunchDarkly feature flags in C# .NET projects. Follows team conventions: FeatureFlag<T> subclasses, IFeatureFlagProvider, Jira-ticket-based naming."
+description: "Create, use, test, or remove LaunchDarkly feature flags in C# .NET (FeatureFlag<T>, IFeatureFlagProvider, Jira-ticket naming)."
 ---
 
 <mcp_integration>

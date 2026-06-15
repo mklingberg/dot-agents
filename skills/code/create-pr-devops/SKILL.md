@@ -1,11 +1,6 @@
 ---
 name: create-pr-devops
-description: >
-  Creates a pull request in Azure DevOps after reviewing local branch changes.
-  Runs a code review (using the review-code skill) if not already done, surfaces
-  any blocking issues, drafts title and description from git context, confirms
-  details with the user, and submits via MCP. Use when ready to open a PR for a
-  feature branch.
+description: Open a pull request in Azure DevOps from a feature branch. Runs review-code first. Triggers: 'open PR', 'create PR', 'ready to merge'.
 ---
 
 <objective>
