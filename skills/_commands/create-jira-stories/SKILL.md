@@ -1,6 +1,7 @@
 ---
-name: write-jira-stories
+name: create-jira-stories
 description: Plan and create Jira stories + FE/BE subtasks for Mina Sidor (Scrum, Figma). Triggers: 'create Jira stories', 'write tickets for Mina Sidor'.
+disable-model-invocation: true
 ---
 
 <essential_principles>

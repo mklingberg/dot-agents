@@ -174,7 +174,7 @@ Name conventions: `create-*`, `manage-*`, `setup-*`, `generate-*`, `build-*`
 - ❌ `Expert guidance for creating, writing, building, and refining Claude Code Skills.` (selling, no triggers)
 - ❌ `Helps with documents` (no scope, no triggers)
 
-**When two skills overlap** (e.g. `to-prd` vs `write-a-prd`): each description must encode the discriminator, and at least one should name the other. Example: `...Triggers: greenfield 'write a PRD'. For converting current conversation, use to-prd.`
+**When two skills overlap** (e.g. `to-prd` vs `create-a-prd`): each description must encode the discriminator, and at least one should name the other. Example: `...Triggers: greenfield 'write a PRD'. For converting current conversation, use to-prd.`
 </description_authoring>
 
 <success_criteria>

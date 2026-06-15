@@ -350,7 +350,7 @@ Descriptions that document the skill instead of triggering it. These waste syste
 When two skills overlap, descriptions must encode the discriminator and name the sibling.
 - ❌ Two skills both saying "Create a PRD" — the agent can't pick.
 - ✅ `to-prd`: "Turn current conversation into a PRD and publish to the issue tracker."
-- ✅ `write-a-prd`: "Greenfield PRD via user interview + codebase exploration. For converting current conversation, use to-prd."
+- ✅ `create-a-prd`: "Greenfield PRD via user interview + codebase exploration. For converting current conversation, use to-prd."
 </pitfall>
 
 <pitfall name="selling_adjectives">

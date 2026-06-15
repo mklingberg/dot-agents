@@ -1,6 +1,7 @@
 ---
 name: to-prd
 description: Turn current conversation into a PRD and publish to the issue tracker. Triggers: 'turn this into a PRD', 'file a PRD'.
+disable-model-invocation: true
 ---
 
 This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.

@@ -1,6 +1,7 @@
 ---
 name: to-plan
 description: Convert current conversation into a standalone Claude-executable PLAN.md (no .planning/ needed). Trigger: 'turn this into a plan', after grill-me/grill-with-docs.
+disable-model-invocation: true
 ---
 
 <objective>
@@ -55,10 +56,10 @@ Output: [Artifacts created]
 </objective>
 
 <execution_context>
-@~/.agents/skills/planning/create-plans/workflows/execute-phase.md
-@~/.agents/skills/planning/create-plans/templates/summary.md
+@~/.agents/skills/create-plans/workflows/execute-phase.md
+@~/.agents/skills/create-plans/templates/summary.md
 [If any checkpoint tasks:]
-@~/.agents/skills/planning/create-plans/references/checkpoints.md
+@~/.agents/skills/create-plans/references/checkpoints.md
 </execution_context>
 
 <context>
@@ -122,7 +123,7 @@ Relevant files:
 
 <output>
 Create `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md` using:
-@~/.agents/skills/planning/create-plans/templates/summary.md
+@~/.agents/skills/create-plans/templates/summary.md
 </output>
 ```
 </template>

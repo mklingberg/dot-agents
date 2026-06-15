@@ -2,14 +2,14 @@
 
 <required_reading>
 **Read these files NOW:**
-1. `~/.agents/skills/planning/to-plan/SKILL.md` — canonical PLAN.md format and writing rules
+1. `~/.agents/skills/_commands/to-plan/SKILL.md` — canonical PLAN.md format and writing rules
 2. references/scope-estimation.md
 3. references/checkpoints.md
 4. Read `.planning/ROADMAP.md`
 5. Read `.planning/BRIEF.md`
 
 **If domain expertise should be loaded (determined by intake):**
-6. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md` (or `~/.agents/skills/planning/expertise/[domain]/SKILL.md` if not found at first path)
+6. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md` (or `~/.agents/skills/expertise/[domain]/SKILL.md` if not found at first path)
 7. Determine phase type from ROADMAP (UI, database, API, etc.)
 8. Read ONLY relevant references from domain's `<references_index>` section
 </required_reading>
@@ -194,7 +194,7 @@ Loop until "Create phase prompt" selected.
 </step>
 
 <step name="write_phase_prompt">
-Follow `~/.agents/skills/planning/to-plan/SKILL.md` to write the PLAN.md artifact(s).
+Follow `~/.agents/skills/_commands/to-plan/SKILL.md` to write the PLAN.md artifact(s).
 
 Output path: `.planning/phases/XX-name/{phase}-{plan}-PLAN.md`
 

@@ -1,6 +1,7 @@
 ---
 name: to-issues
 description: Break a plan/PRD/spec into vertical-slice issues on the project tracker. Triggers: 'create issues from this', 'break into tickets'.
+disable-model-invocation: true
 ---
 
 # To Issues

@@ -1,5 +1,5 @@
 ---
-name: write-tests-autofixture
+name: create-tests-autofixture
 description: Write xUnit + AutoFixture + AutoData + FakeItEasy unit tests for C#. Triggers: 'write tests', 'test this handler/validator/service', adding test cases.
 argument-hint: [class-or-file-to-test]
 allowed-tools: Read, Grep, Glob, Bash(dotnet test *), Write, Edit, Agent

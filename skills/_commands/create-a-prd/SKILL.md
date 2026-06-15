@@ -1,6 +1,7 @@
 ---
-name: write-a-prd
+name: create-a-prd
 description: Greenfield PRD via user interview + codebase exploration, submitted as GitHub issue. Triggers: 'write a PRD', 'plan a new feature' (no prior context). For converting current conversation, use to-prd.
+disable-model-invocation: true
 ---
 
 This skill will be invoked when the user wants to create a PRD. You may skip steps if you don't consider them necessary.
