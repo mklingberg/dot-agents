@@ -1,6 +1,6 @@
 ---
 name: create-a-prd
-description: Greenfield PRD via user interview + codebase exploration, submitted as GitHub issue. Triggers: 'write a PRD', 'plan a new feature' (no prior context). For converting current conversation, use to-prd.
+description: "Greenfield PRD via user interview + codebase exploration, submitted as GitHub issue. Triggers: 'write a PRD', 'plan a new feature' (no prior context). For converting current conversation, use to-prd."
 disable-model-invocation: true
 ---
 

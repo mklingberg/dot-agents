@@ -1,6 +1,6 @@
 ---
 name: create-pr-devops
-description: Open a pull request in Azure DevOps from a feature branch. Runs review-code first. Triggers: 'open PR', 'create PR', 'ready to merge'.
+description: "Open a pull request in Azure DevOps from a feature branch. Runs review-code first. Triggers: 'open PR', 'create PR', 'ready to merge'."
 ---
 
 <objective>

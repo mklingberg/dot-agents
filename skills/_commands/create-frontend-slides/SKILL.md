@@ -1,6 +1,6 @@
 ---
 name: create-frontend-slides
-description: Build HTML/animated presentations from scratch or from PPT/PPTX. Triggers: 'make slides', 'build a presentation', 'convert pptx', 'slides for a talk/pitch'.
+description: "Build HTML/animated presentations from scratch or from PPT/PPTX. Triggers: 'make slides', 'build a presentation', 'convert pptx', 'slides for a talk/pitch'."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: create-agent-skills
-description: Create or improve Claude Code SKILL.md files. Triggers: 'write a skill', 'new skill', editing SKILL.md, skill-structure questions.
+description: "Create or improve Claude Code SKILL.md files. Triggers: 'write a skill', 'new skill', editing SKILL.md, skill-structure questions."
 ---
 
 <essential_principles>

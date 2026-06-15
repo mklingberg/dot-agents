@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Senior code review — correctness, security (OWASP), perf, maintainability, tests. Auto-fixes session code, suggest-only for existing code. Triggers: 'review this', PR review, pre-deploy check.
+description: "Senior code review — correctness, security (OWASP), perf, maintainability, tests. Auto-fixes session code, suggest-only for existing code. Triggers: 'review this', PR review, pre-deploy check."
 ---
 
 <objective>

@@ -1,6 +1,6 @@
 ---
 name: create-plans
-description: Create hierarchical Claude-executable PLAN.md / ROADMAP.md with verification criteria. Triggers: 'plan this project', 'break into phases', 'write a roadmap', briefs, phase plans.
+description: "Create hierarchical Claude-executable PLAN.md / ROADMAP.md with verification criteria. Triggers: 'plan this project', 'break into phases', 'write a roadmap', briefs, phase plans."
 ---
 
 <essential_principles>

@@ -1,6 +1,6 @@
 ---
 name: to-plan
-description: Convert current conversation into a standalone Claude-executable PLAN.md (no .planning/ needed). Trigger: 'turn this into a plan', after grill-me/grill-with-docs.
+description: "Convert current conversation into a standalone Claude-executable PLAN.md (no .planning/ needed). Trigger: 'turn this into a plan', after grill-me/grill-with-docs."
 disable-model-invocation: true
 ---
 

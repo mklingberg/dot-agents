@@ -1,6 +1,6 @@
 ---
 name: grill-with-docs
-description: Grill a plan against the project's domain model + CONTEXT.md/ADRs, updating docs inline. Triggers: 'grill against docs', 'challenge with project context'.
+description: "Grill a plan against the project's domain model + CONTEXT.md/ADRs, updating docs inline. Triggers: 'grill against docs', 'challenge with project context'."
 ---
 
 <what-to-do>

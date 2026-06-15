@@ -1,6 +1,6 @@
 ---
 name: manage-worktrees
-description: Manage git worktrees for parallel branch work. Triggers: 'create worktree', 'work on multiple branches', bare-repo setup.
+description: "Manage git worktrees for parallel branch work. Triggers: 'create worktree', 'work on multiple branches', bare-repo setup."
 disable-model-invocation: true
 ---
 

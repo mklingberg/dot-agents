@@ -1,6 +1,6 @@
 ---
 name: pros-cons
-description: Weighted pros/cons with verdict + alternatives. Triggers: 'should I', 'good idea?', 'pros and cons', 'help me decide'.
+description: "Weighted pros/cons with verdict + alternatives. Triggers: 'should I', 'good idea?', 'pros and cons', 'help me decide'."
 ---
 
 <objective>
