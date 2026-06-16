@@ -151,6 +151,9 @@ resume later with less context loss
 
 Current:
 - **`review-code`** — structured senior-style code review
+- **`create-a-prd`** — interview-driven PRD creation
+- **`to-prd`** — convert existing discussion into a PRD
+- **`to-issues`** — splits work into grab-able implementation slices
 
 `manage-worktrees` lives in `_commands/` (manual trigger only).
 
