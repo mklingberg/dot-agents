@@ -17,7 +17,10 @@ Do NOT interview the user — context is already established.
 
 <process>
 
-1. **Determine output path:**
+1. **Read slicing reference:**
+   Read `~/.agents/skills/create-plans/references/scope-estimation.md` before deciding how to split tasks.
+
+2. **Determine output path:**
    ```bash
    ls .planning/ 2>/dev/null && echo "EXISTS" || echo "MISSING"
    ```
@@ -56,6 +59,7 @@ Output: [Artifacts created]
 </objective>
 
 <execution_context>
+@~/.agents/skills/create-plans/references/scope-estimation.md
 @~/.agents/skills/create-plans/workflows/execute-phase.md
 @~/.agents/skills/create-plans/templates/summary.md
 [If any checkpoint tasks:]
