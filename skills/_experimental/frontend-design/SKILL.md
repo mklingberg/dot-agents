@@ -1,6 +1,6 @@
 ---
 name: frontend-design
-description: Visual design direction for UI — palette, typography, layout, copy. Triggers: 'design this', 'make it look better', 'UI feels generic/templated', 'build a landing page', 'style this', 'it looks AI-generated'.
+description: "Visual design direction for UI — palette, typography, layout, copy. Triggers: 'design this', 'make it look better', 'UI feels generic/templated', 'build a landing page', 'style this', 'it looks AI-generated'."
 ---
 
 <objective>

@@ -115,15 +115,24 @@ scripts/:
 </quick_reference>
 
 <reference_index>
-## Domain Knowledge
+## Domain Knowledge — load on demand
 
-All in `references/`:
+All in `references/`. Don't preload — read only when the trigger condition matches:
 
-**Structure:** recommended-structure.md, skill-structure.md
-**Principles:** core-principles.md, be-clear-and-direct.md, use-xml-tags.md
-**Patterns:** common-patterns.md, workflows-and-validation.md
-**Assets:** using-templates.md, using-scripts.md
-**Advanced:** executable-code.md, api-security.md, iteration-and-testing.md
+| Read this | When |
+|---|---|
+| `recommended-structure.md` | Drafting a new skill's directory layout |
+| `skill-structure.md` | Deciding what goes in SKILL.md vs references vs workflows |
+| `core-principles.md` | User asks "why is my skill bad" / general critique |
+| `be-clear-and-direct.md` | Reviewing skill prose for clarity |
+| `use-xml-tags.md` | Deciding XML vs markdown for a specific section (rarely needed; SKILL.md covers the rule) |
+| `common-patterns.md` | Looking for an example pattern (gotchas, validation loops, plan-validate-execute) |
+| `workflows-and-validation.md` | Building multi-step workflow files |
+| `using-templates.md` | Adding a `templates/` asset |
+| `using-scripts.md` | Adding a `scripts/` asset |
+| `executable-code.md` | Skill needs to run code/tools |
+| `api-security.md` | Skill touches secrets, tokens, or external APIs |
+| `iteration-and-testing.md` | Running the skill against test prompts to refine it |
 </reference_index>
 
 <workflows_index>
@@ -159,6 +168,36 @@ description: ...          # See <description_authoring> below
 Name conventions: `create-*`, `manage-*`, `setup-*`, `generate-*`, `build-*`
 </yaml_requirements>
 
+<grounding>
+## Ground in Real Expertise Before Drafting
+
+A skill written from generic knowledge produces vague guidance ("handle errors appropriately"). A skill grounded in real artifacts produces specific guidance ("the `users` table uses soft deletes — always filter `deleted_at IS NULL`").
+
+**Before writing a new skill, gather concrete material:**
+- Read 2–3 existing skills in this workspace (`~/.agents/skills/` and `.pi/agents/`) for tone and structure
+- If capturing a workflow the user just performed, extract from the conversation: tools used, corrections made, edge cases hit, input/output shapes
+- If synthesizing from artifacts, ask the user for: existing docs, runbooks, code-review comments, recent fixes, failure cases
+
+**Refuse to draft a skill purely from the LLM's general training knowledge.** If no domain material is available, ask the user for examples or run a real task first, then extract the skill from it.
+</grounding>
+
+<gotchas>
+## Gotchas
+
+Non-obvious facts that bite skill authors. Add to this list whenever a skill produces a wrong result you have to correct.
+
+- **Skill name must match directory name exactly** — `name: foo-bar` requires `foo-bar/SKILL.md`, not `foo_bar/` or `FooBar/`.
+- **Description is always-loaded tax** — every char sits in the system prompt for every conversation. 80–150 chars target; 200 hard cap.
+- **Description is a trigger detector, not documentation** — internal mechanics belong in SKILL.md body, not the description.
+- **`disable-model-invocation: true` blocks auto-triggering** — only set when the skill should be opt-in. Don't add it by default.
+- **Router pattern is overhead unless intake is genuinely ambiguous** — a skill that always does one thing should be a single SKILL.md, not a router.
+- **Reference files are not auto-loaded** — listing them in `<reference_index>` does nothing unless SKILL.md tells the agent *when* to read each one.
+- **Avoid menus without defaults** — "use pypdf, pdfplumber, or PyMuPDF" wastes tokens; pick one default and mention alternatives briefly.
+- **Procedures generalise, declarations don't** — teach how to approach a class of problems, not what to produce for one instance.
+- **Sibling skills with overlapping triggers must name each other** — e.g. `to-prd` vs `create-a-prd` — at least one description must say "for X, use other-skill".
+- **Markdown `##` and XML tags are both valid** — Anthropic's official skills use markdown. Use XML only where the tag name adds semantic value.
+</gotchas>
+
 <description_authoring>
 ## Writing Descriptions (Critical)
 
@@ -189,6 +228,24 @@ Name conventions: `create-*`, `manage-*`, `setup-*`, `generate-*`, `build-*`
 **When two skills overlap** (e.g. `to-prd` vs `create-a-prd`): each description must encode the discriminator, and at least one should name the other. Example: `...Triggers: greenfield 'write a PRD'. For converting current conversation, use to-prd.`
 </description_authoring>
 
+<validation_loop>
+## Validate Before Finishing
+
+A first draft is rarely the final version. After writing or editing a skill, run this loop at least once:
+
+1. **Pick one realistic test prompt** the user would actually say to trigger this skill.
+2. **Mentally (or actually) run the skill against it.** Does the agent produce the right output? Does it follow the procedure? Does it stop at the right place?
+3. **Identify the failure mode:**
+   - Vague instructions → agent tries multiple approaches before landing
+   - Instructions that don't apply → agent follows them anyway, wastes tokens
+   - Menu of options without default → agent picks the wrong one
+   - Missing gotcha → agent makes a known mistake
+4. **Revise the skill** to address the specific failure. Add a gotcha if the failure was a recurring kind of mistake.
+5. **Repeat** until the prompt produces the right output without correction.
+
+For structured eval-driven iteration with assertions and grading, see `references/iteration-and-testing.md`.
+</validation_loop>
+
 <success_criteria>
 A well-structured skill:
 - Has valid YAML frontmatter
@@ -197,5 +254,8 @@ A well-structured skill:
 - Routes directly to appropriate workflows based on user intent
 - SKILL.md contains only what's needed on every invocation (conditional content in sub-files, hard ceiling 500 lines)
 - Asks minimal clarifying questions only when truly needed
-- Has been tested with real usage
+- Grounded in real domain material, not generic LLM knowledge (see `<grounding>`)
+- Has a `<gotchas>` section if the domain has non-obvious failure modes
+- References use trigger conditions ("read X when Y"), not flat menus
+- Has been validated against at least one real test prompt (see `<validation_loop>`)
 </success_criteria>
