@@ -189,7 +189,8 @@ Non-obvious facts that bite skill authors. Add to this list whenever a skill pro
 - **Skill name must match directory name exactly** — `name: foo-bar` requires `foo-bar/SKILL.md`, not `foo_bar/` or `FooBar/`.
 - **Description is always-loaded tax** — every char sits in the system prompt for every conversation. 80–150 chars target; 200 hard cap.
 - **Description is a trigger detector, not documentation** — internal mechanics belong in SKILL.md body, not the description.
-- **`disable-model-invocation: true` blocks auto-triggering** — only set when the skill should be opt-in. Don't add it by default.
+- **`disable-model-invocation: true` is a Claude Code extension, not in the agentskills spec.** In this workspace it marks a skill as command-like — invoked explicitly by the user, never auto-triggered. Skills with this flag live in `skills/_commands/` (e.g. `to-plan`, `handoff`, `manage-worktrees`). Don't add it to discoverable/auto-triggered skills.
+- **`workflows/` is a project-specific convention, not in the spec.** The spec defines `scripts/`, `references/`, `assets/`. We use `workflows/` for procedural step-by-step files (distinct from `references/` which holds knowledge). A strict `skills-ref validate` won't understand the semantics but won't reject it.
 - **Router pattern is overhead unless intake is genuinely ambiguous** — a skill that always does one thing should be a single SKILL.md, not a router.
 - **Reference files are not auto-loaded** — listing them in `<reference_index>` does nothing unless SKILL.md tells the agent *when* to read each one.
 - **Avoid menus without defaults** — "use pypdf, pdfplumber, or PyMuPDF" wastes tokens; pick one default and mention alternatives briefly.
@@ -244,6 +245,8 @@ A first draft is rarely the final version. After writing or editing a skill, run
 5. **Repeat** until the prompt produces the right output without correction.
 
 For structured eval-driven iteration with assertions and grading, see `references/iteration-and-testing.md`.
+
+**Objective validation:** run `skills-ref validate ./skill-name` from the [agentskills reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to check frontmatter and naming conventions against the formal spec.
 </validation_loop>
 
 <success_criteria>
