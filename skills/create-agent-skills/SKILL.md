@@ -10,7 +10,9 @@ Skills are modular, filesystem-based capabilities that provide domain expertise 
 
 ### 1. Skills Are Prompts
 
-All prompting best practices apply. Be clear, be direct, use XML structure. Assume Claude is smart - only add context Claude doesn't have.
+All prompting best practices apply. Be clear, be direct, use semantic structure. Assume Claude is smart — only add context Claude doesn't have.
+
+**Markdown `##` headings or XML tags are both fine.** Anthropic's own skills (skill-creator, pdf, docx, xlsx) use markdown headings. Use XML tags when a section benefits from a semantic name (e.g. `<intake>`, `<routing>`, `<success_criteria>`) or wraps content that itself contains `##`. Otherwise prefer markdown for readability — don't mechanically convert.
 
 ### 2. SKILL.md Is Always Loaded
 
@@ -71,11 +73,21 @@ name: skill-name
 description: What it does and when to use it.
 ---
 
-<objective>What this skill does</objective>
-<quick_start>Immediate actionable guidance</quick_start>
-<process>Step-by-step procedure</process>
-<success_criteria>How to know it worked</success_criteria>
+## Overview
+What this skill does
+
+## Quick Start
+Immediate actionable guidance
+
+## Process
+Step-by-step procedure
+
+<success_criteria>
+How to know it worked
+</success_criteria>
 ```
+
+XML tags are optional — use them where the semantic name adds clarity (commonly `<success_criteria>`, `<intake>`, `<routing>`). Plain `##` headings are equally valid.
 
 **Complex skill (router pattern):**
 ```
@@ -180,7 +192,7 @@ Name conventions: `create-*`, `manage-*`, `setup-*`, `generate-*`, `build-*`
 <success_criteria>
 A well-structured skill:
 - Has valid YAML frontmatter
-- Uses pure XML structure (no markdown headings in body)
+- Uses consistent section structure (markdown `##` or XML tags) — mix only when XML adds semantic value
 - Has essential principles inline in SKILL.md
 - Routes directly to appropriate workflows based on user intent
 - SKILL.md contains only what's needed on every invocation (conditional content in sub-files, hard ceiling 500 lines)
