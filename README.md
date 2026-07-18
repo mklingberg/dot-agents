@@ -25,7 +25,7 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
     ├── create-agent-skills/     Promoted skills live flat at the root
     ├── create-feature-branch/
     ├── create-plans/
-    ├── grill-me/
+    ├── grilling/
     └── …
 ```
 
@@ -36,7 +36,7 @@ Flat root by design: folders for taxonomy add nothing the agent uses. Grouping h
 | Prefix | Meaning | Examples |
 |---|---|---|
 | `create-` | Produce a new artifact, workflow, or thing | `create-plans`, `create-feature-branch`, `create-tests-autofixture` |
-| `to-` | Convert current conversation → artifact | `to-plan`, `to-prd`, `to-issues` |
+| `to-` | Convert current conversation → artifact | `to-plan` |
 | `grill-` | Interactive pressure-test | `grill-me`, `grill-with-docs` |
 | `review-` | Analyze without side effects | `review-code` |
 | bare verb | Single distinct action | `handoff`, `pros-cons`, `manage-worktrees` |
@@ -58,8 +58,9 @@ Use this folder for skills that are useful but rarely needed, or that you'd alwa
 
 These skills improve the idea before code starts.
 
-- **`grill-me`** — stress-tests a plan in pure conversation
-- **`grill-with-docs`** — pressure-tests a plan against the real codebase and docs
+- **`grilling`** — model-invokable relentless stress-test of a plan, decision, or idea
+- **`grill-me`** *(command)* — stress-tests a plan in pure conversation
+- **`grill-with-docs`** *(command)* — pressure-tests a plan against the real codebase and docs
 - **`pros-cons`** — forces a decision instead of endless “maybe” analysis
 
 This layer exists for one reason: most bad implementation work starts as bad framing.
@@ -76,11 +77,8 @@ The goal is not documentation theater. The goal is executable planning and conti
 
 ### 3. Breaking work into trackable follow-ups
 
-Once direction is clear, these skills turn it into project-management artifacts.
+Once direction is clear, this turns it into project-management artifacts.
 
-- **`to-issues`** *(command)* — splits work into grab-able implementation slices
-- **`create-a-prd`** *(command)* — interview-driven PRD creation
-- **`to-prd`** *(command)* — capture-driven PRD from an already-developed discussion
 - **`create-jira-stories`** *(command)* — Jira story/subtask generation for a specific workflow
 
 ### 4. Focused specialist help
@@ -91,7 +89,14 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`create-feature-flags`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
 - **`create-subagents`** — how to structure and use subagents well
 - **`create-agent-skills`** — how to write better skills instead of cargo-culting prompt files
+- **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
+- **`code-review`** — two-axis review (standards + spec) run as parallel sub-agents
+- **`prototype`** — build a throwaway prototype to answer a design question
+- **`resolving-merge-conflicts`** — intent-preserving merge/rebase conflict resolution
+- **`find-skills`** — discover and install skills on demand
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
+- **`writing-great-skills`** *(command)* — reference for writing predictable skills
+- **`teach`** *(command)* — pedagogical walkthrough of a concept or codebase
 
 *(command)* = lives in `_commands/`, invoked via `/skill:<name>`.
 
@@ -105,8 +110,6 @@ grill-with-docs
 to-plan           (small/clear work)
 or
 create-plans      (larger/multi-phase work)
-  ↓
-to-issues         (if work needs tracking)
 ```
 
 ### Greenfield / early exploration
@@ -115,8 +118,6 @@ to-issues         (if work needs tracking)
 grill-me
   ↓
 pros-cons         (if decision is fuzzy)
-  ↓
-create-a-prd or to-prd
   ↓
 to-plan or create-plans
 ```
@@ -141,19 +142,15 @@ resume later with less context loss
 - **`to-plan`** = one-shot capture of a clear conversation into a `PLAN.md`
 - **`create-plans`** = durable planning system for larger or staged work
 
-### `to-prd` vs `create-a-prd`
-- **`to-prd`** = convert existing discussion into a PRD
-- **`create-a-prd`** = discover the PRD through guided questioning and exploration
-
 ## Experimental skills
 
 `_experimental/` holds skills that are auto-detected and usable, but not yet promoted as core. Same loading behavior as root-level skills — the folder just signals "still proving its value."
 
 Current:
 - **`review-code`** — structured senior-style code review
-- **`create-a-prd`** — interview-driven PRD creation
-- **`to-prd`** — convert existing discussion into a PRD
-- **`to-issues`** — splits work into grab-able implementation slices
+- **`frontend-design`** — visual design direction for UI (palette, type, layout, copy)
+- **`backend-microservice-architecture`** *(command)* — backend service design principles
+- **`evaluate-skills`** — behavioral eval of a skill against real prompts
 
 `manage-worktrees` lives in `_commands/` (manual trigger only).
 
@@ -189,7 +186,8 @@ This library exists to fix that.
 Some skills here are adapted from strong existing work:
 
 - **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
-- **[Matt Pocock](https://github.com/mattpocock/skills)** — strong skill patterns and inspiration
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, and `writing-great-skills`
+- **[vercel-labs](https://github.com/vercel-labs/skills)** — source of `find-skills`
 - **[Zara Zhang](https://github.com/zarazhangrui/frontend-slides)** — source of `create-frontend-slides`
 
 ## Related repos

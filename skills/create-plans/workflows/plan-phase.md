@@ -55,12 +55,19 @@ For this specific phase, understand:
 - What exists already? (scan codebase if mid-project)
 - What dependencies are met? (previous phases complete?)
 - Any research findings? (FINDINGS.md)
+- Domain vocabulary & prior decisions? (`CONTEXT.md`, `docs/adr/` if present)
 
 ```bash
 # If mid-project, understand current state
 ls -la src/ 2>/dev/null
 cat package.json 2>/dev/null | head -20
+
+# Domain language + recorded decisions (if present)
+cat CONTEXT.md 2>/dev/null
+ls docs/adr/ 2>/dev/null
 ```
+
+Name tasks and write actions in `CONTEXT.md`'s domain terms; don't re-litigate decisions already recorded in an ADR.
 </step>
 
 <step name="break_into_tasks">

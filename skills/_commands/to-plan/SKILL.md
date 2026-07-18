@@ -12,6 +12,7 @@ Do NOT interview the user — context is already established.
 <rules>
 - **2-3 tasks max per PLAN.md.** Split by subsystem or dependency order if more.
 - **Task types:** `auto` = Claude can do it via CLI/API/tool. `checkpoint:human-verify` = Claude did it, human confirms visually. `checkpoint:decision` = human must choose before proceeding.
+- **Testable behaviour → vertical slice.** For a task that builds behaviour, fix the test **seam** first, write `<action>` as failing-test-first → minimal impl, and make `<verify>` run that test. Loop rules & test anti-patterns: `~/.agents/skills/tdd/SKILL.md`.
 - **No asking about path** — determine it and proceed.
 </rules>
 
