@@ -10,8 +10,6 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
 Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
 
-The issue tracker should have been provided to you — run `/setup-matt-pocock-skills` if `docs/agents/issue-tracker.md` is missing.
-
 ## Process
 
 ### 1. Pin the fixed point
@@ -26,18 +24,24 @@ Before going further, confirm the fixed point resolves (`git rev-parse <fixed-po
 
 Look for the originating spec, in this order:
 
-1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.) — fetch via the workflow in `docs/agents/issue-tracker.md`.
-2. A path the user passed as an argument.
+1. A path the user passed as an argument.
+2. Issue references in the commit messages (`#123`, `Closes #45`, `!67`) — fetch with the repo's issue CLI (`gh`, `glab`) if available.
 3. A PRD/spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
 4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent will skip and report "no spec available".
 
 ### 3. Identify the standards sources
 
-Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
+Standards come from three places, most authoritative first:
 
-On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below — a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
+1. **Project standards skills** — the project's own coding-standards / architecture skills. Find them via:
+   - `AGENTS.md` / `CLAUDE.md`: if it names the standards skills, use those (deterministic).
+   - Otherwise scan the available skills for ones whose name or description declares the project's coding standards or architecture, and read their `SKILL.md` plus any files it references.
+2. **Repo docs** — `CONTRIBUTING.md`, `.editorconfig`, lint configs.
+3. **Smell baseline** below — a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when the project documents nothing.
 
-- **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
+Announce which standards sources you loaded; "nothing beyond the baseline" is valid. Two rules bind the baseline:
+
+- **Documented standards override.** A project standards skill or repo doc always wins; where it endorses something the baseline would flag, suppress the smell.
 - **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation — and, like any standard here, skip anything tooling already enforces.
 
 Each smell reads *what it is* → *how to fix*; match it against the diff:
@@ -62,7 +66,7 @@ Send a single message with two `Agent` tool calls. Use the `general-purpose` sub
 **Standards sub-agent prompt** — include:
 
 - The full diff command and commit list.
-- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full — the sub-agent has no other access to it.
+- The **paths** of the standards sources you selected in step 3 — the general-purpose sub-agent inherits the parent's `AGENTS.md` and skills index, so it can open them by path. Paste the **smell baseline** in full, since it lives in this skill's body, which the sub-agent does not inherit.
 - The brief: "Report — per file/hunk where relevant — (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls — documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** — include:

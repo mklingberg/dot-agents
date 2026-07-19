@@ -38,7 +38,7 @@ Flat root by design: folders for taxonomy add nothing the agent uses. Grouping h
 | `create-` | Produce a new artifact, workflow, or thing | `create-plans`, `create-feature-branch`, `create-tests-autofixture` |
 | `to-` | Convert current conversation → artifact | `to-plan` |
 | `grill-` | Interactive pressure-test | `grill-me`, `grill-with-docs` |
-| `review-` | Analyze without side effects | `review-code` |
+| `review-` | Analyze without side effects | `code-review` |
 | bare verb | Single distinct action | `handoff`, `pros-cons`, `manage-worktrees` |
 
 Use the same prefixes when adding new skills so they cluster predictably in alphabetical listings and `/skill:` completion.
@@ -147,7 +147,6 @@ resume later with less context loss
 `_experimental/` holds skills that are auto-detected and usable, but not yet promoted as core. Same loading behavior as root-level skills — the folder just signals "still proving its value."
 
 Current:
-- **`review-code`** — structured senior-style code review
 - **`frontend-design`** — visual design direction for UI (palette, type, layout, copy)
 - **`backend-microservice-architecture`** *(command)* — backend service design principles
 - **`evaluate-skills`** — behavioral eval of a skill against real prompts
