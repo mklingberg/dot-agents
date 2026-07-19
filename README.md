@@ -22,7 +22,7 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
 └── skills/
     ├── _commands/                Manual-trigger skills (hidden from auto-detection)
     ├── _experimental/            Auto-detected but not yet promoted as core
-    ├── create-agent-skills/     Promoted skills live flat at the root
+    ├── create-feature-flags/    Promoted skills live flat at the root
     ├── create-feature-branch/
     ├── create-plans/
     ├── grilling/
@@ -87,8 +87,8 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 
 - **`create-tests-autofixture`** — opinionated xUnit + AutoFixture + FakeItEasy test conventions
 - **`create-feature-flags`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
-- **`create-subagents`** — how to structure and use subagents well
-- **`create-agent-skills`** — how to write better skills instead of cargo-culting prompt files
+- **`create-subagents`** *(command)* — how to structure and use subagents well
+- **`create-agent-skills`** *(command)* — how to write better skills instead of cargo-culting prompt files
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
 - **`code-review`** — two-axis review (standards + spec) run as parallel sub-agents
 - **`prototype`** — build a throwaway prototype to answer a design question

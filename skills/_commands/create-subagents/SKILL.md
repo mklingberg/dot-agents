@@ -1,6 +1,7 @@
 ---
 name: create-subagents
 description: "Create or configure Claude Code subagents and use the Task tool. Triggers: 'new subagent', editing agents/*.md, Task-tool usage questions."
+disable-model-invocation: true
 ---
 
 <objective>
