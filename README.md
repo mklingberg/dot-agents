@@ -95,7 +95,7 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`resolving-merge-conflicts`** — intent-preserving merge/rebase conflict resolution
 - **`find-skills`** — discover and install skills on demand
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
-- **`writing-great-skills`** *(command)* — reference for writing predictable skills
+- **`writing-great-skills`** — model-invokable reference: the vocabulary and principles for writing predictable skills
 - **`teach`** *(command)* — pedagogical walkthrough of a concept or codebase
 
 *(command)* = lives in `_commands/`, invoked via `/skill:<name>`.

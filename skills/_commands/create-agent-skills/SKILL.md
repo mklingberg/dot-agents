@@ -10,7 +10,7 @@ Skills are modular, filesystem-based capabilities that provide domain expertise 
 
 ### 1. Skills Are Prompts
 
-All prompting best practices apply. Be clear, be direct, use semantic structure. Assume Claude is smart — only add context Claude doesn't have.
+The *why* behind good skills — predictability, information hierarchy, progressive disclosure, leading words, pruning, the no-op test — lives in the `writing-great-skills` skill. Read it when drafting or pruning; this skill covers the *how* and this workspace's conventions.
 
 **Markdown `##` headings or XML tags are both fine.** Anthropic's own skills (skill-creator, pdf, docx, xlsx) use markdown headings. Use XML tags when a section benefits from a semantic name (e.g. `<intake>`, `<routing>`, `<success_criteria>`) or wraps content that itself contains `##`. Otherwise prefer markdown for readability — don't mechanically convert.
 

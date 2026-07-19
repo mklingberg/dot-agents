@@ -75,7 +75,7 @@
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/_commands/writing-great-skills/SKILL.md",
+      "skillPath": "skills/writing-great-skills/SKILL.md",
       "skillFolderHash": "81d36946d48842f90358d8af54e3cdcc141f8e01",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-18T17:56:31.527Z",

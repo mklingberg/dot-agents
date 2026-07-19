@@ -6,6 +6,7 @@
 2. references/skill-structure.md
 3. references/core-principles.md
 4. references/use-xml-tags.md
+5. `writing-great-skills` skill — the quality lens (predictability, information hierarchy, leading words); apply it while drafting.
 </required_reading>
 
 <process>
