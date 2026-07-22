@@ -1,6 +1,6 @@
 ---
 name: writing-great-skills
-description: Vocabulary and principles for writing predictable skills. Triggers: writing, editing, or auditing a SKILL.md; pruning a skill; skill-structure questions.
+description: "Vocabulary and principles for writing predictable skills. Triggers: writing, editing, or auditing a SKILL.md; pruning a skill; skill-structure questions."
 ---
 
 A skill exists to wrangle determinism out of a stochastic system. **Predictability** — the agent taking the same _process_ every run, not producing the same output — is the root virtue; every lever below serves it.
