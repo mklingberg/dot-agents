@@ -74,12 +74,12 @@ Beyond skills, `~/.agents` is the single source for **subagent definitions**, th
 
 | Asset | Pi | Claude Code | Copilot CLI |
 |---|---|---|---|
-| `skills/` | native scan | symlink `~/.claude/skills` | native scan |
+| `skills/` | native scan | **flat per-skill symlinks** `~/.claude/skills/<name>` | native scan |
 | `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` |
 | `subagent-protocol.md` | symlink | (referenced) | (referenced) |
 | `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` |
 
-Pi and Copilot scan `~/.agents/skills` natively — no symlink needed. Claude scans only its own dir, so it gets a symlink.
+Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink needed. Claude scans only **one level deep**, so it can't see skills grouped under `_commands/` or `_experimental/`; `sync.sh` rebuilds `~/.claude/skills` as a real dir of per-skill symlinks (any depth → flat), keeping the grouped source layout for your own organization.
 
 ### Why agents are generated, not symlinked
 
