@@ -2,7 +2,7 @@
 # sync.sh — propagate the shared ~/.agents workspace into each harness.
 #
 # Source of truth (this repo):
-#   skills/                shared Agent Skills (SKILL.md)         -> symlink
+#   skills/                shared Agent Skills (SKILL.md)         -> flat per-skill symlinks (Claude)
 #   subagent-protocol.md   hybrid orchestration protocol          -> symlink
 #   AGENTS.md              global instructions                    -> symlink (CLAUDE.md on Claude)
 #   agents/*.md            Pi-format agent defs                   -> symlink (Pi) / generate (Claude, Copilot)
@@ -30,9 +30,18 @@ link "$AG/AGENTS.md"            "$CLAUDE/CLAUDE.md"
 link "$AG/AGENTS.md"            "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
 
 echo "== skills =="
-# Pi and Copilot scan ~/.agents/skills natively -> no symlink needed.
-# Claude scans ~/.claude/skills only -> symlink it to the shared workspace.
-[ -e "$CLAUDE/skills" ] || link "$AG/skills" "$CLAUDE/skills"
+# Pi and Copilot discover ~/.agents/skills natively (recursive / native scan).
+# Claude scans only ONE level deep -> it can't see _commands/ or _experimental/.
+# Give Claude a flat dir of per-skill symlinks (Claude follows dir symlinks).
+CS="$CLAUDE/skills"
+[ -L "$CS" ] && rm "$CS"                                      # drop old whole-dir symlink
+mkdir -p "$CS"
+find "$CS" -maxdepth 1 -type l ! -exec test -e {} \; -delete  # prune broken managed links
+find "$AG/skills" -name SKILL.md -print0 | while IFS= read -r -d '' sk; do
+  d="$(dirname "$sk")"
+  ln -sfn "$d" "$CS/$(basename "$d")"
+done
+echo "  flattened $(find "$CS" -maxdepth 1 -type l | wc -l | tr -d ' ') skills into $CS"
 
 echo "== agent defs =="
 mkdir -p "$CLAUDE/agents" "$COPILOT/agents" "$PI/agents"
