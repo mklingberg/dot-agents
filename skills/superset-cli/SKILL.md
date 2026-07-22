@@ -1,6 +1,6 @@
 ---
 name: superset-cli
-description: Spawn/manage Superset workspaces as parallel worktrees via the `superset` CLI. Triggers: 'superset workspace', 'run this in parallel', 'fire-and-forget agent', 'superset automation'.
+description: "Spawn/manage Superset workspaces as parallel worktrees via the `superset` CLI. Triggers: 'superset workspace', 'run this in parallel', 'fire-and-forget agent', 'superset automation'."
 ---
 
 ## Overview
