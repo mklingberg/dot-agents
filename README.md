@@ -1,10 +1,19 @@
 # ~/.agents
 
-A personal skill library for [pi](https://github.com/earendil-works/pi-coding-agent): planning, grilling, workflow control, and a few sharp domain tools that make the agent more useful than raw prompting.
+A personal **cross-harness agent workspace**: skills, subagent definitions, an orchestration protocol, and global instructions — one source of truth shared across [pi](https://github.com/earendil-works/pi-coding-agent), Claude Code, and GitHub Copilot CLI.
 
-This is not a pile of prompt snippets. It is a working system for getting from vague idea to durable execution with less drift, less context loss, and better decisions.
+This is not a pile of prompt snippets. It is a working system for getting from vague idea to durable execution with less drift, less context loss, and better decisions — usable from whichever agent you happen to be in.
 
-> Better plans. Harder questions. Cleaner execution.
+> Better plans. Harder questions. Cleaner execution. Same setup, any harness.
+
+Four shared assets live here and propagate to each tool (see [Cross-harness sync](#cross-harness-agents--sync)):
+
+| Asset | What it is |
+|---|---|
+| `skills/` | Agent Skills (SKILL.md) — the bulk of this repo |
+| `agents/` | Subagent definitions (Pi-format source) |
+| `subagent-protocol.md` | Hybrid orchestration protocol (agnostic core + per-harness adapters) |
+| `AGENTS.md` | Global instructions (reporting style, git rules, language, delegation) |
 
 ## What this library is really for
 
@@ -19,6 +28,11 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
 
 ```text
 ~/.agents/
+├── AGENTS.md                 Global instructions, shared across harnesses
+├── subagent-protocol.md      Hybrid orchestration protocol (core + adapters)
+├── agents/                   Pi-format subagent defs (source of truth)
+│   ├── Explore.md  Research.md  Debug.md  Review.md  Implement.md
+├── bin/                      sync.sh (propagate) + gen_agent.py (transform)
 └── skills/
     ├── _commands/                Manual-trigger skills (hidden from auto-detection)
     ├── _experimental/            Auto-detected but not yet promoted as core
@@ -51,6 +65,42 @@ Skills in `_commands/` set `disable-model-invocation: true` in their frontmatter
 - **Invoked manually** via `/skill:<name>` (or `--skill <path>`)
 
 Use this folder for skills that are useful but rarely needed, or that you'd always invoke explicitly anyway. Keeps the agent's trigger surface focused on skills that benefit from natural-language activation.
+
+## Cross-harness agents & sync
+
+Beyond skills, `~/.agents` is the single source for **subagent definitions**, the **orchestration protocol**, and **global instructions** — propagated into each tool by `bin/sync.sh`.
+
+### What propagates where
+
+| Asset | Pi | Claude Code | Copilot CLI |
+|---|---|---|---|
+| `skills/` | native scan | symlink `~/.claude/skills` | native scan |
+| `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` |
+| `subagent-protocol.md` | symlink | (referenced) | (referenced) |
+| `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` |
+
+Pi and Copilot scan `~/.agents/skills` natively — no symlink needed. Claude scans only its own dir, so it gets a symlink.
+
+### Why agents are generated, not symlinked
+
+The agent frontmatter genuinely diverges per harness — mainly the `tools` vocabulary (`read,bash,grep` → Claude `Read,Bash,Grep,Glob` → Copilot `read,execute,search`) and `model` (Pi/Claude share fuzzy aliases `haiku`/`sonnet`; Copilot omits). Symlinking would silently break the read-only tool restriction. So `bin/gen_agent.py` transforms the Pi-format source into each harness's schema; only `tools`/`name`/`model`/extension change — bodies are written in harness-agnostic capability language and pass through unchanged.
+
+### The protocol is a hybrid
+
+`subagent-protocol.md` = an **agnostic core** (create-plans pipeline, EXIT-report contract, routing tables, re-invocation — all text convention, portable everywhere) written in generic verbs (`spawn`/`await`/`steer`/`isolate`), plus per-harness **adapter** sections that bind those verbs to concrete tools, state capabilities, and define degradation fallbacks (e.g. no steering → abort + re-dispatch; no worktree isolation → sequential).
+
+### Not shipped / excluded
+
+- **`general-purpose`** — not shipped; every harness has a native built-in. Pi's parent-twin (`append` mode) has no equivalent elsewhere → pass explicit context when delegating on Claude/Copilot.
+- **Codex** — intentionally out of scope (TOML agent format + no alias model mapping).
+
+### Re-sync
+
+```bash
+bash ~/.agents/bin/sync.sh   # idempotent; run after editing any source
+```
+
+Pi reflects source instantly (symlink); Claude/Copilot variants regenerate on sync.
 
 ## The real spine of the library
 
