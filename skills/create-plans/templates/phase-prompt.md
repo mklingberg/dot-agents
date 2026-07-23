@@ -32,6 +32,10 @@ Output: [What artifacts will be created]
 @.planning/phases/XX-name/FINDINGS.md
 [Relevant source files:]
 @src/path/to/relevant.ts
+[Project conventions Implement can't otherwise see — embed only those this phase touches:]
+@.agents/skills/<relevant-skill>/SKILL.md
+[If AGENTS.md has rules broadly relevant to this phase:]
+@AGENTS.md
 </context>
 
 <tasks>

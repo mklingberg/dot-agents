@@ -166,6 +166,11 @@ find . -name ".continue-here.md" -type f 2>/dev/null
 # Check for existing artifacts
 [ -f .planning/BRIEF.md ] && echo "BRIEF: exists"
 [ -f .planning/ROADMAP.md ] && echo "ROADMAP: exists"
+
+# Project-local conventions (subagents can't see AGENTS.md — surface these now)
+ls .agents/skills/ .pi/skills/ 2>/dev/null
+[ -f AGENTS.md ] && echo "AGENTS.md: exists"
+[ -f CLAUDE.md ] && echo "CLAUDE.md: exists"
 ```
 
 **If NO_GIT_REPO detected:**
@@ -290,6 +295,19 @@ Domain expertise is NOT needed for:
 - Transition between phases (just updating status)
 </when_to_load>
 </domain_expertise>
+
+<project_conventions>
+**Project-local skills and `AGENTS.md` are the repo's own coding standards** — distinct from global domain expertise. They live in `.agents/skills/` (or `.pi/skills/`) and `AGENTS.md`/`CLAUDE.md` at the repo root.
+
+**Why this matters for planning:** the `Implement` subagent that executes plans **cannot see `AGENTS.md`/`CLAUDE.md`** (subagents suppress them), and it only *lazily* reads the skill catalog. The reliable channel is the PLAN's `<context>` — Implement force-reads every `@context` file on startup. So the planner must bind conventions into the plan itself.
+
+**When writing each phase plan:**
+1. **Embed relevant project skills as `@context`.** For every skill in `.agents/skills/` whose scope overlaps the phase's work (components, tests, mock data, feature flags, styling, etc.), add `@.agents/skills/<name>/SKILL.md` to the plan's `<context>` block. Embed only the skills that phase touches — not all of them (respect the context budget).
+2. **Surface the relevant `AGENTS.md` rules.** Since Implement can't read `AGENTS.md`, pull the parts that apply to this phase and either (a) embed the file with `@AGENTS.md` when broadly relevant, or (b) better, inline the specific rules verbatim into the affected task's `<action>`/`<done>` (e.g. "i18n via `useText`; never hardcode strings"). Emphasize hard constraints ("Never edit `src/gql/`", "no CSS modules") directly in the tasks they govern.
+3. **Add convention checks to `<done>`.** Where a skill/standard governs a task, make acceptance explicit: `<done>...; follows walley-frontend conventions (fragment colocation, `useText`, no hardcoded colors)</done>`.
+
+**If no project skills or `AGENTS.md` found:** skip — nothing to embed.
+</project_conventions>
 
 <intake>
 Based on scan results, present context-aware options:
