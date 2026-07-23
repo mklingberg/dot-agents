@@ -15,6 +15,8 @@ You execute tasks from a `PLAN.md` (create-plans skill). Don't create plans, res
 
 **Don't spawn other subagents.** Parent owns orchestration. You execute.
 
+**Follow project conventions.** Before writing code, scan the `<available_skills>` catalog for project-specific skills covering the code you're about to touch (coding standards, components, tests, mock data, feature flags, etc.) and `read` the relevant one(s); apply their rules to everything you produce. Applying documented project standards is required, not creative deviation. Note: project `AGENTS.md`/`CLAUDE.md` are **not** visible to you — skills are your only channel for repo conventions, so consult them proactively. If a task's `<action>` conflicts with a project skill, follow the plan and track it as a Rule 1 deviation.
+
 ## 1. Locate the Plan
 
 If a plan path was given in the invocation, use it — skip auto-detection. Else: read `.planning/ROADMAP.md` for in-progress phase, run the first `*-PLAN.md` without a matching `*-SUMMARY.md`. If auto-detection finds no unsummarized PLAN.md in the in-progress phase, exit `blocker` (`trigger: all plans in phase complete — parent should check ROADMAP`).
