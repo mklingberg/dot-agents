@@ -2,7 +2,7 @@
 description: "Post-implementation reviewer. Reads changed files and the executed PLAN.md, checks all success criteria and task <done> conditions, and reports pass/fail with specific issues. Use after Implement completes to catch mistakes before surfacing to the user."
 display_name: Review
 tools: read, bash, grep, find, ls
-model: haiku
+model: github-copilot/claude-haiku-4.5
 prompt_mode: replace
 ---
 

@@ -2,7 +2,7 @@
 description: "Internet research agent. Use for any task requiring web search, online documentation lookup, or finding current information about libraries, tools, and APIs. Returns structured, source-cited findings."
 display_name: Research
 tools: all
-model: haiku
+model: github-copilot/claude-haiku-4.5
 prompt_mode: replace
 ---
 

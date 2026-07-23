@@ -83,7 +83,7 @@ Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink neede
 
 ### Why agents are generated, not symlinked
 
-The agent frontmatter genuinely diverges per harness — mainly the `tools` vocabulary (`read,bash,grep` → Claude `Read,Bash,Grep,Glob` → Copilot `read,execute,search`) and `model` (Pi/Claude share fuzzy aliases `haiku`/`sonnet`; Copilot omits). Symlinking would silently break the read-only tool restriction. So `bin/gen_agent.py` transforms the Pi-format source into each harness's schema; only `tools`/`name`/`model`/extension change — bodies are written in harness-agnostic capability language and pass through unchanged.
+The agent frontmatter genuinely diverges per harness — mainly the `tools` vocabulary (`read,bash,grep` → Claude `Read,Bash,Grep,Glob` → Copilot `read,execute,search`) and `model`. The Pi source pins a fully-qualified id (e.g. `github-copilot/claude-sonnet-5`) so Pi resolves it deterministically and it passes `scopeModels` (must be in `enabledModels`); `bin/gen_agent.py` derives the bare Claude alias (`sonnet`/`haiku`/`opus`) from the id's family keyword, and Copilot omits `model`. Symlinking would silently break the read-only tool restriction. So `gen_agent.py` transforms the Pi-format source into each harness's schema; only `tools`/`name`/`model`/extension change — bodies are written in harness-agnostic capability language and pass through unchanged.
 
 ### The protocol is a hybrid
 

@@ -18,6 +18,23 @@ TOOLS = {
 ALIAS_MODELS = {"haiku", "sonnet", "opus"}  # values Claude accepts verbatim
 
 
+def claude_alias(model):
+    """Map a pinned model token to a Claude alias.
+
+    Source of truth is Pi-format and may pin a fully-qualified id (e.g.
+    "github-copilot/claude-sonnet-5") so Pi resolves it deterministically.
+    Claude only understands the bare family aliases, so derive one from the id.
+    Returns the alias, or None to omit (let Claude pick its default).
+    """
+    if model in ALIAS_MODELS:
+        return model
+    m = model.lower()
+    for family in ALIAS_MODELS:
+        if family in m:
+            return family
+    return None
+
+
 def parse(path):
     text = open(path).read()
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", text, re.S)
@@ -52,9 +69,9 @@ def emit(fm, body, target):
     if target == "claude":
         lines.append(f"name: {name.lower().replace(' ', '-')}")
         lines.append(f"description: {desc}")
-        model = fm.get("model", "")
-        if model in ALIAS_MODELS:
-            lines.append(f"model: {model}")
+        alias = claude_alias(fm.get("model", ""))
+        if alias:
+            lines.append(f"model: {alias}")
     else:  # copilot
         lines.append(f"name: {name}")
         lines.append(f"description: {desc}")
