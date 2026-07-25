@@ -49,10 +49,11 @@ user to accept or reject; the curated line stays as written until they say other
 
 ## Ownership
 
-<!-- index:curated -->
 Who reviews and approves changes, and who operates the running app. A repo you don't own is
-still changeable — the owning team reviews the pull request and runs what merges.
+still changeable — the owning team reviews the pull request and runs what merges. Rows may
+name a group of repos by pattern where they share an owner.
 
+<!-- index:curated -->
 | Repo | Owner | Reviews/approves | Operates |
 |---|---|---|---|
 
@@ -65,6 +66,16 @@ add a row each time a feature teaches you one.
 
 | Feature type | Repos / components | Notes |
 |---|---|---|
+
+## Purpose
+
+What each repo is for. Derivation names a repo and its stack; only a person can say why it
+exists. Group the tables however the estate divides — product, domain services, shared
+libraries, other teams' systems, tooling.
+
+<!-- index:curated -->
+| Repo | What it does |
+|---|---|
 
 ## Conventions
 

@@ -174,8 +174,12 @@ Then verify mechanically: every evidence path in the file resolves from the root
 that don't rather than asserting they do.
 
 ### 7. Point the root's instruction file at the index
-When the root holds an agent instruction file (`CLAUDE.md`, `AGENTS.md`, or both), give it
-a section naming the index and the refresh trigger:
+`AGENTS.md` is the harness-agnostic home for this pointer, so prefer it when it exists and
+create it when neither file does. A `CLAUDE.md` that only contains `@AGENTS.md` is already
+pointed at the index through that include — leave it as it is. Where `CLAUDE.md` carries
+content of its own and no `AGENTS.md` exists, put the section there.
+
+The section names the index and the refresh trigger:
 
 ```markdown
 ## Repo Topology
