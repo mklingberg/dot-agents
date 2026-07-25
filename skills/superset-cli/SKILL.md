@@ -35,6 +35,10 @@ runs live in `references/automations.md`. Read those on demand (see
 - **`--command` runs once; independent of `--agent`/`--prompt`.** Pass either or both. `--attachment` only applies when `--agent` is set.
 - **Exactly one of `--branch` / `--pr`.** And exactly one of `--local` / `--host`.
 - **`create` always makes a NEW cloud project** even if one exists for the repo. To adopt an existing project on this machine use `projects setup <id>`, not `create`.
+- **Agents must NOT create projects — only workspaces.** `projects create`/`setup` land in the host-local plane and never appear in the desktop app's project list (the app reads the `v2_projects` cloud registry; CLI-created projects never enter it). Registering an app-visible project is a **human** action via the desktop app's "Add project". Agents create *workspaces* under an existing project id. **Division of labour that avoids all known breakage: human adds/removes projects in the app; agent only creates/deletes workspaces under an existing project id.**
+- **`projects list` = cloud projects ∩ host projects, matched by ID.** A repo can have a project record in BOTH stores yet stay invisible if the two ids differ (host `projects.id` ≠ cloud `v2_projects.id` for the same `repo_path`). This split-brain happens when the host project was minted by CLI/worktree automation (`projects create`) instead of adopted from the cloud id. Symptoms: repo shows in the app (cloud id) but never in `superset projects list` (host id); `projects setup <cloud-id>` returns `Project not found` (CLI setup only sees host-local ids); renaming/deduping host-side does nothing. **The CLI cannot repair an id mismatch** — `create` only makes more dupes, `setup` can't adopt a cloud-only id. Confirmed unresolvable via CLI as of v1.16.1 (likely a Superset bug). Escalate to the human / Superset support; do not try to fix it by spawning projects.
+- **Never run `superset projects create`/`setup` to "fix" a missing project.** Each `create` mints another host-local dupe sharing the same `repo_path`; multiple rows on one path make `projects list` drop them all. Cleanup requires stopping the app + all daemons (`terminal-host.js`, `pty-daemon.js`) and editing `host.db` by hand — high-risk, human-supervised, offline only.
+- **`projects list` is not the full org picture.** It shows only org projects **already set up on this host** (org projects ∩ host-setup). The org may hold projects you can't see here — including ones not set up locally, or stale/orphaned records where `projects setup <id>` returns `Project not found`. Never conclude "no project exists" from `projects list` alone; cross-check `workspaces list` (a workspace referencing a `projectId` your `projects list` omits = a hidden/host-local project) before considering `create`.
 - **SQLite fallback:** `~/.superset/local.db` (desktop app cache) is readable read-only even when logged out, but it is a stale cache — never authoritative, never write to it.
 </gotchas>
 
@@ -43,9 +47,12 @@ runs live in `references/automations.md`. Read those on demand (see
 ```bash
 superset auth whoami --json        # fails → tell user to `superset auth login`
 superset status --json             # ensure local host running; else `superset start --daemon`
-superset projects list --json      # find the project UUID (field: id)
+superset projects list --json     # projects SET UP ON THIS HOST only — NOT the full org list
+superset workspaces list --json    # cross-check: a projectId here that projects list omits = a hidden/host-local project
 superset hosts list --json         # remote target? grab machineId. Local? use --local
 ```
+
+If you need a project that `projects list` doesn't show, it may exist org-wide but not be set up here — do not `projects create`. Ask the human to add it via the desktop app, then create workspaces under it.
 
 ## Spawn — fire-and-forget (default)
 
