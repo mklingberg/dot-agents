@@ -1,10 +1,10 @@
 ---
 name: create-repo-index
-description: "Create or refresh a polyrepo REPO-INDEX.md: repos, components, dependency edges. Triggers: 'index the repos', 'update repo index', repo added or moved."
+description: "Create or refresh a polyrepo INDEX.md: repos, components, dependency edges. Triggers: 'index the repos', 'update repo index', repo added or moved."
 ---
 
 <objective>
-Produce `REPO-INDEX.md` at the root of a folder holding many sibling repos, describing what
+Produce `INDEX.md` at the root of a folder holding many sibling repos, describing what
 lives there and how the repos depend on each other. One file, two kinds of content:
 **derived** (re-read from disk every run) and **curated** (human judgment, preserved
 across runs).
@@ -37,8 +37,8 @@ Systems with no local checkout are the ones a reader most needs told about. Name
 <process>
 
 ### 1. Load the schema, then resolve the root
-Read `templates/REPO-INDEX.template.md` before anything else, every run. It carries the current
-region fences and table columns, and an existing `REPO-INDEX.md` carries whichever ones were
+Read `templates/INDEX.template.md` before anything else, every run. It carries the current
+region fences and table columns, and an existing `INDEX.md` carries whichever ones were
 current when it was last written. Holding the template's shape in mind while you derive is
 what keeps a refresh from reproducing an older schema.
 
@@ -49,7 +49,7 @@ first that applies:
 1. **Passed as an argument** — a path in the skill invocation (`/create-repo-index ~/Dev`)
    or named in the user's request. Use it as given; expand `~` and relative paths, then
    confirm it exists.
-2. **Found by walking up** from cwd to the first directory containing `REPO-INDEX.md`.
+2. **Found by walking up** from cwd to the first directory containing `INDEX.md`.
 3. **Inferred** from cwd's nearest ancestor holding many sibling repos.
 
 State the root you resolved and continue. Worktree checkouts nest under the root (e.g.
@@ -155,11 +155,11 @@ it went in, byte for byte, and the contradictions table is where a proposed chan
 the user to approve it.
 
 ### 6. Write
-`templates/REPO-INDEX.template.md` defines the schema on **every** run, creating and refreshing
+`templates/INDEX.template.md` defines the schema on **every** run, creating and refreshing
 alike.
 
-- **No `REPO-INDEX.md` yet** — copy the template, fill the derived regions.
-- **It already exists** — copy it to `REPO-INDEX.md.bak` first; the root is rarely version
+- **No `INDEX.md` yet** — copy the template, fill the derived regions.
+- **It already exists** — copy it to `INDEX.md.bak` first; the root is rarely version
   controlled, so that backup is the only way back. Then rewrite each fenced derived region
   from what you derived this run. Where the file's columns differ from the template's,
   migrate the table to the template's shape and populate the new columns — the file's header
@@ -183,7 +183,7 @@ The section names the index and the refresh trigger:
 
 ```markdown
 ## Repo Topology
-Repos, components, dependency edges, ownership, and change patterns: @REPO-INDEX.md
+Repos, components, dependency edges, ownership, and change patterns: @INDEX.md
 Refresh with the `create-repo-index` skill after a repo is added, moved, removed,
 or folded into a monorepo.
 ```
@@ -215,7 +215,7 @@ say where they belong instead of them vanishing from the report.
   edge; `external:<system>` keeps it visible.
 - **Some edges live in no config file.** An SPA served from an API host, or proxied in dev,
   is a real dependency whose only trace is bundler config or a host project's output paths.
-- **The root is usually not a git repo**, so `REPO-INDEX.md` is untracked and unignored. Nothing
+- **The root is usually not a git repo**, so `INDEX.md` is untracked and unignored. Nothing
   to add to `.gitignore`; nothing gives you history either, which is why step 6 writes a
   backup.
 - **`<root>/_workspaces/<repo>/<branch>` is the same repo, not another one.** Counting
@@ -235,9 +235,9 @@ say where they belong instead of them vanishing from the report.
 </gotchas>
 
 <success_criteria>
-- `REPO-INDEX.md` exists at the root, derived regions fenced and populated
+- `INDEX.md` exists at the root, derived regions fenced and populated
 - Derived tables carry the template's current columns, migrated if the file predated them
-- Refreshing an existing index leaves `REPO-INDEX.md.bak` beside it
+- Refreshing an existing index leaves `INDEX.md.bak` beside it
 - `Last derived` shows this run's date and time as `YYYY-MM-DD HH:MM`
 - Every derived edge row carries a key and an evidence path **checked** to resolve, not
   assumed to
