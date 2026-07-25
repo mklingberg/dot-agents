@@ -99,6 +99,33 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-18T22:11:41.321Z",
       "updatedAt": "2026-07-18T22:11:41.321Z"
+    },
+    "orchestration": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orchestration/SKILL.md",
+      "skillFolderHash": "9aa26fde93c0592e5983cdca1ccd33b402802255",
+      "installedAt": "2026-07-24T15:20:28.930Z",
+      "updatedAt": "2026-07-24T15:20:28.930Z"
+    },
+    "orca-cli": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orca-cli/SKILL.md",
+      "skillFolderHash": "97f6596bb43a56c6e81246f077c35144c9025343",
+      "installedAt": "2026-07-24T15:25:34.816Z",
+      "updatedAt": "2026-07-24T15:25:34.816Z"
+    },
+    "computer-use": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/computer-use/SKILL.md",
+      "skillFolderHash": "2072384f53670cb61d93f4f6264ad2d8f6b5239c",
+      "installedAt": "2026-07-24T21:49:26.809Z",
+      "updatedAt": "2026-07-24T21:49:26.809Z"
     }
   },
   "dismissed": {
@@ -118,6 +145,7 @@
     "opencode",
     "warp",
     "zed",
-    "claude-code"
+    "claude-code",
+    "pi"
   ]
 }
