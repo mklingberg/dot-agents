@@ -41,12 +41,21 @@ implementation.
 
 **Inline vs delegate:**
 - Inline tool results re-compound in parent context every turn; an isolated
-  subagent's result returns once and doesn't.
+  subagent's result returns once and doesn't. Doing implementation yourself is
+  *more* expensive to parent context than delegating it — every file read and
+  edit re-compounds.
+- **Default to delegating implementation.** Well-specified mechanical work →
+  Implement, even a single file. The overhead is minimal; the win is a clean
+  parent context. Don't hoard mechanical work just because you *can* do it
+  inline. Do it inline only when the change is one trivial edit you've already
+  located and delegation framing would cost more than the edit.
 - **1 targeted lookup** (known file/symbol) → inline.
 - **2+ searches OR unknown location** → Explore. No exceptions.
 - **general-purpose** is the most expensive delegation (see Adapter for why on
   your harness). Before spawning, state in one line why Explore + Implement +
-  Debug can't cover it.
+  Debug can't cover it. For ordinary implementation work, prefer Implement in
+  Spec Mode over general-purpose — it's convention-aware via skills at a fraction
+  of the cost.
 
 ## Delegation Policy
 
@@ -54,13 +63,26 @@ implementation.
   web tools inline.
 - **Explore** — any codebase search with 2+ steps or unknown location. Single
   targeted lookup → do inline.
-- **Implement** — well-specified mechanical plans. One Implement per PLAN.md.
+- **Implement** — well-specified mechanical work, in two modes:
+  - **Plan Mode** — a `.planning/` PLAN.md (create-plans skill). One Implement
+    per PLAN.md.
+  - **Spec Mode** — ad-hoc work with no PLAN.md ceremony. Pass an inline task
+    spec in the invocation: objective, the exact files/area, acceptance/verify
+    criteria, and any constraints. Use for ordinary changes that don't warrant a
+    full plan.
+  - **Pass required context.** Implement does **not** see project
+    `AGENTS.md`/`CLAUDE.md` — it only loads project *skills* on its own. If the
+    task depends on any rule, convention, or constraint that lives in
+    `AGENTS.md`/`CLAUDE.md` (or elsewhere) and isn't captured by a skill, quote
+    the relevant section verbatim in the invocation. When in doubt, include it.
 - **general-purpose** — only for substantial work needing parent context/judgment:
   ambiguous deviations, exploratory fixes, multi-file investigations beyond
   Explore's scope.
 - **Review** — after every Implement Completion Report (not EXIT REPORT). Pass
-  PLAN.md path. **Skip** if plan had ≤2 auto tasks with no writes outside
-  `<files>`. Surface to user only on FAIL; warnings → note inline, don't block.
+  the PLAN.md path (Plan Mode) or the inline spec + changed files (Spec Mode).
+  **Skip** if the work was ≤2 auto tasks / a trivial spec with no writes outside
+  the named files. Surface to user only on FAIL; warnings → note inline, don't
+  block.
 - **Debug** — on Implement exits `verification-failed`, `stuck`, or `blocker`.
   Pick a fix, re-invoke Implement.
 
@@ -174,6 +196,12 @@ delegation (~10k+ parent-equivalent tokens vs ~150–1,500 for replace-mode agen
 
 **Economics (Pi-specific)** — `prompt_mode: replace` = fresh isolated prompt;
 `append` = inherits full parent prompt.
+
+These are the subagent's *own* input cost — **not** a cost charged to the
+parent, and **not** a reason to inline. Doing the same work inline is more
+expensive to *parent* context because every read/edit re-compounds every turn.
+A higher number here (Implement ~1,453) still beats hoarding the work inline.
+The number to avoid is general-purpose's ~10k+.
 
 | Agent | Mode | ~Input tokens |
 |---|---|---|
