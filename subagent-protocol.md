@@ -57,6 +57,39 @@ implementation.
   Spec Mode over general-purpose — it's convention-aware via skills at a fraction
   of the cost.
 
+**When NOT to delegate (the counterweight).** The bias above is real but has an
+edge. Delegation isn't free when it *fails* — the guardrail is the
+**specifiable × verifiable** test:
+- **Specifiable** — you can write clear acceptance criteria. If you can't state
+  what "done" looks like, neither can the subagent → `deviation-unclear`
+  ping-pong.
+- **Verifiable** — there's a cheap objective check (build / test / lint). This is
+  load-bearing: with a verify command, failures are self-caught and concretely
+  reported, so each retry loop stays cheap. Without one, the parent must inspect
+  output subjectively — the failure tax.
+
+Delegate work you can *specify* and the machine can *check*. Keep inline (or send
+to general-purpose) when:
+- **Not specifiable** — exploratory, "figure out why X feels wrong," unknown
+  solution shape. Implement is stateless, so it re-reads context every loop and
+  you pay that tax N times. This is general-purpose's band, not Implement's.
+- **Context-transfer ≈ the work** — if specifying it means pasting half of
+  `AGENTS.md` + several files of domain nuance, the specification *is* the work.
+  Do it inline.
+- **Trivial + already located** — one edit in a file open in front of you.
+
+Map: **Implement** = specifiable/verifiable band · **general-purpose** =
+judgment/exploratory band · **inline** = trivial-and-located. The common failure
+is dumping the whole middle band into "inline."
+
+**Delegate the diagnosis too.** The failure tax mostly evaporates if you don't
+personally read the wreckage. Implement exits with a structured EXIT REPORT (or
+Review returns a specific FAIL); that routes to **Debug** (cheap, replace-mode),
+which reads the mess and returns a root cause. Parent gets a diagnosis, then
+re-dispatches Implement with the fix — it does *not* re-read everything itself.
+The "parent must analyse what went wrong" cost is only real when you skip Debug.
+Cap: 2 Debug → Implement cycles on one task, then escalate (see Exit Routing).
+
 ## Delegation Policy
 
 - **Research** — any web search / online docs. Use the Research role, not raw
