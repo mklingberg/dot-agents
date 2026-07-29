@@ -100,7 +100,7 @@ use the CLI instead — it resolves emails itself:
 
 ```bash
 az repos pr create --repository "$REPO" --source-branch "<source>" --target-branch "<target>" \
-  --title "..." --description "..." --reviewers a@walley.se b@walley.se \
+  --title "..." --description "..." --reviewers alice@example.com bob@example.com \
   --organization "https://dev.azure.com/$ORG" --project "$PROJ"
 ```
 
