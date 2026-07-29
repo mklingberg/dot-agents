@@ -53,7 +53,7 @@ Flat root by design: folders for taxonomy add nothing the agent uses. Grouping h
 | `to-` | Convert current conversation → artifact | `to-plan` |
 | `grill-` | Interactive pressure-test | `grill-me`, `grill-with-docs` |
 | `review-` | Analyze without side effects | `code-review` |
-| bare verb | Single distinct action | `handoff`, `pros-cons`, `manage-worktrees` |
+| bare verb | Single distinct action | `handoff`, `pros-cons`, `prototype` |
 
 Use the same prefixes when adding new skills so they cluster predictably in alphabetical listings and `/skill:` completion.
 
@@ -201,7 +201,8 @@ Current:
 - **`backend-microservice-architecture`** *(command)* — backend service design principles
 - **`evaluate-skills`** — behavioral eval of a skill against real prompts
 
-`manage-worktrees` lives in `_commands/` (manual trigger only).
+Git worktrees are handled by `orca-cli` — Orca manages the worktrees under
+`_workspaces/<repo>/<branch>`, so there is no separate raw-`git worktree` skill.
 
 ## Adding a new skill
 
