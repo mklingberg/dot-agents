@@ -123,6 +123,7 @@ This is the strongest part of the library.
 - **`create-plans`** — builds a durable planning system with `BRIEF.md`, `ROADMAP.md`, phase plans, summaries, and handoffs
 - **`to-plan`** *(command)* — fast path when the conversation is already clear and just needs to become an executable `PLAN.md`
 - **`handoff`** *(command)* — compresses working state so another agent/session can resume without guessing
+- **`coordinate-cross-repo`** — extends the same model across repos: works out the repo set, orders them by real dependency, delegates a plan per repo, and lands the PRs in that order. Reads the `INDEX.md` produced by `create-repo-index`. Single repo → use `create-plans`
 
 The goal is not documentation theater. The goal is executable planning and continuity.
 
@@ -144,6 +145,7 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
 - **`code-review`** — two-axis review (standards + spec) run as parallel sub-agents
 - **`prototype`** — build a throwaway prototype to answer a design question
+- **`create-repo-index`** — builds/refreshes `INDEX.md` for a polyrepo folder (repos, components, dependency edges), keeping derived regions rebuilt and curated regions untouched
 - **`resolving-merge-conflicts`** — intent-preserving merge/rebase conflict resolution
 - **`find-skills`** — discover and install skills on demand
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
