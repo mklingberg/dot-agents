@@ -96,7 +96,7 @@ Waits are long — coding nodes routinely run tens of minutes. A wait that retur
 a checkpoint, and the node is still alive.
 
 ### 6. Land
-Open pull requests via `create-pr-devops` in DAG order. For a repo owned by another team,
+Open pull requests via `azure-devops` in DAG order. For a repo owned by another team,
 the pull request is this feature's terminal state: that team reviews, approves, and operates
 what merges. Record the reviewer from `INDEX.md`'s Ownership table, report it, and treat
 downstream nodes as unblocked rather than waiting on their release.

@@ -93,7 +93,7 @@ The defaults the skill recommends, current as of 2026. Override per-brief when j
 - `create-feature-branch` — start the work on a properly-named branch.
 - `create-tests-autofixture` — slice tests using xUnit + AutoFixture + FakeItEasy.
 - `review-code` — pre-PR review against C#/.NET conventions.
-- `create-pr-devops` — open the PR in Azure DevOps.
+- `azure-devops` — open the PR in Azure DevOps.
 - `create-feature-flags` — gate rollout via LaunchDarkly when shipping behind a flag.
 </see_also>
 
