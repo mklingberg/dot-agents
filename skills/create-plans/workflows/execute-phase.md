@@ -919,13 +919,10 @@ Update ROADMAP.md:
 </step>
 
 <step name="git_commit_plan">
-Commit plan completion (PLAN + SUMMARY + code):
+Commit the **code only** — never the plan or summary:
 
 ```bash
-git add .planning/phases/XX-name/{phase}-{plan}-PLAN.md
-git add .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md
-git add .planning/ROADMAP.md
-git add src/  # or relevant code directories
+git add src/  # or the relevant code directories, explicitly — never `git add .`
 git commit -m "$(cat <<'EOF'
 feat({phase}-{plan}): [one-liner from SUMMARY.md]
 

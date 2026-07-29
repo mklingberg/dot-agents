@@ -91,25 +91,21 @@ mkdir -p .planning/phases/02-{phase-name}
 ```
 </step>
 
-<step name="git_commit_initialization">
-Commit project initialization (brief + roadmap together):
+<step name="gitignore_planning">
+Ensure `.planning/` is ignored before writing anything else into it:
 
 ```bash
-git add .planning/
-git commit -m "$(cat <<'EOF'
-docs: initialize [project-name] ([N] phases)
-
-[One-liner from BRIEF.md]
-
-Phases:
-1. [phase-name]: [goal]
-2. [phase-name]: [goal]
-3. [phase-name]: [goal]
-EOF
-)"
+grep -qxF '.planning/' .gitignore 2>/dev/null || echo '.planning/' >> .gitignore
 ```
 
-Confirm: "Committed: docs: initialize [project] ([N] phases)"
+Planning artifacts are never committed — they are scratch space that dies with the
+branch. Commit the `.gitignore` change itself if it was modified:
+
+```bash
+git add .gitignore && git commit -m "chore: ignore .planning/"
+```
+
+Confirm: "`.planning/` is gitignored — plans will not be committed."
 </step>
 
 <step name="offer_next">

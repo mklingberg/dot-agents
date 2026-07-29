@@ -28,6 +28,12 @@ Do NOT interview the user — context is already established.
    - **Exists** → use existing phase naming: `.planning/phases/XX-name/{phase}-{plan}-PLAN.md`
    - **Missing** → create it, infer phase name from conversation, write to `.planning/phases/01-[name]/01-01-PLAN.md`
 
+   When creating `.planning/`, ignore it in the same action — plans are scratch and are
+   never committed:
+   ```bash
+   grep -qxF '.planning/' .gitignore 2>/dev/null || echo '.planning/' >> .gitignore
+   ```
+
 2. **Extract tasks** from the conversation — every concrete agreed action becomes a task candidate.
 
 3. **Confirm breakdown** — present inline, wait for confirmation before writing:

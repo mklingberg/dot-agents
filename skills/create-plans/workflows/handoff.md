@@ -61,21 +61,12 @@ last_updated: [ISO timestamp]
 Then markdown body with full context.
 </step>
 
-<step name="git_commit_wip">
-Commit handoff as WIP:
+<step name="no_wip_commit">
+Do **not** commit the handoff. `.planning/` is gitignored; the handoff lives on disk for
+the next session and is never version controlled.
 
-```bash
-git add .planning/
-git commit -m "$(cat <<'EOF'
-wip: [phase-name] paused at task [X]/[Y]
-
-Current: [task name]
-[If blocked:] Blocked: [reason]
-EOF
-)"
-```
-
-Confirm: "Committed: wip: [phase] paused at task [X]/[Y]"
+If code is mid-change and needs preserving, that is a separate decision — ask before
+committing or stashing anything.
 </step>
 
 <step name="handoff_confirmation">

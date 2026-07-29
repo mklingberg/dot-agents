@@ -211,12 +211,13 @@ Pauses at critical decision points:
 See `references/user-gates.md` for full gate patterns.
 
 ### Git Versioning
-All planning artifacts are version controlled. Commits outcomes, not process:
-- Initialization commit (BRIEF + ROADMAP)
-- Phase completion commits (PLAN + SUMMARY + code)
-- Handoff commits (when pausing work)
+**Planning artifacts are never committed.** `.planning/` is gitignored on creation and
+dies with the branch. Commit outcomes, not process:
+- `chore: ignore .planning/` (the `.gitignore` entry, once)
+- Phase completion commits (**code only**)
+- ADRs under `docs/adr/` for decisions worth outliving the plan
 
-Git log becomes project history.
+Git log becomes product history, not a planning diary.
 
 ## Anti-Patterns
 

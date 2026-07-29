@@ -137,12 +137,16 @@ See: references/user-gates.md
 </principle>
 
 <principle name="git_versioning">
-All planning artifacts are version controlled. Commit outcomes, not process.
+**Planning artifacts are never committed.** `.planning/` is scratch space for getting the
+work built — once the code ships and is verified, it has no readers. Durable decisions
+belong in ADRs (`docs/adr/`), not in plans.
 
-- Check for repo on invocation, offer to initialize
-- Commit only at: initialization, phase completion, handoff
-- Intermediate artifacts (PLAN.md, RESEARCH.md, FINDINGS.md) NOT committed separately
-- Git log becomes project history
+- On creating `.planning/`, ensure `.planning/` is in `.gitignore`. Add it if missing,
+  in the same action — never leave the folder untracked-but-unignored.
+- Never `git add .planning/`, not at initialization, phase completion, or handoff.
+- Commit **code only**, at phase completion. The git log reads as a changelog of what
+  shipped, never as a diary of planning activity.
+- If a decision inside a plan deserves to outlive it, write an ADR and commit that.
 
 See: references/git-integration.md
 </principle>

@@ -92,7 +92,7 @@ Deviations:
 - Auto-fixed: `[Rule N – Type] description · Task X · files`
 - Deferred: `ISS-001: description (Task X)`
 
-Then commit: `git add` all changed files + SUMMARY.md, commit using guidance from PLAN.md `<output>` (or `<phase>-<plan>: <summary one-liner>` if unspecified). Capture the hash for §8. If `git add`/`commit` fails (hooks, lock, permission) → exit `commit-failed` with the git error.
+Then commit: `git add` the changed **code** files explicitly — never `.planning/`, which is gitignored scratch (no SUMMARY.md, no PLAN.md, no ROADMAP.md). Commit using guidance from PLAN.md `<output>` (or `<phase>-<plan>: <summary one-liner>` if unspecified). Capture the hash for §8. If `git add`/`commit` fails (hooks, lock, permission) → exit `commit-failed` with the git error.
 
 ## 8. Completion Report (all work done, no exits)
 

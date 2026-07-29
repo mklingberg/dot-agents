@@ -2,53 +2,48 @@
 
 ## Core Principle
 
-**Commit outcomes, not process.**
+**Commit outcomes, not process. `.planning/` is not an outcome.**
 
-The git log should read like a changelog of what shipped, not a diary of planning activity.
+Planning artifacts are scratch space that exists to get the work built. Once the code
+ships and is verified, nobody reads them again. They are never committed.
 
-## Commit Points (Only 3)
+The git log should read like a changelog of what shipped, not a diary of planning
+activity.
 
-| Event | Commit? | Why |
-|-------|---------|-----|
-| BRIEF + ROADMAP created | YES | Project initialization |
-| PLAN.md created | NO | Intermediate - commit with completion |
-| RESEARCH.md created | NO | Intermediate |
-| FINDINGS.md created | NO | Intermediate |
-| **Phase completed** | YES | Actual code shipped |
-| Handoff created | YES | WIP state preserved |
+## Ignore `.planning/` before writing into it
 
-## Git Check on Invocation
+The moment `.planning/` is created, make sure it is ignored:
 
 ```bash
-git rev-parse --git-dir 2>/dev/null || echo "NO_GIT_REPO"
+grep -qxF '.planning/' .gitignore 2>/dev/null || echo '.planning/' >> .gitignore
 ```
 
-If NO_GIT_REPO:
-- Inline: "No git repo found. Initialize one? (Recommended for version control)"
-- If yes: `git init`
+Do this in the same action that creates the folder — never leave it
+untracked-but-unignored, where it will show up in `git status` and eventually get swept
+into someone's `git add .`.
 
-## Commit Message Formats
+If the repo has no `.gitignore`, create one containing `.planning/`. The `.gitignore`
+change itself **is** committed, as a normal repo-hygiene change.
 
-### 1. Project Initialization (brief + roadmap together)
+## Commit points
 
-```
-docs: initialize [project-name] ([N] phases)
+| Event | Commit? | What |
+|---|---|---|
+| `.planning/` created | YES | the `.gitignore` entry only |
+| BRIEF + ROADMAP created | NO | scratch |
+| PLAN.md created | NO | scratch |
+| SUMMARY.md written | NO | scratch |
+| Handoff created | NO | scratch |
+| **Phase completed** | YES | **code only** |
+| Decision worth keeping | YES | the ADR under `docs/adr/` |
 
-[One-liner from BRIEF.md]
+Never `git add .planning/`. Not at initialization, not at phase completion, not at
+handoff. If a plan's reasoning deserves to survive, that is what an ADR is for — write
+it, commit it, and let the plan die with the branch.
 
-Phases:
-1. [phase-name]: [goal]
-2. [phase-name]: [goal]
-3. [phase-name]: [goal]
-```
+## Commit message formats
 
-What to commit:
-```bash
-git add .planning/
-git commit
-```
-
-### 2. Phase Completion
+### Phase completion
 
 ```
 feat([domain]): [one-liner from SUMMARY.md]
@@ -61,46 +56,42 @@ feat([domain]): [one-liner from SUMMARY.md]
 Note: [issue and resolution]
 ```
 
-Use `fix([domain])` for bug fix phases.
+Use `fix([domain])` for bug-fix phases.
 
 What to commit:
 ```bash
-git add .planning/phases/XX-name/  # PLAN.md + SUMMARY.md
-git add src/                        # Actual code created
+git add src/          # the code, explicitly — never `git add .`
 git commit
 ```
 
-### 3. Handoff (WIP)
+Commit in small logical groups, one topic per commit. A phase that touched three
+unrelated areas is three commits, not one.
+
+### ADR
 
 ```
-wip: [phase-name] paused at task [X]/[Y]
-
-Current: [task name]
-[If blocked:] Blocked: [reason]
+docs(adr): [decision title]
 ```
 
-What to commit:
+## Example clean git log
+
+```
+a7f2d1 feat(checkout): Stripe payments with webhook verification
+b3e9c4 docs(adr): use jose over jsonwebtoken for edge runtime
+c8a1b2 feat(products): catalog with search, filters, and pagination
+d5c3d7 feat(auth): JWT with refresh rotation using jose
+e2f4a8 chore: ignore .planning/
+```
+
+Note what is absent: no `docs: initialize`, no `wip:` handoff commits, no planning
+churn. The history describes the product, not the process that produced it.
+
+## What never gets committed
+
+- Anything under `.planning/` — plans, summaries, briefs, roadmaps, handoffs
+- "Fixed typo in roadmap" style churn
+
+If you find `.planning/` staged, unstage it and add the `.gitignore` entry:
 ```bash
-git add .planning/
-git commit
+git restore --staged .planning/
 ```
-
-## Example Clean Git Log
-
-```
-a]7f2d1 feat(checkout): Stripe payments with webhook verification
-b]3e9c4 feat(products): catalog with search, filters, and pagination
-c]8a1b2 feat(auth): JWT with refresh rotation using jose
-d]5c3d7 feat(foundation): Next.js 15 + Prisma + Tailwind scaffold
-e]2f4a8 docs: initialize ecommerce-app (5 phases)
-```
-
-## What NOT To Commit Separately
-
-- PLAN.md creation (wait for phase completion)
-- RESEARCH.md (intermediate)
-- FINDINGS.md (intermediate)
-- Minor planning tweaks
-- "Fixed typo in roadmap"
-
-These create noise. Commit outcomes, not process.
