@@ -257,8 +257,13 @@ Scopes `[DOCS-DERIVED]`: read PRs/threads/policy → `vso.code`; post comments, 
 **Invalid/expired PAT `[VERIFIED]`**: no 401. You get HTTP 302 to
 `https://{tenant}.vssps.visualstudio.com/_signin?...`, or HTTP 203 with an HTML login
 page when following redirects. Detect by `Content-Type` or a first non-whitespace byte
-of `<`. Insufficient *scope* (as opposed to invalid) surfaces as HTTP 403 with
-`TF400813: The user '<id>' is not authorized to access this resource.` `[DOCS-DERIVED]`
+of `<`.
+
+**Valid PAT, missing scope `[VERIFIED]`**: a clean **HTTP 401** with an empty body.
+Observed on `vssps.dev.azure.com/_apis/identities` and `/_apis/graph/users` with a
+Code+Build-scoped PAT. Microsoft's docs describe a `403` with `TF400813` instead — that
+is not what this organisation returns. Treat `401` as "token fine, scope missing" and
+name the scope rather than telling the operator to regenerate the token.
 
 ## Paging and limits
 

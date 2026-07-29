@@ -12,6 +12,9 @@ leave the rest alone.
 | Organisation | `collectorbank` |
 | Default project | `Teamy McTeamface` — encode as `Teamy%20McTeamface` in URLs; GUID `2cca68fc-4c5c-42c2-bb57-2a45f031ea75` |
 | PAT env var | `AZURE_DEVOPS_PAT` (`ORCA_AZURE_DEVOPS_TOKEN` holds the same value) |
+| PAT scopes held | Code (read/write), Build (read) — **not** Identity/Graph read |
+| MCP server | configured but not connected — treat as unavailable |
+| `az` CLI | extension installed but **not activated**; do not attempt |
 | Branch convention | `{type}/{TicketNo}_{short-description}`, type ∈ `feature` \| `task` \| `bug` |
 | PR title format | `Short description [TicketNo]` |
 | Resolve threads after replying | **no** |
@@ -75,6 +78,14 @@ Fallbacks, in order:
    for a call verified to work non-interactively, and never in an unattended run.
 
 ### Verify auth before writing
+Three distinguishable states — do not conflate them:
+
+| Response | Meaning | Action |
+|---|---|---|
+| `200` + body starting `{` or `[` | PAT valid, scope sufficient | proceed |
+| `401` | PAT valid, **scope missing** for this endpoint | name the missing scope, don't retry |
+| `302` → sign-in, or `203` + HTML body | PAT invalid or expired | tell the operator to regenerate |
+
 An invalid or expired PAT does **not** return 401. It returns 302 → an HTML sign-in
 page (or 203 with an HTML body). Any check based on status code alone will parse a
 login page as data.

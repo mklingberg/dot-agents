@@ -95,23 +95,21 @@ curl -s -u ":$AZURE_DEVOPS_PAT" -X POST \
   }'
 ```
 
-**Reviewers:** REST needs identity GUIDs, not emails. Resolve them first — stay on REST
-rather than dropping to the CLI, which may demand an interactive login an agent cannot
-complete:
+**Reviewers:** REST needs identity GUIDs, not emails, and resolving them requires a PAT
+with **Identity/Graph read** scope. The configured PAT does not have it — verified:
 
 ```bash
-# email/alias → identity GUID  [UNVERIFIED — confirm on first use, then update this]
 curl -s -u ":$AZURE_DEVOPS_PAT" \
-  "https://vssps.dev.azure.com/$ORG/_apis/identities?searchFilter=General&filterValue=alice@example.com&api-version=7.1-preview.1" \
-  | jq -r '.value[] | "\(.id)  \(.providerDisplayName)"'
+  "https://vssps.dev.azure.com/$ORG/_apis/identities?searchFilter=General&filterValue=<email>&api-version=7.1-preview.1"
+# → HTTP 401 with the current PAT (scope missing, token itself is valid)
 ```
 
-Then add to the create body: `"reviewers": [{"id": "<guid>"}]`.
+So, when reviewers are requested: **create the PR without them and say so plainly**, so
+they can be added in the web UI in one click. Do not silently drop them, and do not
+stall the PR over it.
 
-If identity lookup fails, do **not** silently drop the reviewers. Either create the PR
-without them and say so plainly, so they can be added in the web UI, or use the MCP
-server if connected. `az repos pr create --reviewers <email>` resolves emails itself and
-is the documented escape hatch, but its auth behaviour is unreliable — see SKILL.md.
+To make this work properly, the operator must either add Identity read scope to the PAT
+or connect the MCP server. Mention it once; don't nag.
 
 **Work items:** `"workItemRefs": [{"id": "12345"}]` in the REST body.
 
