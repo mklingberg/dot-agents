@@ -23,6 +23,16 @@ Read the Core, then read the one `## Harness:` section matching your environment
 
 ## Execution Loop
 
+**Default: run to completion.** Once a plan/roadmap is approved, that approval
+*is* the established scope — execute it all the way through without stopping for
+re-confirmation between steps or plans. Problems escalate to the **orchestrator**
+first (resolve via Debug / re-dispatch, see Exit Routing); only stop and ask the
+**user** at genuine confirmation points — the hard stops listed under §Plan
+Completion. The AGENTS.md rule *"establish scope before spawning"* governs the
+case where there is **no** approved plan yet (e.g. Implement Spec Mode ad-hoc
+work you haven't been told to run); it does not require re-asking inside an
+approved plan/roadmap.
+
 **Spawn** every subagent in the **background** when your harness supports it (see
 Adapter). Don't poll — **await** the completion signal, then read the EXIT /
 Completion Report and route per the tables below. Sequential chains
@@ -160,9 +170,26 @@ Subtypes are planner hints, not directives — parent decides routing.
 
 ## Plan Completion → Next Plan
 
-Don't auto-chain. After Implement completes + Review passes, report to user with
-the "Next: ..." line from the completion report. Wait for explicit go-ahead
-before spawning the next Implement. (Matches "establish scope before spawning".)
+**Auto-chain through an approved roadmap.** When the ROADMAP is approved, running
+its plans is within established scope — after Implement completes + Review passes,
+proceed directly to the next `*-PLAN.md` without waiting for a fresh go-ahead.
+Keep a brief progress note per plan (the "Next: ..." line), but don't block on it.
+
+**Stop and ask the user only at hard stops** — the points where the plan can't be
+followed without your input, i.e. an Exit Routing reason the orchestrator can't
+resolve itself:
+- `checkpoint:human-verify` / `checkpoint:human-action`
+- `architectural-decision` / `deviation-unclear` / `checkpoint:decision` the
+  parent can't settle from BRIEF/ROADMAP/ISSUES/patterns
+- Review FAIL where the spec/plan is wrong (not a trivial fix)
+- `auth-required` with no usable creds
+- Debug-loop cap reached (2 Debug → Implement cycles on one task)
+
+Everything else — the successful, plan-following path — rolls forward. Report the
+full run to the user when the roadmap completes or a hard stop is hit.
+
+Approval to *begin* a roadmap is still required — this section only removes the
+per-plan re-confirmation once you have it.
 
 ## Aborting a Running Implement
 
