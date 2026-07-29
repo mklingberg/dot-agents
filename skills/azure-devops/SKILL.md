@@ -135,9 +135,12 @@ Add to this list whenever a call surprises you.
 - **Three distinct comment endpoints.** New thread: `POST .../pullrequests/{id}/threads`.
   Reply: `POST .../pullrequests/{id}/threads/{threadId}/comments`. Status: `PATCH .../threads/{threadId}`.
   Posting a reply to `/threads` creates a new orphan thread instead of replying.
-- **System threads look like human threads.** Discriminator is `comments[0].commentType == "system"`
-  (or a service-account author like `Microsoft.VisualStudio.Services.TFS`). `status` is unreliable —
-  system threads usually have `status: null`. Replying to a bot notice looks careless.
+- **System threads look like human threads — and some bots don't even set `commentType`.**
+  Filter on `comments[0].commentType == "system"` **and** on service-account authors
+  (`Microsoft.VisualStudio.Services.TFS`, `Azure Pipelines Test Service`, team-group names).
+  Verified: the diff-coverage bot posts with `commentType: "text"`, so the commentType
+  check alone lets it through. `status` is unreliable too — system threads often have
+  `status: null`. Replying to a bot is public and embarrassing.
 - **Policy evaluations need the project GUID twice** — in the path *and* inside the
   `artifactId` param (`vstfs:///CodeReview/CodeReviewId/{projectGuid}/{prId}`), never the name.
 - **Build logs are plain text, not JSON.** Do not pipe them to `jq`.

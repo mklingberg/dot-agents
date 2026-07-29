@@ -121,7 +121,8 @@ System thread:
                   "author": { "displayName": "Microsoft.VisualStudio.Services.TFS" },
                   "content": "The reference refs/heads/... was updated." } ] }
 ```
-- Human vs system: `comments[0].commentType` is `"text"` vs `"system"`; service authors
+- Human vs system: `comments[0].commentType` is `"text"` vs `"system"` — but NOT reliably:
+  the diff-coverage bot posts `"text"`. Also filter on author. Service authors
   include `Microsoft.VisualStudio.Services.TFS`, `Azure Pipelines Test Service`.
 - Thread `status`: `active` | `fixed` | `wontFix` | `closed` | `pending` | `unknown`.
   System threads commonly have `status: null` — do not filter on status alone.

@@ -25,6 +25,8 @@ curl -s -u ":$AZURE_DEVOPS_PAT" \
   "https://dev.azure.com/$ORG/$PROJ/_apis/git/repositories/$REPO/pullrequests/$PR/threads?api-version=7.1" \
   | jq '[.value[]
       | select(.comments[0].commentType != "system")
+      | select(.comments[0].author.displayName
+               | test("Azure Pipelines|Microsoft\\.VisualStudio|Test Service|\\[.*\\]\\\\") | not)
       | select(.status == "active" or .status == "pending")
       | {id, status,
          file: .threadContext.filePath,
@@ -32,9 +34,15 @@ curl -s -u ":$AZURE_DEVOPS_PAT" \
          comments: [.comments[] | {id, parentCommentId, author: .author.displayName, content}]}]'
 ```
 
-Drop system/bot threads (`commentType == "system"`, service-account authors) and
-already-settled threads (`fixed`, `wontFix`, `closed`). What remains is what actually
-needs an answer.
+Two independent filters are needed, and **both** matter:
+
+- `commentType != "system"` drops branch-updated and policy notices.
+- The author check drops bots that post as ordinary text. Verified case: the diff-coverage
+  bot posts with `commentType: "text"` and author `Azure Pipelines Test Service`, so the
+  commentType filter alone lets it through. Replying to it is embarrassing and public.
+
+Then drop already-settled threads (`fixed`, `wontFix`, `closed`). What remains is what
+actually needs an answer.
 
 If nothing remains, say so and stop. Do not manufacture work.
 
@@ -103,7 +111,7 @@ skipped and why. If a reply promised a code change, state plainly that the chang
 not been made yet.
 
 <success_criteria>
-- [ ] System/bot and settled threads excluded
+- [ ] System/bot threads excluded by **both** commentType and author, settled threads excluded
 - [ ] Code at the referenced line actually read before drafting
 - [ ] Each reply in the same language as the comment it answers
 - [ ] No unwarranted apology, no filler praise
