@@ -4,7 +4,7 @@ Read `references/rest-api.md` sections B5 and B7 before posting anything.
 
 <objective>
 Turn open reviewer comments on a pull request into drafted replies, posted only
-after Marcus approves each one. Replies only — no code changes, no thread resolution.
+after the operator approves each one. Replies only — no code changes, no thread resolution.
 </objective>
 
 ## Step 1 — Locate the PR
@@ -60,7 +60,7 @@ For threads without file context, read the PR description and diff summary.
 Apply the global "Writing in my name" rules. Concretely, for review replies:
 
 - **Same language as the comment.** Swedish question → Swedish answer. This is the
-  single most common failure — the global English-to-Marcus rule does not apply to
+  single most common failure — the "reply to the operator in English" rule does not apply to
   text written for other people.
 - Short. One to three sentences answers most threads.
 - No apology unless something was actually broken. "Missed that, fixed in `abc1234`"
@@ -107,7 +107,7 @@ not been made yet.
 - [ ] Code at the referenced line actually read before drafting
 - [ ] Each reply in the same language as the comment it answers
 - [ ] No unwarranted apology, no filler praise
-- [ ] Every reply approved by Marcus before posting
+- [ ] Every reply approved by the operator before posting
 - [ ] No thread status changed
 - [ ] No code modified
 </success_criteria>

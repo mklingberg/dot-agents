@@ -1,23 +1,49 @@
 ---
 name: azure-devops
-description: "Azure DevOps (org collectorbank) via REST+PAT: PRs, PR comment replies, builds. Triggers: 'open PR', 'PR comments', 'why did the build fail'."
+description: "Azure DevOps via REST+PAT: PRs, PR comment replies, builds. Triggers: 'open PR', 'PR comments', 'why did the build fail'."
 ---
 
+<config>
+Everything team- or machine-specific lives here. Fork the skill, edit this block,
+leave the rest alone.
+
+| Setting | Value |
+|---|---|
+| Organisation | `collectorbank` |
+| Default project | `Teamy McTeamface` — encode as `Teamy%20McTeamface` in URLs; GUID `2cca68fc-4c5c-42c2-bb57-2a45f031ea75` |
+| PAT env var | `AZURE_DEVOPS_PAT` (`ORCA_AZURE_DEVOPS_TOKEN` holds the same value) |
+| Branch convention | `{type}/{TicketNo}_{short-description}`, type ∈ `feature` \| `task` \| `bug` |
+| PR title format | `Short description [TicketNo]` |
+| Resolve threads after replying | **no** |
+| Make code changes from a comment reply | **no** |
+
+Shell variables used throughout this skill and its references:
+```bash
+ORG="collectorbank"
+PROJ="Teamy%20McTeamface"
+REPO="<repo-name>"          # from git remote
+```
+</config>
+
 <essential_principles>
-### Comments are published under Marcus's name
-Every thread reply, PR description, and comment posted through this skill appears
-as him. Follow the "Writing in my name" and "Language" rules in global AGENTS.md:
-senior-dev register, short, correct, no apologies unless he actually erred, and
-**reply in the same language the comment was written in** (Swedish comment →
-Swedish reply).
+### Comments are published under the operator's name
+Every thread reply, PR description, and comment posted through this skill appears as
+the person whose PAT is in use — not as an AI. If the operator's global agent
+instructions define a writing persona, follow it. Otherwise, default to: senior-dev
+register, short, correct, concrete, no apologies unless something was actually broken,
+no filler praise.
+
+Always **reply in the same language the comment was written in** (Swedish comment →
+Swedish reply), regardless of the language used when talking to the operator.
 
 ### Never write without explicit confirmation
 Show the exact text and the exact target (PR id, thread id) and wait for approval
 before any POST/PATCH. Reads need no confirmation.
 
 ### Never resolve threads
-Do not PATCH thread status. Resolution is a social signal to the reviewer that the
-point is settled — that call is Marcus's, not the agent's. Reply only.
+Do not PATCH thread status while `Resolve threads after replying` is **no**.
+Resolution is a social signal to the reviewer that the point is settled — that call
+belongs to the operator, not the agent. Reply only.
 
 ### Reply, don't fix
 When a comment asks for a code change, report what the reviewer wants and stop.
@@ -32,11 +58,11 @@ a branch that someone is mid-review on is worse than answering slowly.
 costs no tool-definition context, and behaves identically everywhere.
 
 ```bash
-curl -s -u ":$AZURE_DEVOPS_PAT" "https://dev.azure.com/collectorbank/..."
+curl -s -u ":$AZURE_DEVOPS_PAT" "https://dev.azure.com/$ORG/..."
 ```
 
-`AZURE_DEVOPS_PAT` is in the environment. `ORCA_AZURE_DEVOPS_TOKEN` holds the same
-value. Never echo, log, or paste the token — always reference it as the variable.
+The PAT env var is named in `<config>`. Never echo, log, or paste the token — always
+reference it as the variable.
 
 Fallbacks, in order:
 1. **`az` CLI** (installed, with the `azure-devops` extension) — use only where it is
@@ -53,7 +79,7 @@ login page as data.
 ```bash
 # valid JSON response starts with { or [ ; an HTML page starts with <
 curl -s -u ":$AZURE_DEVOPS_PAT" \
-  "https://dev.azure.com/collectorbank/_apis/projects?api-version=7.1" | head -c 1
+  "https://dev.azure.com/$ORG/_apis/projects?api-version=7.1" | head -c 1
 ```
 If the first byte is `<`, tell the user the PAT is invalid or expired and stop.
 Do not attempt to parse it as an API error.
@@ -61,14 +87,13 @@ Do not attempt to parse it as an API error.
 Before posting anything, confirm whose identity is being used:
 ```bash
 curl -s -u ":$AZURE_DEVOPS_PAT" \
-  "https://dev.azure.com/collectorbank/_apis/connectionData?api-version=7.1-preview" \
+  "https://dev.azure.com/$ORG/_apis/connectionData?api-version=7.1-preview" \
   | jq -r '.authenticatedUser.properties.Account."$value"'
 ```
 
 ### Deriving org / project / repo
 ```
-https://<user>@dev.azure.com/collectorbank/Teamy%20McTeamface/_git/walley-autogiro-automatikk-api
-                             ^org          ^project (%20-encoded)  ^repo
+https://<user>@dev.azure.com/<org>/<project%20encoded>/_git/<repo>
 ```
 Get it from `git remote get-url origin`, or from a PR web URL, which adds
 `/pullrequest/{id}`. Project names contain spaces — keep them `%20`-encoded in the
@@ -100,7 +125,8 @@ subtly wrong and the failures are silent.
 </routing>
 
 <gotchas>
-Verified against `collectorbank`. Add to this list whenever a call surprises you.
+Verified live against Azure DevOps (see `references/rest-api.md` for the evidence).
+Add to this list whenever a call surprises you.
 
 - **Invalid PAT returns 302/HTML, not 401.** Check the first byte of the body, not the status code.
 - **`api-version=7.1` is not universal.** `policy/evaluations` and `connectionData` require

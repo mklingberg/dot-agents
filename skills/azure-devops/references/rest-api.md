@@ -1,16 +1,22 @@
-# Azure DevOps REST recipes — org `collectorbank`
+# Azure DevOps REST recipes
 
-Verified live against project `Teamy McTeamface` (GUID `2cca68fc-4c5c-42c2-bb57-2a45f031ea75`),
-repo `walley-autogiro-automatikk-api`. Recipes are marked `[VERIFIED]` (actually executed)
-or `[DOCS-DERIVED]` (from Microsoft docs, not executed).
+Endpoint shapes, payloads, and response schemas are plain Azure DevOps — portable to
+any organisation. Only the concrete values below are environment-specific; set them
+from the `<config>` block in SKILL.md.
+
+Recipes are marked `[VERIFIED]` (executed against a live Azure DevOps organisation)
+or `[DOCS-DERIVED]` (from Microsoft docs, not executed). Example ids, GUIDs, and repo
+names in responses are real captures kept as evidence — substitute your own.
 
 ```bash
-ORG="collectorbank"
-PROJ="Teamy%20McTeamface"     # spaces → %20 in the path
-REPO="walley-autogiro-automatikk-api"
-# auth: basic, EMPTY username, PAT as password
-curl -s -u ":$AZURE_DEVOPS_PAT" ...
+ORG="<organisation>"
+PROJ="<Project%20Name>"       # spaces → %20 in the path
+REPO="<repo-name>"
+PROJID="<project-guid>"       # required by some endpoints, see A4
 ```
+
+Auth is HTTP basic with an **empty username** and the PAT as password:
+`curl -s -u ":$AZURE_DEVOPS_PAT" ...`
 
 Base: `https://dev.azure.com/{org}/{project}/_apis/git/repositories/{repo}/...?api-version=7.1`
 The repo segment accepts a name or a GUID; the project segment still needs encoding.
@@ -20,8 +26,8 @@ The repo segment accepts a name or a GUID; the project segment still needs encod
 ## 0. URLs → org / project / repo `[VERIFIED]`
 
 ```
-https://<user>@dev.azure.com/collectorbank/Teamy%20McTeamface/_git/walley-autogiro-automatikk-api
-                             ^org          ^project             ^repo
+https://<user>@dev.azure.com/<org>/<Project%20Name>/_git/<repo>
+                             ^org  ^project           ^repo
 ```
 PR web URL is the same prefix plus `/pullrequest/{id}`. `repository.webUrl` in API
 responses matches the remote URL prefix exactly.
@@ -77,7 +83,6 @@ For line-level diffs, use a local `git diff`; it is cheaper and clearer.
 ### A4. Policy evaluations and checks `[VERIFIED]`
 Needs the **project GUID** in both the path and the `artifactId`, and `7.1-preview`:
 ```bash
-PROJID="2cca68fc-4c5c-42c2-bb57-2a45f031ea75"
 curl -s -u ":$AZURE_DEVOPS_PAT" \
   "https://dev.azure.com/$ORG/$PROJID/_apis/policy/evaluations?artifactId=vstfs%3A%2F%2F%2FCodeReview%2FCodeReviewId%2F$PROJID%2F$PR&api-version=7.1-preview"
 ```
@@ -157,7 +162,7 @@ curl -s -u ":$AZURE_DEVOPS_PAT" -X PATCH \
   "https://dev.azure.com/$ORG/$PROJ/_apis/git/repositories/$REPO/pullrequests/$PR/threads/$THREAD?api-version=7.1" \
   -H "Content-Type: application/json" -d '{"status": "fixed"}'
 ```
-Documented for completeness only. Resolving threads is Marcus's call — see SKILL.md.
+Documented for completeness only. Whether threads may be resolved is a policy toggle in SKILL.md `<config>` — off by default.
 
 ---
 
@@ -200,7 +205,7 @@ curl -s -u ":$AZURE_DEVOPS_PAT" \
 ```
 ```json
 { "id": 890833, "status": "completed", "result": "failed",
-  "definition": { "name": "walley-my-walley-api" },
+  "definition": { "name": "<pipeline-name>" },
   "sourceBranch": "refs/pull/112534/merge", "reason": "pullRequest" }
 ```
 

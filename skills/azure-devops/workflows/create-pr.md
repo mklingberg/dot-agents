@@ -36,10 +36,10 @@ vs. the target branch, focused on blocking issues.
 
 ## Step 3 — Draft PR metadata
 
-**Title** — from the branch name convention `{type}/{TicketNo}_{short-description}`:
-strip the `feature/`/`task/`/`bug/` prefix, split on `_`, ticket becomes a suffix,
-kebab-case becomes Title Case, max ~72 chars.
-`feature/MS6375_account-cancellation` → `Account cancellation [MS6375]`
+**Title** — derive from the branch name using the `Branch convention` and
+`PR title format` in the SKILL.md `<config>` block: strip the type prefix, split on
+`_`, the ticket becomes a suffix, kebab-case becomes Title Case, max ~72 chars.
+Example: `feature/MS6375_account-cancellation` → `Account cancellation [MS6375]`
 
 **Description:**
 ```markdown
@@ -57,7 +57,7 @@ kebab-case becomes Title Case, max ~72 chars.
 [blank if none]
 ```
 
-Written in Marcus's name — apply the global persona rules. No filler, no
+Published under the operator's name — apply the persona rules in SKILL.md. No filler, no
 self-congratulation, no apologising for the diff size.
 
 ## Step 4 — Confirm
@@ -101,7 +101,7 @@ use the CLI instead — it resolves emails itself:
 ```bash
 az repos pr create --repository "$REPO" --source-branch "<source>" --target-branch "<target>" \
   --title "..." --description "..." --reviewers a@walley.se b@walley.se \
-  --organization https://dev.azure.com/collectorbank --project "$PROJ"
+  --organization "https://dev.azure.com/$ORG" --project "$PROJ"
 ```
 
 **Work items:** `"workItemRefs": [{"id": "12345"}]` in the REST body, or `--work-items`
@@ -121,7 +121,7 @@ repo name, PAT missing `vso.code_write`.
 <success_criteria>
 - [ ] git context read, source branch confirmed pushed
 - [ ] Review run or confirmed, blocking issues resolved or recorded
-- [ ] Title, description, target confirmed by Marcus
+- [ ] Title, description, target confirmed by the operator
 - [ ] PR created with the confirmed payload
 - [ ] PR URL reported
 </success_criteria>

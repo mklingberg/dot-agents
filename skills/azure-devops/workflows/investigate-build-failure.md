@@ -68,7 +68,7 @@ does not distinguish them, say so rather than picking one.
 
 ## Step 5 — Stop
 
-Do not fix the code. Do not re-queue the build. Report and let Marcus decide.
+Do not fix the code. Do not re-queue the build. Report and let the operator decide.
 
 Re-queueing, if explicitly asked:
 ```bash
