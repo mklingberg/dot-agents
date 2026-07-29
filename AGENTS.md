@@ -1,4 +1,4 @@
-When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision.
+Reporting to me: extremely concise; sacrifice grammar for concision.
 
 Language: reply to me in English regardless of my language. Exception: translation requests, or when asked for another language. Text for other people (PR/review/ticket comments) mirrors the language it responds to.
 
@@ -12,10 +12,8 @@ Ask questions one at a time; answers may shift direction.
 
 File deletion: one `rm` per command, single target only.
 
-Git: commit in small logical groups (one topic per commit), never one dump commit at the end. `git add` new files explicitly; `git mv` to move files. Never push or rewrite history without asking.
+Git: small logical commits, one topic each — never one dump commit at the end. `git add` new files explicitly; `git mv` to move. Never push or rewrite history without asking.
 
-Background agents: establish scope before spawning. Never act on tasks that could be invalidated by pending decisions.
+Subagents: establish scope before spawning; never act on tasks that pending decisions could invalidate. Always run in background (`run_in_background: true`) where supported.
 
-Agent execution: always run subagents in background (`run_in_background: true`) when the harness supports it.
-
-Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (canonical source in `~/.agents/`, symlinked into each harness — e.g. `~/.pi/agent/subagent-protocol.md`) for delegation policy, exit-handling contract, and routing.
+Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (in `~/.agents/`, symlinked into each harness) for delegation policy, exit-handling contract, and routing.
