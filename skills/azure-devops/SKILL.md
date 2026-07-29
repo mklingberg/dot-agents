@@ -12,7 +12,7 @@ leave the rest alone.
 | Organisation | `collectorbank` |
 | Default project | `Teamy McTeamface` — encode as `Teamy%20McTeamface` in URLs; GUID `2cca68fc-4c5c-42c2-bb57-2a45f031ea75` |
 | PAT env var | `AZURE_DEVOPS_PAT` (`ORCA_AZURE_DEVOPS_TOKEN` holds the same value) |
-| PAT scopes held | Code (read/write), Build (read) — **not** Identity/Graph read |
+| PAT scopes held | observed: Code (read/write), Build (read). Identity/Graph read: **no**. Others untested — discover by use |
 | MCP server | configured but not connected — treat as unavailable |
 | `az` CLI | extension installed but **not activated**; do not attempt |
 | Branch convention | `{type}/{TicketNo}_{short-description}`, type ∈ `feature` \| `task` \| `bug` |
@@ -85,6 +85,25 @@ Three distinguishable states — do not conflate them:
 | `200` + body starting `{` or `[` | PAT valid, scope sufficient | proceed |
 | `401` | PAT valid, **scope missing** for this endpoint | name the missing scope, don't retry |
 | `302` → sign-in, or `203` + HTML body | PAT invalid or expired | tell the operator to regenerate |
+
+On `401`, do not retry, do not work around it, and do not quietly skip the feature.
+The operator can widen the PAT in seconds — give them one actionable line naming the
+scope and what it unlocks:
+
+> `401` on `<endpoint>` — the PAT is missing **`<scope>`**. Add it at
+> `https://dev.azure.com/<org>/_usersSettings/tokens` (edit the token, tick the scope,
+> regenerate) and re-export it. Without it, `<capability>` is unavailable.
+
+Scope map for the endpoints this skill uses:
+
+| Capability | Scope |
+|---|---|
+| Read PRs, threads, diffs, statuses | Code (read) `vso.code` |
+| Post comments, create/abandon PRs | Code (write) `vso.code_write` |
+| Read builds, timeline, logs | Build (read) `vso.build` |
+| Queue builds | Build (execute) `vso.build_execute` |
+| Resolve reviewer emails → GUIDs | Identity (read) `vso.identity` / Graph `vso.graph` |
+| `connectionData` identity check | Profile (read) `vso.profile` |
 
 An invalid or expired PAT does **not** return 401. It returns 302 → an HTML sign-in
 page (or 203 with an HTML body). Any check based on status code alone will parse a
