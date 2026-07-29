@@ -208,9 +208,17 @@ Current:
 Git worktrees are handled by `orca-cli` — Orca manages the worktrees under
 `_workspaces/<repo>/<branch>`, so there is no separate raw-`git worktree` skill.
 
+## Orca integration skills
+
+`orca-cli`, `computer-use`, and `orchestration` bind to the Orca app rather than to a
+way of working, so they are **deliberately not catalogued above**. Their own descriptions
+carry the routing rules — which is which, and when to prefer one over another — and those
+rules change with Orca, not with this library. Treat their absence from the sections above
+as intentional, not drift.
+
 ## Adding a new skill
 
-1. Pick a name using the prefix conventions above (`create-`, `to-`, `grill-`, `review-`, or bare verb)
+1. Pick a name using the prefix conventions above (`create-`, `to-`, `grill-`, `review-`, bare verb, or a tool/domain noun)
 2. Create `skills/<name>/SKILL.md` (or `skills/_commands/<name>/SKILL.md` for manual-only)
 3. Add frontmatter with `name` and `description`
 4. Write focused instructions for a real repeated problem
