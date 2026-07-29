@@ -53,6 +53,7 @@ Flat root by design: folders for taxonomy add nothing the agent uses. Grouping h
 | `to-` | Convert current conversation → artifact | `to-plan` |
 | `grill-` | Interactive pressure-test | `grill-me`, `grill-with-docs` |
 | `review-` | Analyze without side effects | `code-review` |
+| tool/domain noun | Everything for one external system | `azure-devops`, `orca-cli` |
 | bare verb | Single distinct action | `handoff`, `pros-cons`, `prototype` |
 
 Use the same prefixes when adding new skills so they cluster predictably in alphabetical listings and `/skill:` completion.
@@ -137,6 +138,7 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 
 - **`create-tests-autofixture`** — opinionated xUnit + AutoFixture + FakeItEasy test conventions
 - **`create-feature-flags`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
+- **`azure-devops`** — Azure DevOps over REST+PAT: open PRs, answer PR comment threads, diagnose failing builds. Environment-specific values live in one `<config>` block; the rest is portable
 - **`create-subagents`** *(command)* — how to structure and use subagents well
 - **`create-agent-skills`** *(command)* — how to write better skills instead of cargo-culting prompt files
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
