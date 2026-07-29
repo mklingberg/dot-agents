@@ -65,11 +65,14 @@ The PAT env var is named in `<config>`. Never echo, log, or paste the token — 
 reference it as the variable.
 
 Fallbacks, in order:
-1. **`az` CLI** (installed, with the `azure-devops` extension) — use only where it is
-   materially simpler. Known case: `az repos pr create` accepts reviewers by email,
-   while REST needs identity GUIDs. Auth is inconsistent across subcommands, see gotchas.
-2. **Azure DevOps MCP server** — only if REST is unavailable. It works, but its tool
-   definitions cost context in every conversation.
+1. **Azure DevOps MCP server** — when REST is unavailable or blocked. Non-interactive
+   and consistent. Its tool definitions cost context in every conversation whether or
+   not they are called, so REST stays the default — but if the server is connected,
+   that cost is already paid.
+2. **`az` CLI** (with the `azure-devops` extension) — last resort. Auth is inconsistent
+   across subcommands: `az repos pr policy list` ignores `AZURE_DEVOPS_EXT_PAT` and
+   demands an interactive `az devops login`, which an agent cannot complete. Use only
+   for a call verified to work non-interactively, and never in an unattended run.
 
 ### Verify auth before writing
 An invalid or expired PAT does **not** return 401. It returns 302 → an HTML sign-in

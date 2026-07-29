@@ -95,17 +95,25 @@ curl -s -u ":$AZURE_DEVOPS_PAT" -X POST \
   }'
 ```
 
-**Reviewers:** REST needs identity GUIDs, not emails. If reviewers were requested,
-use the CLI instead — it resolves emails itself:
+**Reviewers:** REST needs identity GUIDs, not emails. Resolve them first — stay on REST
+rather than dropping to the CLI, which may demand an interactive login an agent cannot
+complete:
 
 ```bash
-az repos pr create --repository "$REPO" --source-branch "<source>" --target-branch "<target>" \
-  --title "..." --description "..." --reviewers alice@example.com bob@example.com \
-  --organization "https://dev.azure.com/$ORG" --project "$PROJ"
+# email/alias → identity GUID  [UNVERIFIED — confirm on first use, then update this]
+curl -s -u ":$AZURE_DEVOPS_PAT" \
+  "https://vssps.dev.azure.com/$ORG/_apis/identities?searchFilter=General&filterValue=alice@example.com&api-version=7.1-preview.1" \
+  | jq -r '.value[] | "\(.id)  \(.providerDisplayName)"'
 ```
 
-**Work items:** `"workItemRefs": [{"id": "12345"}]` in the REST body, or `--work-items`
-on the CLI.
+Then add to the create body: `"reviewers": [{"id": "<guid>"}]`.
+
+If identity lookup fails, do **not** silently drop the reviewers. Either create the PR
+without them and say so plainly, so they can be added in the web UI, or use the MCP
+server if connected. `az repos pr create --reviewers <email>` resolves emails itself and
+is the documented escape hatch, but its auth behaviour is unreliable — see SKILL.md.
+
+**Work items:** `"workItemRefs": [{"id": "12345"}]` in the REST body.
 
 ## Step 6 — Report
 
