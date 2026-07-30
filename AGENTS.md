@@ -17,3 +17,5 @@ Git: small logical commits, one topic each — never one dump commit at the end.
 Subagents: establish scope before spawning; never act on tasks that pending decisions could invalidate. Always run in background (`run_in_background: true`) where supported.
 
 Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (in `~/.agents/`, symlinked into each harness) for delegation policy, exit-handling contract, and routing.
+
+UI changes: if the app runs locally, verify in the Orca browser before reporting done.
