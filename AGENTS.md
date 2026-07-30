@@ -14,7 +14,7 @@ File deletion: one `rm` per command, single target only.
 
 Git: small logical commits, one topic each — never one dump commit at the end. `git add` new files explicitly; `git mv` to move. Never push or rewrite history without asking.
 
-Subagents: establish scope before spawning; never act on tasks that pending decisions could invalidate. Always run in background (`run_in_background: true`) where supported.
+Subagents: establish scope before spawning; never act on tasks that pending decisions could invalidate. Always run in background (`run_in_background: true`) where supported — then carry on talking; don't block-wait on the result unless there's nothing else to do.
 
 Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (in `~/.agents/`, symlinked into each harness) for delegation policy, exit-handling contract, and routing.
 

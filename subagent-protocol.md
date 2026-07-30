@@ -34,11 +34,14 @@ work you haven't been told to run); it does not require re-asking inside an
 approved plan/roadmap.
 
 **Spawn** every subagent in the **background** when your harness supports it (see
-Adapter). Don't poll — **await** the completion signal, then read the EXIT /
-Completion Report and route per the tables below. Sequential chains
-(Implement → Review, Debug → Implement) still spawn each step; the parent just
-awaits between them. If your harness has no background execution, run steps
-synchronously — the routing logic is identical.
+Adapter). Then **return control** — keep talking to the user or do other work.
+Don't poll, and don't issue a blocking wait immediately after spawning; that
+throws away the only reason to background it. The completion signal arrives on
+its own; read the EXIT / Completion Report then and route per the tables below.
+Block only when the user is waiting on that result and there is genuinely nothing
+else to do. Sequential chains (Implement → Review, Debug → Implement) still spawn
+each step; the parent just waits between them. If your harness has no background
+execution, run steps synchronously — the routing logic is identical.
 
 PLAN.md task types: `auto`, `checkpoint:human-verify`, `checkpoint:decision`, `checkpoint:human-action`.
 
