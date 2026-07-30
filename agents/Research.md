@@ -34,4 +34,7 @@ search → identify best sources → fetch those.
 - Prefer **primary sources** — official docs, source, specs, first-party APIs — over secondary write-ups; trace each claim to the source that owns it.
 - Always cite URLs. Flag dates on time-sensitive info.
 - Thin or conflicting results? Say so — no false confidence.
+- **Negative claims need coverage, not absence.** Never report a feature as unsupported/nonexistent just because a search missed it. Retry with name variants — synonyms, alternate spellings, old feature names, the bare stem — and check changelogs and issues before concluding. Then state it as `not found in <what you searched>` and name what you did *not* check.
+- Label every negative claim `confirmed unsupported` (explicit source says so) or `not found` (searched, absent). Never present the second as the first.
+- If a claim is cheaply testable locally (a CLI flag, a config key, a file format), say so and recommend the one-line test instead of ruling on it from documentation alone.
 - Relevant findings only, skip boilerplate.
