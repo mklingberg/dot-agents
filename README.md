@@ -73,14 +73,25 @@ Beyond skills, `~/.agents` is the single source for **subagent definitions**, th
 
 ### What propagates where
 
-| Asset | Pi | Claude Code | Copilot CLI |
-|---|---|---|---|
-| `skills/` | native scan | **flat per-skill symlinks** `~/.claude/skills/<name>` | native scan |
-| `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` |
-| `subagent-protocol.md` | symlink | (referenced) | (referenced) |
-| `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` |
+| Asset | Pi | Claude Code | Copilot CLI | Codex |
+|---|---|---|---|---|
+| `skills/` | native scan | **flat per-skill symlinks** `~/.claude/skills/<name>` | native scan | native scan |
+| `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` | **`@import` line appended** |
+| `subagent-protocol.md` | symlink | (referenced) | (referenced) | (via AGENTS.md) |
+| `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` | — |
 
-Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink needed. Claude scans only **one level deep**, so it can't see skills grouped under `_commands/` or `_experimental/`; `sync.sh` rebuilds `~/.claude/skills` as a real dir of per-skill symlinks (any depth → flat), keeping the grouped source layout for your own organization.
+Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink needed. Claude scans only **one level deep**, so it can't see skills grouped under `_commands/` or `_experimental/`; `sync.sh` rebuilds `~/.claude/skills` as a real dir of per-skill symlinks (any depth → flat), keeping the grouped source layout for your own organization. Codex also scans `~/.agents/skills` natively (it's Codex's preferred user-level skills path, ahead of the legacy `~/.codex/skills`).
+
+### Codex: instructions yes, agent defs no
+
+Codex's `AGENTS.md` is user-owned (it typically already holds its own `@import` lines), so
+sync **appends** `@~/.agents/AGENTS.md` rather than symlinking over it — idempotent, and it
+covers both `~/.codex` and every Orca-managed per-account home
+(`~/Library/Application Support/orca/codex-accounts/*/home`).
+
+`@import` support is undocumented but **verified empirically** — a probe file imported into
+`~/.codex/AGENTS.md` was expanded and answered correctly by `codex exec`. Don't trust a
+source-grep that says otherwise; re-run the probe if it ever looks broken.
 
 ### Why agents are generated, not symlinked
 
@@ -93,7 +104,7 @@ The agent frontmatter genuinely diverges per harness — mainly the `tools` voca
 ### Not shipped / excluded
 
 - **`general-purpose`** — not shipped; every harness has a native built-in. Pi's parent-twin (`append` mode) has no equivalent elsewhere → pass explicit context when delegating on Claude/Copilot.
-- **Codex** — intentionally out of scope (TOML agent format + no alias model mapping).
+- **Codex agent defs** — out of scope (TOML agent format + no alias model mapping). Instructions and skills *do* reach Codex; see above.
 
 ### Re-sync
 
