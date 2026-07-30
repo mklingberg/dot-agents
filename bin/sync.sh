@@ -7,8 +7,9 @@
 #   AGENTS.md              global instructions                    -> symlink (CLAUDE.md on Claude)
 #   agents/*.md            Pi-format agent defs                   -> symlink (Pi) / generate (Claude, Copilot)
 #
-# Codex is intentionally out of scope. general-purpose is NOT shipped — every
-# harness has a native built-in.
+# Codex gets AGENTS.md only (via @import; its own file is not ours to own). Codex
+# agent defs stay out of scope. general-purpose is NOT shipped — every harness has
+# a native built-in.
 set -euo pipefail
 
 AG="$HOME/.agents"
@@ -28,6 +29,21 @@ link "$AG/subagent-protocol.md" "$PI/subagent-protocol.md"
 link "$AG/AGENTS.md"            "$PI/AGENTS.md"
 link "$AG/AGENTS.md"            "$CLAUDE/CLAUDE.md"
 link "$AG/AGENTS.md"            "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
+
+echo "== codex =="
+# Codex AGENTS.md is user-owned (e.g. @RTK.md), so append an @import instead of
+# symlinking. Covers ~/.codex plus every Orca-managed per-account home.
+IMPORT="@$AG/AGENTS.md"
+for ch in "$HOME/.codex" "$HOME/Library/Application Support/orca/codex-accounts"/*/home; do
+  [ -d "$ch" ] || continue
+  f="$ch/AGENTS.md"
+  if [ -f "$f" ] && grep -qxF "$IMPORT" "$f"; then
+    echo "  ok   $f"
+  else
+    printf '%s\n' "$IMPORT" >> "$f"
+    echo "  add  $f"
+  fi
+done
 
 echo "== skills =="
 # Pi and Copilot discover ~/.agents/skills natively (recursive / native scan).
