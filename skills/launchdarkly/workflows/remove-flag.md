@@ -69,11 +69,16 @@ dotnet build
 dotnet test
 ```
 
-## Step 8: Archive the flag in LaunchDarkly via MCP
+## Step 8: Archive the flag in LaunchDarkly
 
-Use `mcp__LaunchDarkly__get-feature-flag` to look up the flag by key, then use `mcp__LaunchDarkly__delete-feature-flag` (or update it to archived) to remove it from the `after-purchase` project.
+Read `references/rest-api.md`. Before touching anything, confirm the
+flag is genuinely dead — "Is this flag actually used?" returns `inactive` with a stale or
+null `lastRequested` in every environment. Code that looks unused is not evidence.
 
-Confirm deletion/archival before declaring the cleanup complete.
+Then **archive**, not delete — archiving is reversible, deletion is not. Delete only if the
+user explicitly asked for it.
+
+Confirm the archival before declaring the cleanup complete.
 </process>
 
 <anti_patterns>
@@ -89,5 +94,5 @@ Confirm deletion/archival before declaring the cleanup complete.
 - [ ] Disabled-path code deleted
 - [ ] Tests updated and passing
 - [ ] Build passes
-- [ ] Flag archived/deleted in LaunchDarkly via MCP (confirmed)
+- [ ] Flag archived in LaunchDarkly (confirmed via API)
 </success_criteria>

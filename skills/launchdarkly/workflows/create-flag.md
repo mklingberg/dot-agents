@@ -38,20 +38,16 @@ Rules:
 - Keyname format: `"teamy-{guid}"` — a freshly generated GUID, completely independent of the class name
 - Type is `bool` unless user specifies otherwise
 
-## Step 3: Create the flag in LaunchDarkly via MCP
+## Step 3: Create the flag in LaunchDarkly
 
-Use the `mcp__LaunchDarkly__create-feature-flag` tool to create the flag automatically:
+Read `references/rest-api.md` → "Create a boolean flag" and run it with:
 
-```
-projectKey: "after-purchase"
-name: "JIMS####_Description"
-key: "teamy-{the-guid-you-just-generated}"
-variations: [{ value: true }, { value: false }]
-defaultVariation: 1   ← index of false (off by default)
-temporary: true
-```
+- `name`: `JIMS####_Description` — identical to the C# class name
+- `key`: `teamy-{the-guid-you-just-generated}` — the same GUID as `Keyname`
+- `temporary: true`, variations `[true, false]`, `onVariation: 0`, `offVariation: 1`
 
-Confirm the flag was created successfully before proceeding.
+Confirm the flag exists before proceeding. New flags are off in every environment; enabling
+them is the rollout step below, not part of creation.
 
 > **Rollout flow:** Once merged and deployed, toggle ON in CI first → verify → then UAT → verify → then PROD → verify → run remove-flag cleanup.
 
@@ -67,6 +63,6 @@ Confirm the flag was created successfully before proceeding.
 <success_criteria>
 - [ ] Flag class file created with correct naming
 - [ ] Keyname uses `teamy-` prefix
-- [ ] Flag created in LaunchDarkly via MCP (confirmed)
+- [ ] Flag created in LaunchDarkly (confirmed via API)
 - [ ] No existing flag with same ticket number
 </success_criteria>
