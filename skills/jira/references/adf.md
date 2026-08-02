@@ -27,9 +27,14 @@ Copy these. They cover ~95% of story and comment bodies.
 {"type":"paragraph","content":[{"type":"text","text":"Plain sentence."}]}
 ```
 
-**Empty line** — a paragraph with no content. Needed for spacing; ADF has no `\n`.
+**Empty line** — **not possible.** Both `{"type":"paragraph","content":[]}` and
+`{"type":"paragraph"}` return 400 `INVALID_INPUT`. Separate paragraphs already
+render with spacing; for a hard separator use `{"type":"rule"}`.
+
+**Line break inside a paragraph**
 ```json
-{"type":"paragraph","content":[]}
+{"type":"paragraph","content":[
+  {"type":"text","text":"first"},{"type":"hardBreak"},{"type":"text","text":"second"}]}
 ```
 
 **Heading** (`level` 1–6)
@@ -74,9 +79,11 @@ paragraph is the single most common ADF mistake.
  "content":[{"type":"paragraph","content":[{"type":"text","text":"Blocked on design."}]}]}
 ```
 
-**Issue mention** — renders as a live ticket link:
+**Issue mention** — renders as a live ticket link. Must sit **inside a
+paragraph**; as a top-level block node it returns 400.
 ```json
-{"type":"inlineCard","attrs":{"url":"https://norionbank.atlassian.net/browse/MS-6545"}}
+{"type":"paragraph","content":[
+  {"type":"inlineCard","attrs":{"url":"https://norionbank.atlassian.net/browse/MS-6545"}}]}
 ```
 </blocks>
 
@@ -87,15 +94,19 @@ the story text stays editable.
 
 ```python
 # /tmp/adf.py
-def p(text): return {"type":"paragraph","content":[{"type":"text","text":text}] if text else []}
+def p(text): return {"type":"paragraph","content":[{"type":"text","text":text}]}
 def h(text, level=3): return {"type":"heading","attrs":{"level":level},
                               "content":[{"type":"text","text":text}]}
 def ul(items): return {"type":"bulletList","content":[
     {"type":"listItem","content":[p(i)]} for i in items]}
 def link(text, href): return {"type":"paragraph","content":[
     {"type":"text","text":text,"marks":[{"type":"link","attrs":{"href":href}}]}]}
+def card(key): return {"type":"paragraph","content":[{"type":"inlineCard",
+    "attrs":{"url":f"https://norionbank.atlassian.net/browse/{key}"}}]}
 def doc(*blocks): return {"type":"doc","version":1,"content":list(blocks)}
 ```
+
+`p()` never takes an empty string — an empty paragraph is invalid ADF.
 
 Then:
 ```python
@@ -132,9 +143,15 @@ write it back; that destroys formatting. Rebuild the document instead.
 </reading_adf>
 
 <gotchas>
+All verified against MS-6548 by posting and deleting real comments.
+
 - **`listItem` content must be block nodes.** `{"type":"listItem","content":[{"type":"text",...}]}` 400s.
-- **No newlines in text nodes.** `\n` is either stripped or rejected; use separate paragraphs, or `hardBreak` inside one.
+- **There is no empty paragraph.** Both `"content": []` and an omitted `content` key 400.
+- **`inlineCard` is inline-only.** Wrap it in a paragraph or it 400s.
+- **`\n` inside a text node is accepted (201) but is not a line break** — it round-trips verbatim and renders as whitespace. Use `hardBreak`.
 - **`version` is `1`, always**, and it is required.
-- **Empty paragraph is `"content": []`, not `"content": [{"type":"text","text":""}]`** — an empty text node is invalid.
-- **A 400 from `/issue` names the field but not the offending node.** Bisect by posting the description alone via `PUT /issue/KEY`.
+- **A 400 from `/issue` names the field but not the offending node.** Bisect by posting one block at a time as a comment on a scratch issue — `DELETE $B/issue/KEY/comment/ID` cleans up and returns 204.
+
+Confirmed working: `heading`, `paragraph`, `bulletList`, `strong`/`code` marks,
+`codeBlock`, `panel`, `link`, `hardBreak`, `rule`, inline `inlineCard`.
 </gotchas>
