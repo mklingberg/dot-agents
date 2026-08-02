@@ -3,7 +3,38 @@ name: jira
 description: "Jira REST for Mina Sidor (MS): stories, subtasks, JQL search, transitions. Triggers: 'create Jira stories', 'MS-1234', 'move the ticket'."
 ---
 
+<config>
+Everything site- or team-specific lives here. Fork the skill, edit this block,
+leave the rest alone.
+
+| Setting | Value |
+|---|---|
+| Site | `https://norionbank.atlassian.net` |
+| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain item `atlassian-token`) |
+| API | REST v3 — `$JIRA_SITE/rest/api/3`. **no Atlassian MCP**; the skill works in any harness |
+| Project | `MS` — "Mina sidor", company-managed (classic), Scrum |
+| Issue type ids | Epic `10000` · Story `10001` · Task `10002` · Sub-task `10003` · Bug `10004` · Sub-Bug `10100` |
+| Teamy Team | `customfield_12035` (select): `Magica` \| `Merlin` — **required by convention on every issue** |
+| Sprint | `customfield_10007` · Epic Link `customfield_10003` |
+| Required on create | `project`, `issuetype`, `summary`, `reporter` |
+| Story points | not on the MS Story screen — **do not send** |
+| Reporter accountId | `613779557eb35f006928eb06` (Marcus Klingberg) |
+| Labels in use | `MyWalley`, `Risklevel-1`, `Risklevel-2`, `Frontend`, `Android` — no `Backend` label exists today |
+
+```bash
+JIRA_SITE="https://norionbank.atlassian.net"
+AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
+B="$JIRA_SITE/rest/api/3"
+```
+</config>
+
 <essential_principles>
+
+<transport>
+All Jira access goes through `curl` against REST v3. Read `references/rest-api.md`
+before the first call in a session, and `references/adf.md` before writing any
+description or comment — **rich text is ADF JSON, never markdown**.
+</transport>
 
 <story_format>
 Every story follows this format:
@@ -24,7 +55,10 @@ Always:
 1. Draft the full plan (story + subtasks) as text
 2. Present it to the user for review
 3. Wait for approval
-4. Only then use Atlassian MCP to create issues
+4. Only then POST to the API
+
+Reads (`GET`, JQL search) need no approval. Writes — create, edit, comment,
+transition — always do.
 </approval_gate>
 
 <subtask_rules>
@@ -34,12 +68,21 @@ Subtasks:
 - Do NOT repeat full story context — reference the parent
 - Size: 0.5–2 days each
 - Final subtask is always an **acceptance test** that verifies the parent story's criteria
-- Use existing labels to indicate type Backend, Frontend, etc. Do not create new labels without confirming with user.
+- Use existing labels only. `Frontend` exists; **`Backend` does not** — ask before applying a label that isn't in `<config>`, and never invent one.
 </subtask_rules>
 
 <team_assignment>
 All issues go to project **"Mina Sidor" (MS)**. Each issue must have a "Teamy Team" assigned — either **Magica** or **Merlin**. Ask the user which team if not obvious from context.
 </team_assignment>
+
+<issue_type_choice>
+| Type | When to use |
+|------|-------------|
+| **Story** | User-facing feature or capability |
+| **Sub-task** | Technical work item belonging to a story |
+| **Bug** | Defect in existing functionality |
+| **Task** | Technical work not tied to a user story |
+</issue_type_choice>
 
 <figma_integration>
 If the user provides a Figma URL, file ID, or design reference:
@@ -75,12 +118,15 @@ Also tell me:
 </routing>
 
 <reference_index>
-All domain knowledge in `references/`:
+In `references/`. Read on the trigger condition, not up front:
 
-**Story writing:** story-format.md
-**Subtask patterns:** subtask-patterns.md
-**Project config:** project-config.md
-**Figma integration:** figma-integration.md
+| Read this | When |
+|---|---|
+| `rest-api.md` | Before the first curl call in a session — auth, endpoints, JQL, pagination |
+| `adf.md` | Before writing any description or comment — rich text is ADF JSON |
+| `story-format.md` | Drafting or refining a story body |
+| `subtask-patterns.md` | Breaking a story into FE/BE subtasks |
+| `figma-integration.md` | The user supplied a Figma link or design reference |
 </reference_index>
 
 <workflows_index>

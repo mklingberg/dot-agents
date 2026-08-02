@@ -3,7 +3,7 @@
 <required_reading>
 **Read these reference files NOW:**
 1. references/subtask-patterns.md
-2. references/project-config.md
+2. references/rest-api.md
 3. references/figma-integration.md (if Figma URL provided)
 </required_reading>
 

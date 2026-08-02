@@ -4,7 +4,7 @@
 **Read these reference files NOW:**
 1. references/story-format.md
 2. references/subtask-patterns.md
-3. references/project-config.md
+3. references/rest-api.md
 4. references/figma-integration.md (if Figma URL provided)
 </required_reading>
 
