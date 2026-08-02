@@ -49,10 +49,14 @@ Pick spaces from the question, don't spray:
 | Our own team, our workflow, our how-tos, DoD | `TM` |
 | The main business system, core domain | `EDGE`, `Gaia` |
 | Checkout | `CHEC` (Lambda) |
-| Payments domain (shared, several overlapping spaces) | `PAY`, `MS`, `PP`, `Payments` |
+| Something spanning several teams, shared conventions | `Payments` — "Walley Wiki", the common wiki |
+| Merchants, partners, partner support | `MS` — displayed "Payments" |
+| Payments engineering / product | `PAY`, `PP` |
 | Design / UX | `DG`, `WUX` |
 
-Remember `MS` here is **Payments**, not Mina sidor.
+Start at `TM` for anything about how *we* work, and `Payments` (Walley Wiki) for
+anything that sounds like a company-wide convention. Neither `MS` nor `PAY` is
+the general payments space — see the collision table in SKILL.md.
 </where_to_look>
 
 <cql>
@@ -108,4 +112,5 @@ what you searched, so the user can tell you where to look instead.
 - **`totalSize` is the match count, not a quality signal** — 16 hits can be 16 wrong hits.
 - **Excerpts are HTML-escaped** (`&quot;`, `&amp;`). Unescape before quoting.
 - **Archived-in-spirit spaces** (`PAYM`, `X`) still return results.
+- **Cite the space key, not the display name** — "Payments" is ambiguous between two spaces; `MS` and `Payments` are not.
 </gotchas>

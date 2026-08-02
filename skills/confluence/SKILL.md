@@ -15,7 +15,9 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Own team space | `TM` — "Teamy McTeamface", spaceId `23887873`, homepage `23855107` |
 | Main business system | `EDGE` (Edge) and `Gaia` |
 | Checkout | `CHEC` (Lambda) |
-| Shared payments | `PAY` (Payments IT) · `MS` (Payments) · `PP` (Payments Product) · `Payments` (Walley Wiki) |
+| Cross-team / shared concerns | `Payments` — displayed as **"Walley Wiki"** |
+| Merchant services, partner support | `MS` — displayed as **"Payments"** |
+| Also payments-adjacent | `PAY` (Payments IT) · `PP` (Payments Product) · `PAYM` (PaymentsOld) |
 | Author accountId | `613779557eb35f006928eb06` |
 
 ```bash
@@ -27,14 +29,24 @@ AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 <essential_principles>
 
 <space_key_collision>
-**Confluence space `MS` is "Payments". The Jira project `MS` is "Mina sidor".
-They are unrelated.** Reading `MS` expecting Mina Sidor content is the single
-easiest way to give the user confidently wrong answers.
+**Four spaces cluster around the word "Payments" and none of them mean what you'd
+guess.** Resolve by key, and state the key you used when citing.
 
-Related traps in the same family: `Payments` (key) is "Walley Wiki", `PAY` is
-"Payments IT", `PAYM` is "PaymentsOld" — archived-in-spirit, not in status.
+| Key | Displayed name | Actually contains |
+|---|---|---|
+| `Payments` | Walley Wiki | **cross-team shared concerns** — the common wiki |
+| `MS` | Payments | **merchant services / partner support** |
+| `PAY` | Payments IT | payments engineering |
+| `PP` | Payments Product | payments product |
+| `PAYM` | PaymentsOld | superseded — still returns search hits |
 
-When a space is mentioned by name, resolve it to a key before querying:
+And separately: **Confluence space `MS` is not the Jira project `MS`.** Jira `MS`
+is Mina sidor; Confluence `MS` is merchant services. Reading `MS` in Confluence
+expecting Mina Sidor content is the easiest way to give confidently wrong
+answers.
+
+When a space is mentioned by name, resolve it to a key before querying — the
+name the user says is often another space's key:
 ```bash
 curl -s $AUTH "$W/api/v2/spaces?limit=100" | grep -i "<name>"
 ```
