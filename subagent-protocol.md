@@ -106,8 +106,10 @@ Cap: 2 Debug → Implement cycles on one task, then escalate (see Exit Routing).
 
 ## Delegation Policy
 
-- **Research** — any web search / online docs. Use the Research role, not raw
-  web tools inline.
+- **Research** — any web search / online docs, **and** any lookup in the
+  company's own knowledge base (Confluence wiki, Jira history). Use the Research
+  role, not raw web or Atlassian tools inline. Domain and business-process
+  questions that the code can't answer go here, not to Explore.
 - **Explore** — any codebase search with 2+ steps or unknown location. Single
   targeted lookup → do inline.
 - **Implement** — well-specified mechanical work, in two modes:
