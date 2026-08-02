@@ -105,6 +105,20 @@ conflict, show both. If the wiki genuinely doesn't answer it, say so and name
 what you searched, so the user can tell you where to look instead.
 </citing>
 
+<search_is_not_the_index_of_truth>
+**Some pages are unreachable by search but readable by id.** Verified: page
+`4242636856` ("Riskhantering", space `Payments`) returns `200` from
+`GET /api/v2/pages/4242636856`, while `title ~ "Riskhantering"` returns two
+other pages and never it.
+
+Consequences:
+- **Absence from search is not absence from the wiki.** Before reporting
+  `not found`, check whether any page you already read links to the thing — an
+  id in a body always beats a query.
+- A rung-by-rung search that comes up empty means "CQL didn't surface it", which
+  is a weaker statement than "it isn't documented". Say the weaker thing.
+</search_is_not_the_index_of_truth>
+
 <gotchas>
 - **Full-text ranking is poor.** Always try `title ~` first.
 - **`order by lastmodified desc` on text searches**, or you get 2017 pages on top.
@@ -112,5 +126,6 @@ what you searched, so the user can tell you where to look instead.
 - **`totalSize` is the match count, not a quality signal** — 16 hits can be 16 wrong hits.
 - **Excerpts are HTML-escaped** (`&quot;`, `&amp;`). Unescape before quoting.
 - **Archived-in-spirit spaces** (`PAYM`, `X`) still return results.
+- **Search misses readable pages** — see above. Prefer a linked id over a query.
 - **Cite the space key, not the display name** — "Payments" is ambiguous between two spaces; `MS` and `Payments` are not.
 </gotchas>

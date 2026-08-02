@@ -87,6 +87,7 @@ the entire body; labels are a separate v1 call.
 
 <gotchas>
 - **Search is v1 only.** `/api/v2/search` 400s. Use `/rest/api/search?cql=…`.
+- **Search doesn't cover everything the API serves.** Pages exist that `GET /api/v2/pages/{id}` returns `200` for and CQL never finds. Always prefer an id linked from another page over a search result.
 - **Basic auth, not bearer.**
 - **`spaceId` (numeric) for writes, `key` for CQL.** Not interchangeable.
 - **`_links.next` is relative** — prefix with `$W` or you'll request the wrong host.

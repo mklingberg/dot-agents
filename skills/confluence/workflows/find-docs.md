@@ -62,6 +62,22 @@ its children instead of reporting the index as the answer:
 curl -s $AUTH "$W/api/v2/pages/<id>/children?limit=25"
 ```
 
+## Step 4b: Follow the links in the body
+
+Pages cite each other. A URL in a page body — `/wiki/spaces/<KEY>/pages/<ID>/…`
+— **is a direct answer, and outranks anything search will give you.** Extract the
+id and fetch it:
+
+```bash
+grep -oE '/pages/[0-9]+' /tmp/body.html | sort -u
+curl -s $AUTH "$W/api/v2/pages/<id>?body-format=storage"
+```
+
+When a page says "enligt kriterierna för X" or "see the Y page" and links it,
+follow the link. Do not re-search for the target by title — that is how a page
+that exists gets reported as `not found`. Observed for real: the DoD links the
+risk-acceptance page by id, and CQL cannot find that page by title at all.
+
 ## Step 5: Answer with sources
 
 Lead with the answer, then cite. Per `<retrieval_honesty>` in SKILL.md:
@@ -81,9 +97,10 @@ that tells the user where to point you next.
 <success_criteria>
 - Searched the right spaces, not all 48
 - Started at title/label, not full text
+- Followed page ids linked from bodies instead of re-searching for them
 - Read at most a handful of pages, chosen deliberately
 - Every claim carries page title, space, last-modified date and URL
 - Stale or conflicting sources flagged rather than smoothed over
-- Said "not found" when that was the honest answer
+- Said "not found" only after trying a direct id fetch, not just search
 - Nothing written to Confluence
 </success_criteria>
