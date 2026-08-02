@@ -51,6 +51,10 @@ that worked yesterday may not be legal today. Never hardcode, never reuse an id
 from an earlier session. Match the user's words against the `to.name` values in
 the discovery response, and if two plausibly match, ask which.
 
+**Risk gate:** before moving a story labelled `Risklevel-3`, `-4` or `-5` toward
+*Ready for Prod*, check that a risk-acceptance decision exists as a comment. If
+it doesn't, tell the user and let them decide — the DoD requires it.
+
 ### Assign
 ```bash
 curl -s $AUTH -X PUT -H "Content-Type: application/json" \

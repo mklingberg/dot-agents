@@ -20,6 +20,8 @@ leave the rest alone.
 | Story points | not on the MS Story screen — **do not send** |
 | Reporter accountId | `613779557eb35f006928eb06` (Marcus Klingberg) |
 | Labels in use | `MyWalley`, `Risklevel-1`, `Risklevel-2`, `Frontend`, `Android` — no `Backend` label exists today |
+| Risk level | `Risklevel-1` … `Risklevel-5` as a label, 5 = highest. Set by the PM at **Up next** |
+| DoD source | Confluence *Definition Of Done (DOD)*, space `TM`, page `30867490` |
 
 ```bash
 JIRA_SITE="https://norionbank.atlassian.net"
@@ -83,6 +85,21 @@ All issues go to project **"Mina Sidor" (MS)**. Each issue must have a "Teamy Te
 | **Bug** | Defect in existing functionality |
 | **Task** | Technical work not tied to a user story |
 </issue_type_choice>
+
+<risk_level>
+Every story carries a risk label `Risklevel-1` … `Risklevel-5`, where **5 is the
+highest risk**. It is the PM's call, assigned when the story reaches *Up next* —
+so when drafting a new story, **propose a level and say it's a proposal**, don't
+assert one.
+
+`Risklevel-3` or higher carries a hard rule from the DoD: before the story
+deploys, the risk must be accepted per the risk-acceptance criteria and **the
+decision documented as a comment on the story**. If you're transitioning a
+≥3 story toward production and no such comment exists, say so — don't move it
+quietly.
+
+Subtasks don't get risk labels; the parent story does.
+</risk_level>
 
 <figma_integration>
 If the user provides a Figma URL, file ID, or design reference:

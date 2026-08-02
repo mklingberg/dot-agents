@@ -63,6 +63,8 @@ Acceptance Criteria:
 - [ ] ...
 - [ ] ...
 
+Proposed risk level: Risklevel-N  (PM confirms at Up next)
+
 Subtasks:
 1. [PREFIX] Title (estimate)
 2. [PREFIX] Title (estimate)
