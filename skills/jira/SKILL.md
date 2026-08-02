@@ -93,26 +93,26 @@ If the user provides a Figma URL, file ID, or design reference:
 
 </essential_principles>
 
-<intake>
-What would you like to do?
-
-1. **Create a new story** with subtasks
-2. **Add subtasks** to an existing story
-3. **Refine** an existing story
-
-Also tell me:
-- Which team? (Magica or Merlin)
-- Any Figma designs to reference?
-
-**Wait for response before proceeding.**
-</intake>
-
 <routing>
-| Response | Workflow |
-|----------|----------|
-| 1, "new", "create", "story", "build" | `workflows/create-story.md` |
-| 2, "subtask", "add", "break down" | `workflows/add-subtasks.md` |
-| 3, "refine", "improve", "rewrite", "update" | `workflows/refine-story.md` |
+Route on what the user actually said. **Only fall through to the menu when the
+intent is genuinely ambiguous** — a skill that auto-triggers must not answer
+"what's MS-6548 about?" with a menu.
+
+| User intent | Workflow |
+|---|---|
+| Reads an issue, asks about a key, "what's in the sprint", "my tickets", any JQL-shaped question | `workflows/search-issues.md` |
+| "Move to X", "comment on", "assign", "add a label", "set the team" | `workflows/update-issue.md` |
+| "Create a story", "write tickets for", new work to break down | `workflows/create-story.md` |
+| "Break down MS-1234", "add subtasks" | `workflows/add-subtasks.md` |
+| "Refine", "this story is bad", "rewrite the AC" | `workflows/refine-story.md` |
+
+Ambiguous only — ask:
+
+> 1. Create a story with subtasks · 2. Add subtasks to an existing story ·
+> 3. Refine an existing story · 4. Search / read · 5. Update a ticket
+
+Missing team (Magica/Merlin) or a Figma link is **not** a reason to open with a
+menu — ask for those inside the workflow, when they're actually needed.
 
 **After reading the workflow, follow it exactly.**
 </routing>
@@ -132,6 +132,8 @@ In `references/`. Read on the trigger condition, not up front:
 <workflows_index>
 | Workflow | Purpose |
 |----------|---------|
+| search-issues.md | Read an issue or run a JQL search (no approval needed) |
+| update-issue.md | Edit fields, comment, transition, assign |
 | create-story.md | Plan and create a new story with subtasks |
 | add-subtasks.md | Add subtasks to an existing story |
 | refine-story.md | Improve or rewrite an existing story |
