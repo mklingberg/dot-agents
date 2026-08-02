@@ -1,5 +1,16 @@
 <overview>
-How to integrate Figma designs into Jira stories using the Figma MCP server.
+How to pull Figma design context into Jira stories.
+
+The Figma tooling differs per harness — **list the available Figma tools before
+assuming a name.** Two servers are common:
+
+| Server | Tools | Notes |
+|---|---|---|
+| `figma-developer-mcp` | `get_figma_data`, `download_figma_images` | what's configured in pi today |
+| Figma Dev Mode MCP | `get_design_context`, `get_screenshot`, `get_metadata`, `get_figjam`, `search_design_system` | official; desktop app must be running |
+
+If no Figma tool is reachable, don't stall — put the link in the story and ask
+the user to describe the states that matter.
 </overview>
 
 <when_to_use>
@@ -18,8 +29,9 @@ Extract fileKey and nodeId from Figma URLs:
 
 <workflow>
 1. **Fetch design context:**
-   - Call `mcp__figma__get_design_context` with fileKey and nodeId
-   - This returns code hints, screenshot, and contextual info
+   - Call the harness's Figma read tool with fileKey and nodeId
+     (`get_figma_data`, or `get_design_context` on Dev Mode)
+   - This returns node structure, and depending on the server, code hints and a screenshot
 
 2. **Extract useful info for the story:**
    - Component names and structure → informs subtask breakdown
@@ -27,14 +39,9 @@ Extract fileKey and nodeId from Figma URLs:
    - Layout and interactions → inform acceptance criteria
    - Annotations from designers → capture as notes or constraints
 
-3. **Include in story description:**
-   ```markdown
-   ## Design
-   [Brief description of the design]
-
-   ## Links
-   - Figma: https://figma.com/design/...
-   ```
+3. **Include in story description** — as ADF, not markdown (see `adf.md`):
+   a `heading` "Design" with a short prose description, then a `heading` "Links"
+   with the Figma URL as a `link` mark.
 
 4. **Inform subtask breakdown:**
    - Each distinct UI component or section can become a frontend subtask
@@ -42,12 +49,7 @@ Extract fileKey and nodeId from Figma URLs:
    - Responsive behavior noted in design → acceptance criteria
 </workflow>
 
-<figma_mcp_tools>
-| Tool | Purpose |
-|------|---------|
-| `get_design_context` | Primary tool — returns code, screenshot, hints |
-| `get_screenshot` | Get a visual snapshot of a node |
-| `get_metadata` | Get file/node metadata |
-| `get_figjam` | Read FigJam boards |
-| `search_design_system` | Find design system components |
-</figma_mcp_tools>
+<figjam>
+`figma.com/board/...` is a FigJam file. Dev Mode reads it with `get_figjam`;
+`figma-developer-mcp` does not support FigJam — fall back to asking the user.
+</figjam>
