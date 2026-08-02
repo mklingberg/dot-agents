@@ -1,7 +1,6 @@
 ---
-name: create-jira-stories
-description: "Plan and create Jira stories + FE/BE subtasks for Mina Sidor (Scrum, Figma). Triggers: 'create Jira stories', 'write tickets for Mina Sidor'."
-disable-model-invocation: true
+name: jira
+description: "Jira REST for Mina Sidor (MS): stories, subtasks, JQL search, transitions. Triggers: 'create Jira stories', 'MS-1234', 'move the ticket'."
 ---
 
 <essential_principles>
