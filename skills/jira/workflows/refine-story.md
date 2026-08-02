@@ -11,11 +11,12 @@
 
 ## Step 1: Get the Story
 
-Ask the user for the story key (e.g., MS-123) if not provided.
+Ask the user for the story key (e.g., MS-1234) if not provided.
 
-Fetch the story:
-- Call `getJiraIssue` with the story key
-- Read all fields: summary, description, acceptance criteria, subtasks
+```bash
+curl -s $AUTH "$B/issue/MS-1234?fields=summary,description,labels,subtasks,status,customfield_12035"
+```
+Flatten the ADF description for reading (see `references/adf.md`).
 
 ## Step 2: Identify Issues
 
@@ -57,9 +58,12 @@ Proposed changes:
 ## Step 4: Apply Changes in Jira
 
 After approval:
-1. Call `editJiraIssue` to update story fields
-2. Call `createJiraIssue` for any new subtasks
-3. Report all changes made
+
+1. Update the story — `PUT $B/issue/MS-1234` with `{"fields": {...}}`, expect `204`
+   and an empty body. **Rebuild the description as a fresh ADF document**; never
+   flatten the existing one to text, edit the string, and write it back.
+2. Create any new subtasks per `workflows/add-subtasks.md`.
+3. Report what changed, with the browse URL.
 
 </process>
 

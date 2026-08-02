@@ -24,7 +24,7 @@ Ask the user (skip questions already answered):
 
 If a Figma URL was provided:
 1. Parse the URL to extract fileKey and nodeId
-2. Call `mcp__figma__get_design_context` to get design details
+2. Fetch design context with the Figma MCP tool available in the harness
 3. Note component structure, states, and interactions for subtask planning
 
 ## Step 3: Draft the Story
@@ -78,20 +78,36 @@ N. [TEST] Acceptance test (estimate)
 
 After approval:
 
-1. Get project metadata:
-   - Call `getJiraProjectIssueTypesMetadata` for MS project
-   - Call `getJiraIssueTypeMetaWithFields` for Story type
+1. Verify auth once — `curl -s -o /dev/null -w "%{http_code}\n" $AUTH "$B/myself"`.
+   Issue type and field ids are already in `<config>`; only call `createmeta` if
+   a create fails or the project looks different from the config.
 
-2. Create the parent story:
-   - Call `createJiraIssue` with all fields
-   - Note the returned issue key (e.g., MS-456)
+2. Build the payload with the ADF helpers from `references/adf.md`, then create
+   the story:
 
-3. Create each subtask:
-   - Call `createJiraIssue` for each subtask with parent link
-   - Use the parent story key
+```json
+{"fields": {
+  "project": {"key": "MS"},
+  "issuetype": {"id": "10001"},
+  "summary": "See my invoices",
+  "description": { "...ADF...": true },
+  "reporter": {"id": "613779557eb35f006928eb06"},
+  "customfield_12035": {"value": "Magica"},
+  "labels": ["Frontend"]
+}}
+```
+```bash
+curl -s $AUTH -X POST -H "Content-Type: application/json" --data @/tmp/story.json "$B/issue"
+```
+   Keep the returned `key` — the subtasks need it.
 
-4. Report results:
-   - List all created issues with keys and links
+3. Create each subtask with issue type `10003` and `"parent": {"key": "<story key>"}`,
+   one at a time, checking each response.
+
+4. Report every created issue as `https://norionbank.atlassian.net/browse/<KEY>`.
+
+If a create returns 400, read `<gotchas>` in `references/rest-api.md` before
+retrying — Story Points and markdown descriptions are the usual causes.
 
 </process>
 

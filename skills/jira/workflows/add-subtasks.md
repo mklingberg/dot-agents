@@ -11,12 +11,13 @@
 
 ## Step 1: Get the Parent Story
 
-Ask the user for the story key (e.g., MS-123) if not provided.
+Ask the user for the story key (e.g., MS-1234) if not provided.
 
-Fetch the story:
-- Call `getJiraIssue` with the story key
-- Read the story description, acceptance criteria, and existing subtasks
-- Note the team assignment
+```bash
+curl -s $AUTH "$B/issue/MS-1234?fields=summary,description,labels,subtasks,customfield_12035"
+```
+Flatten the ADF description (see `references/adf.md`) before reading it. Note the
+existing subtasks and the Teamy Team value — new subtasks inherit both.
 
 ## Step 2: Analyze What's Missing
 
@@ -55,9 +56,26 @@ New subtasks to create:
 
 ## Step 5: Create in Jira
 
-After approval:
-1. Call `createJiraIssue` for each subtask with parent link to the story
-2. Report created issue keys
+After approval, one POST per subtask — issue type `10003`, parent by key:
+
+```json
+{"fields": {
+  "project": {"key": "MS"},
+  "issuetype": {"id": "10003"},
+  "parent": {"key": "MS-1234"},
+  "summary": "[FE] Render the invoice list",
+  "description": { ...ADF... },
+  "reporter": {"id": "613779557eb35f006928eb06"},
+  "customfield_12035": {"value": "Magica"}
+}}
+```
+```bash
+curl -s $AUTH -X POST -H "Content-Type: application/json" --data @/tmp/sub1.json "$B/issue"
+```
+
+Create them one at a time and check each response. If one 400s, stop and fix
+before continuing — don't leave a half-created set without telling the user.
+Report every created key as a browse URL.
 
 </process>
 
