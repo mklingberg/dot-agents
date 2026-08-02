@@ -22,6 +22,7 @@ leave the rest alone.
 | Labels in use | `MyWalley`, `Risklevel-1`, `Risklevel-2`, `Frontend`, `Android` — no `Backend` label exists today |
 | Risk level | `Risklevel-1` … `Risklevel-5` as a label, 5 = highest. Set by the PM at **Up next** |
 | DoD source | Confluence *Definition Of Done (DOD)*, space `TM`, page `30867490` |
+| Risk policy source | Confluence *Riskhantering*, space `Payments`, page `4242636856` |
 
 ```bash
 JIRA_SITE="https://norionbank.atlassian.net"
@@ -99,6 +100,18 @@ decision documented as a comment on the story**. If you're transitioning a
 quietly.
 
 Subtasks don't get risk labels; the parent story does.
+
+**Two scales exist — use the labels.** The org-level policy page *Riskhantering*
+(Confluence space `Payments`, updated 2023-12-20) describes a **Critical–Info**
+scale recorded in "riskfältet" in Jira, with acceptance required at *medium or
+higher*, assessed at refinement as part of Definition of Ready. The team DoD
+(space `TM`, updated 2025-03-04) implements that policy as the `Risklevel-1–5`
+labels with the threshold at ≥3.
+
+The labels are what MS issues actually carry, and the DoD is newer, so follow
+the labels. If someone asks about "the risk field" or a Critical/High/Medium
+rating, they mean the same policy under its older name — don't invent a Jira
+field for it.
 </risk_level>
 
 <figma_integration>
