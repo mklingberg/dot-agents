@@ -21,7 +21,7 @@ fallbacks.
 | `references/adapters/claude-code.md` | Running in Claude Code (`Task`/`Agent` tool, `.claude/agents/`) |
 | `references/adapters/copilot-cli.md` | Running in GitHub Copilot CLI (`/agent`, `/delegate`, `/fleet`) |
 
-Not sure which? Check which spawn tool you actually have; don't read all three.
+Not sure which? Check which spawn tool you actually have, and read that one.
 
 ---
 
@@ -44,31 +44,22 @@ Not sure which? Check which spawn tool you actually have; don't read all three.
 **Default: run to completion.** Once a plan/roadmap is approved, that approval
 *is* the established scope — execute it all the way through without stopping for
 re-confirmation between steps or plans. Problems escalate to the **orchestrator**
-first (resolve via Debug / re-dispatch, see Exit Routing); only stop and ask the
+first (resolve via Debug / re-dispatch, see `references/exit-handling.md`); only stop and ask the
 **user** at genuine confirmation points — the hard stops listed under §Plan
 Completion. The AGENTS.md rule *"establish scope before spawning"* governs the
 case where there is **no** approved plan yet (e.g. Implement Spec Mode ad-hoc
 work you haven't been told to run); it does not require re-asking inside an
 approved plan/roadmap.
 
-**Spawn** every subagent in the **background** when your harness supports it (see
-Adapter). Then **return control** — keep talking to the user or do other work.
-Don't poll, and don't issue a blocking wait immediately after spawning; that
-throws away the only reason to background it. The completion signal arrives on
-its own; read the EXIT / Completion Report then and route per the tables below.
-Never block-wait — it only blocks the user from steering, with no other
-benefit; results arrive via the completion signal regardless.
+**Spawning is fire-and-forget.** Spawn every subagent in the **background** (see
+Adapter), and the turn ends on the spawn: one line to the user — what you
+dispatched, what you'll do with the result — and control returns to them. That is
+a complete turn. The completion signal arrives on its own; read the EXIT /
+Completion Report then and route per the tables below.
 
-**After spawning, end your turn.** One line to the user: what you dispatched and
-what you'll do with the result. That is a complete turn — an otherwise-empty turn
-after a spawn is correct, and is not a reason to reach for a blocking wait. If the
-harness tells you an agent is still running and suggests waiting, ignore the
-suggestion.
-
-Sequential chains
-(Implement → Review, Debug → Implement) still spawn each step and dispatch the
-next off that signal, not by waiting. If your harness has no background
-execution, run steps synchronously — routing logic is identical.
+Sequential chains (Implement → Review, Debug → Implement) dispatch each step off
+the previous signal. Where a harness has no background execution, steps run
+synchronously — routing logic is identical.
 
 PLAN.md task types: `auto`, `checkpoint:human-verify`, `checkpoint:decision`, `checkpoint:human-action`.
 
@@ -84,18 +75,11 @@ implementation.
   subagent's result returns once and doesn't. Doing implementation yourself is
   *more* expensive to parent context than delegating it — every file read and
   edit re-compounds.
-- **Default to delegating implementation.** Well-specified mechanical work →
-  Implement, even a single file. The overhead is minimal; the win is a clean
-  parent context. Don't hoard mechanical work just because you *can* do it
-  inline. Do it inline only when the change is one trivial edit you've already
-  located and delegation framing would cost more than the edit.
-- **1 targeted lookup** (known file/symbol) → inline.
-- **2+ searches OR unknown location** → Explore. No exceptions.
+- **Mechanical work goes to Implement**, even a single file — the win is a clean
+  parent context. One trivial edit you have already located stays inline.
 - **general-purpose** is the most expensive delegation (see Adapter for why on
-  your harness). Before spawning, state in one line why Explore + Implement +
-  Debug can't cover it. For ordinary implementation work, prefer Implement in
-  Spec Mode over general-purpose — it's convention-aware via skills at a fraction
-  of the cost.
+  your harness). Before spawning it, state in one line why Explore + Implement +
+  Debug can't cover the work.
 
 **When NOT to delegate (the counterweight).** The bias above is real but has an
 edge. Delegation isn't free when it *fails* — the guardrail is the
@@ -128,7 +112,7 @@ Review returns a specific FAIL); that routes to **Debug** (cheap, replace-mode),
 which reads the mess and returns a root cause. Parent gets a diagnosis, then
 re-dispatches Implement with the fix — it does *not* re-read everything itself.
 The "parent must analyse what went wrong" cost is only real when you skip Debug.
-Cap: 2 Debug → Implement cycles on one task, then escalate (see Exit Routing).
+Cap: 2 Debug → Implement cycles on one task, then escalate (see `references/exit-handling.md`).
 
 ## Delegation Policy
 
@@ -136,8 +120,8 @@ Cap: 2 Debug → Implement cycles on one task, then escalate (see Exit Routing).
   company's own knowledge base (Confluence wiki, Jira history). Use the Research
   role, not raw web or Atlassian tools inline. Domain and business-process
   questions that the code can't answer go here, not to Explore.
-- **Explore** — any codebase search with 2+ steps or unknown location. Single
-  targeted lookup → do inline.
+- **Explore** — any codebase search with 2+ steps or unknown location. A single
+  targeted lookup in a known file stays inline.
 - **Implement** — well-specified mechanical work, in two modes:
   - **Plan Mode** — a `.planning/` PLAN.md (create-plans skill). One Implement
     per PLAN.md.
@@ -156,56 +140,22 @@ Cap: 2 Debug → Implement cycles on one task, then escalate (see Exit Routing).
 - **Review** — after every Implement Completion Report (not EXIT REPORT). Pass
   the PLAN.md path (Plan Mode) or the inline spec + changed files (Spec Mode).
   **Skip** if the work was ≤2 auto tasks / a trivial spec with no writes outside
-  the named files. Surface to user only on FAIL; warnings → note inline, don't
-  block.
+  the named files. Surface to user only on FAIL; warnings → note inline and carry on.
 - **Debug** — on Implement exits `verification-failed`, `stuck`, or `blocker`.
   Pick a fix, re-invoke Implement.
 
-## Implement Exit Routing
+## Exit handling — read on demand
 
-Implement exits with an `EXIT REPORT` containing a `Reason`. **The EXIT REPORT is
-a text convention, not a tool** — it works identically on every harness. Each
-invocation is a fresh subagent — to resolve, **re-dispatch** with the resolution
-(see §Re-invocation). To redirect *while still running* (rare), **steer** if your
-harness supports it; otherwise abort and re-dispatch (see Adapter).
-
-| Reason | Try first | Escalate if |
-|---|---|---|
-| `checkpoint` + subtype `human-verify` | Diff modified files vs `<done>`; run task's verify command if present | Needs visual/UX eyes |
-| `checkpoint` + subtype `decision` | Check BRIEF, ROADMAP, ISSUES, patterns | Genuine user preference / business call |
-| `checkpoint` + subtype `human-action` | — | Always |
-| `architectural-decision` | — | Almost always — summarise trade-offs |
-| `auth-required` | Check env vars; if set, re-dispatch. Otherwise → user | Almost always (browser/2FA/missing creds) |
-| `verification-failed` | Spawn Debug with failure | Debug ambiguous |
-| `stuck` | Read "Tried" list — spawn Debug with that context, then re-dispatch Implement with a different approach | Approach unclear or scope call |
-| `deviation-unclear` | — | Always |
-| `blocker` | If `trigger:` starts with `malformed-plan:` → ask user. Else → spawn Debug | Debug can't resolve |
-| `commit-failed` | Inspect `git status` / hooks / lock files. Resolve and re-dispatch¹ | Repo state needs human (rebase, force-push call) |
-
-Subtypes are planner hints, not directives — parent decides routing.
-
-¹ Implement owns its own commits — orchestrator's "no auto-commit" rule doesn't apply inside its scope.
-
-**Debug-loop cap:** after 2 Debug → Implement cycles on the same task, escalate to user.
-
-**Default to asking the user when unsure.** Present the EXIT REPORT options.
-
-**Many trivial checkpoint exits = plan too coarse.** If a plan exits 3+ times for verifies you can resolve from file reads, suggest the user split it.
-
-## Review FAIL routing
-
-- **Trivial fix** (missing import, wrong constant): re-dispatch Implement with
-  `Fix: <Review's specific issue>` and the PLAN.md path.
-- **Non-trivial / root cause unclear**: spawn Debug with Review's FAIL output,
-  then re-dispatch Implement with the chosen fix.
-- **Plan/spec wrong**: ask the user.
+| Read this | When |
+|---|---|
+| `references/exit-handling.md` | An Implement EXIT REPORT or Review FAIL arrived, you are aborting a running Implement, or you are re-dispatching a stopped plan |
 
 ## Plan Completion → Next Plan
 
 **Auto-chain through an approved roadmap.** When the ROADMAP is approved, running
 its plans is within established scope — after Implement completes + Review passes,
 proceed directly to the next `*-PLAN.md` without waiting for a fresh go-ahead.
-Keep a brief progress note per plan (the "Next: ..." line), but don't block on it.
+Keep a brief progress note per plan (the "Next: ..." line) and roll on.
 
 **Stop and ask the user only at hard stops** — the points where the plan can't be
 followed without your input, i.e. an Exit Routing reason the orchestrator can't
@@ -223,13 +173,6 @@ full run to the user when the roadmap completes or a hard stop is hit.
 Approval to *begin* a roadmap is still required — this section only removes the
 per-plan re-confirmation once you have it.
 
-## Aborting a Running Implement
-
-- Graceful: **steer** it — `"Stop now. Emit EXIT REPORT with reason: blocker,
-  trigger: 'aborted by parent'. Do not continue."` If steering is unavailable on
-  your harness, stop dispatching to it and treat outstanding work as lost.
-- Hard: stop calling it. Outstanding work is lost. Use only if graceful fails.
-
 ## Parallelism
 
 Gate on **dependency**, not files:
@@ -239,19 +182,7 @@ Gate on **dependency**, not files:
   resolve conflicts at merge.
 - **Dependent plans** (B reads A's code) → sequential, no isolation.
 
-If your harness has no isolated-parallel mechanism, run plans **sequentially** —
-correctness over speed.
+Where a harness has no isolated-parallel mechanism, plans run **sequentially**.
 
 Batch Review: one call with all PLAN.md paths after the wave completes.
 
-## Re-invocation
-
-```
-Continue executing .planning/phases/<phase>/<plan>-PLAN.md.
-Exit at Task [X] (<reason>) resolved: <decision / action / human's answer>.
-Restart at: Task [X] (retry the stopped task) OR Task [X+1] (continue past it).
-```
-
-The `Restart at` instruction overrides Implement's auto-skip of evidenced-complete
-tasks. Implement is stateless across invocations — it re-reads PLAN.md and
-@context every time.

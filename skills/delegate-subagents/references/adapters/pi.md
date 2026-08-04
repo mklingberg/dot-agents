@@ -5,12 +5,12 @@
 | Verb | Mechanism |
 |---|---|
 | spawn | `Agent({ subagent_type, prompt, description })` |
-| background | `run_in_background: true` (always use — see AGENTS.md) |
-| await | completion notification (`<task-notification>`); do not poll |
+| background | `run_in_background: true` |
+| await | completion notification (`<task-notification>`) |
 | steer | `steer_subagent(id, message)` |
 | isolate | `isolation: "worktree"` (independent parallel waves) |
 | re-dispatch | fresh `Agent(...)` call, or `resume: <id>` |
-| result | arrives with the completion notification. `get_subagent_result(id)` only for an agent that already reported complete — never with `wait: true`, never in the turn you spawned it (blocked by the `no-block-wait` extension) |
+| result | arrives with the completion notification; `get_subagent_result(id)` reads the full output of an agent that has already reported complete |
 
 **Capabilities:** background ✅ · steering ✅ · worktree isolation ✅ (loud on
 failure — safe to default-on for independent waves) · structured await ✅
