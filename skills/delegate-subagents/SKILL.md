@@ -1,9 +1,27 @@
+---
+name: delegate-subagents
+description: "Delegate to subagents: role routing, background spawn rules, Implement EXIT REPORT handling, roadmap orchestration. Triggers: before spawning, EXIT REPORT, roadmap run. Orca DAGs: use orchestration."
+---
+
 # Subagent Delegation & Orchestration
 
 Harness-agnostic orchestration protocol. The **Core** below is written in generic
 verbs — `spawn`, `await`, `steer`, `isolate`, `re-dispatch`, `background`. Each
-harness binds those verbs to concrete tools in its **Adapter** section at the end.
-Read the Core, then read the one `## Harness:` section matching your environment.
+harness binds those verbs to concrete tools in an **adapter** file.
+
+## Adapters — read one, on demand
+
+Read the Core below, then the single adapter matching your environment. Each maps
+the generic verbs to concrete tools, states capabilities, and defines degradation
+fallbacks.
+
+| Read this | When |
+|---|---|
+| `references/adapters/pi.md` | Running in Pi (`Agent` tool, `run_in_background`, `steer_subagent`) |
+| `references/adapters/claude-code.md` | Running in Claude Code (`Task`/`Agent` tool, `.claude/agents/`) |
+| `references/adapters/copilot-cli.md` | Running in GitHub Copilot CLI (`/agent`, `/delegate`, `/fleet`) |
+
+Not sure which? Check which spawn tool you actually have; don't read all three.
 
 ---
 
@@ -237,116 +255,3 @@ Restart at: Task [X] (retry the stopped task) OR Task [X+1] (continue past it).
 The `Restart at` instruction overrides Implement's auto-skip of evidenced-complete
 tasks. Implement is stateless across invocations — it re-reads PLAN.md and
 @context every time.
-
----
-
-# HARNESS ADAPTERS
-
-Read only the section matching your environment. Each maps the Core's generic
-verbs to concrete mechanisms, states capabilities, and defines degradation
-fallbacks.
-
-## Harness: Pi
-
-**Verb mapping**
-
-| Verb | Mechanism |
-|---|---|
-| spawn | `Agent({ subagent_type, prompt, description })` |
-| background | `run_in_background: true` (always use — see AGENTS.md) |
-| await | completion notification (`<task-notification>`); do not poll |
-| steer | `steer_subagent(id, message)` |
-| isolate | `isolation: "worktree"` (independent parallel waves) |
-| re-dispatch | fresh `Agent(...)` call, or `resume: <id>` |
-| result | arrives with the completion notification. `get_subagent_result(id)` only for an agent that already reported complete — never with `wait: true`, never in the turn you spawned it (blocked by the `no-block-wait` extension) |
-
-**Capabilities:** background ✅ · steering ✅ · worktree isolation ✅ (loud on
-failure — safe to default-on for independent waves) · structured await ✅
-
-**general-purpose:** `prompt_mode: append` — a *parent twin*. Inherits the
-parent's entire system prompt + AGENTS.md + a sub-agent context bridge, so it
-follows the same rules the parent does. This is why it's the most expensive
-delegation (~10k+ parent-equivalent tokens vs ~150–1,500 for replace-mode agents).
-
-**Economics (Pi-specific)** — `prompt_mode: replace` = fresh isolated prompt;
-`append` = inherits full parent prompt.
-
-These are the subagent's *own* input cost — **not** a cost charged to the
-parent, and **not** a reason to inline. Doing the same work inline is more
-expensive to *parent* context because every read/edit re-compounds every turn.
-A higher number here (Implement ~1,453) still beats hoarding the work inline.
-The number to avoid is general-purpose's ~10k+.
-
-| Agent | Mode | ~Input tokens |
-|---|---|---|
-| Explore | replace | ~144 |
-| Research | replace | ~239 |
-| Debug | replace | ~280 |
-| Review | replace | ~276 |
-| Implement | replace | ~1,453 |
-| general-purpose | append | ~10k+ |
-
-**Degradation:** none — Pi is the reference harness with full capabilities.
-
-## Harness: Claude Code
-
-**Verb mapping**
-
-| Verb | Mechanism |
-|---|---|
-| spawn | Task tool (`subagent_type` = agent name) or model-mediated auto-delegation |
-| background | `background: true` frontmatter / recent default; else runs foreground |
-| await | tool result returns when subagent finishes (model-mediated) |
-| steer | **unavailable** — subagents run in isolated context |
-| isolate | `isolation: worktree` frontmatter (supported) |
-| re-dispatch | fresh Task call with the resolution prompt |
-| result | subagent's final response returns as the tool result |
-
-**Capabilities:** background ~ (per-agent/global flag) · steering ❌ · worktree
-isolation ✅ · structured await ✅ (synchronous tool-result)
-
-**general-purpose:** built-in — no shipped definition needed. Its system prompt
-is *replaced* (not appended), but CLAUDE.md still loads via message flow, so your
-rules reach it. It does **not** inherit the parent's live conversation. →
-**Degradation:** when delegating to general-purpose, pass more explicit context
-in the prompt than you would on Pi; don't assume it sees parent turns.
-
-**Degradation:**
-- **No steering** → to abort/redirect a running subagent, you cannot inject
-  mid-run. Let it finish or stop consuming its result, then re-dispatch. The
-  "Aborting" graceful path degrades to the hard path.
-- `--append-subagent-system-prompt` (CLI flag, global) can inject shared rules
-  into every subagent if needed — coarse analog to Pi's append mode.
-
-## Harness: GitHub Copilot CLI
-
-**Verb mapping**
-
-| Verb | Mechanism |
-|---|---|
-| spawn | `/agent <name>` (interactive) or `--agent <name>` (flag); model may auto-delegate |
-| background | `/delegate <task>` = async **cloud** agent (commits, branch, draft PR) — different semantics; local subagents run inline |
-| await | tool result / `/tasks` for delegated cloud work |
-| steer | **unavailable** — subagents run isolated |
-| isolate | no documented local worktree mechanism |
-| re-dispatch | fresh `/agent` invocation with the resolution prompt |
-| parallel | `/fleet <task>` = parallel local subagents, coordinated via shared task state (SQL todos), isolated prompts |
-
-**Capabilities:** background ~ (`/delegate` = cloud only, not local-isolated) ·
-steering ❌ · worktree isolation ❌ · parallel via `/fleet` (shared task state,
-not prompt inheritance)
-
-**general-purpose:** built-in (alongside `explore, task, research, code-review,
-rubber-duck`). Isolated context; custom instructions from AGENTS.md /
-`.github/copilot-instructions.md` combine into it, but parent live-conversation
-inheritance is undocumented. → **Degradation:** same as Claude — pass explicit
-context when delegating.
-
-**Degradation:**
-- **No steering** → abort = stop dispatching; graceful abort path unavailable.
-- **No local worktree isolation** → run independent plans **sequentially**, not
-  as parallel isolated waves. `/fleet` can parallelise but shares task state
-  rather than isolating filesystem — don't use it for plans that write
-  overlapping files.
-- **`/delegate` is cloud** → treat as a different tool; the background execution
-  loop above assumes *local* subagents. Prefer inline/sequential Implement.
