@@ -61,6 +61,11 @@ context each turn, where a subagent's result returns once. Three bands:
 
 The common failure is dumping the whole middle band into "inline."
 
+**Split the task before you pick a band.** An unspecifiable question usually wraps
+a specifiable search: send the search to Explore and keep the judgment. "Why does
+X feel inconsistent" is a survey (Explore: find every site) plus an analysis
+(yours). Reach for general-purpose only when the two genuinely can't be separated.
+
 **Delegate the diagnosis too.** The failure tax mostly evaporates when Debug reads
 the wreckage instead of you. Implement exits with a structured EXIT REPORT (or
 Review returns a specific FAIL); that routes to **Debug** (cheap, replace-mode),
