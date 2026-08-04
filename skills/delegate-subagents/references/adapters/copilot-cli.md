@@ -26,7 +26,7 @@ context when delegating.
 - **No steering** → abort = stop dispatching; graceful abort path unavailable.
 - **No local worktree isolation** → run independent plans **sequentially**, not
   as parallel isolated waves. `/fleet` can parallelise but shares task state
-  rather than isolating filesystem — don't use it for plans that write
-  overlapping files.
+  rather than isolating filesystem — use it only for plans whose file sets are
+  disjoint.
 - **`/delegate` is cloud** → treat as a different tool; the background execution
   loop above assumes *local* subagents. Prefer inline/sequential Implement.

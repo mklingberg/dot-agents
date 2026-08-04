@@ -21,13 +21,8 @@ follows the same rules the parent does. This is why it's the most expensive
 delegation (~10k+ parent-equivalent tokens vs ~150–1,500 for replace-mode agents).
 
 **Economics (Pi-specific)** — `prompt_mode: replace` = fresh isolated prompt;
-`append` = inherits full parent prompt.
-
-These are the subagent's *own* input cost — **not** a cost charged to the
-parent, and **not** a reason to inline. Doing the same work inline is more
-expensive to *parent* context because every read/edit re-compounds every turn.
-A higher number here (Implement ~1,453) still beats hoarding the work inline.
-The number to avoid is general-purpose's ~10k+.
+`append` = inherits full parent prompt. Figures below are each subagent's *own*
+input cost, charged to it rather than to the parent.
 
 | Agent | Mode | ~Input tokens |
 |---|---|---|

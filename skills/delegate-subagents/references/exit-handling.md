@@ -9,7 +9,7 @@ Implement exits with an `EXIT REPORT` containing a `Reason`. **The EXIT REPORT i
 a text convention, not a tool** — it works identically on every harness. Each
 invocation is a fresh subagent — to resolve, **re-dispatch** with the resolution
 (see §Re-invocation). To redirect *while still running* (rare), **steer** if your
-harness supports it; otherwise abort and re-dispatch (see Adapter).
+harness supports it; otherwise abort and re-dispatch (see your adapter in `references/adapters/`).
 
 | Reason | Try first | Escalate if |
 |---|---|---|
@@ -24,7 +24,9 @@ harness supports it; otherwise abort and re-dispatch (see Adapter).
 | `blocker` | If `trigger:` starts with `malformed-plan:` → ask user. Else → spawn Debug | Debug can't resolve |
 | `commit-failed` | Inspect `git status` / hooks / lock files. Resolve and re-dispatch¹ | Repo state needs human (rebase, force-push call) |
 
-Subtypes are planner hints, not directives — parent decides routing.
+Subtypes are planner hints, not directives — parent decides routing. PLAN.md task
+types: `auto`, `checkpoint:human-verify`, `checkpoint:decision`,
+`checkpoint:human-action`.
 
 ¹ Implement owns its own commits — orchestrator's "no auto-commit" rule doesn't apply inside its scope.
 

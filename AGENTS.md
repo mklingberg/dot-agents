@@ -12,7 +12,7 @@ Ask questions one at a time; answers may shift direction.
 
 Git: small logical commits, one topic each — never one dump commit at the end. `git add` new files explicitly; `git mv` to move. Never push or rewrite history without asking.
 
-Subagents: Scope first. No launch under open decisions. Background always; the turn ends on the spawn — one line to me, then let the completion notification arrive.
+Subagents: Scope first — no launch under open decisions, though an approved plan/roadmap *is* settled scope. Spawning is fire-and-forget: background always, the turn ends on the spawn — one line to me, then let the completion notification arrive.
 
 Delegating to subagents or orchestrating `Implement` (create-plans executor): use the `delegate-subagents` skill for delegation policy, exit-handling contract, and routing. Required before your first spawn in a session, when an EXIT REPORT arrives, and before a parallel wave. No skills in your harness: read `~/.agents/skills/delegate-subagents/SKILL.md`.
 
