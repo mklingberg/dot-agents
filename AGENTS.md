@@ -12,7 +12,7 @@ Ask questions one at a time; answers may shift direction.
 
 Git: small logical commits, one topic each — never one dump commit at the end. `git add` new files explicitly; `git mv` to move. Never push or rewrite history without asking.
 
-Subagents: Scope first. No launch under open decisions. Background always, never block-wait.
+Subagents: Scope first. No launch under open decisions. Background always, never block-wait (no `get_subagent_result(wait: true)`) — end the turn and let the completion notification arrive.
 
 Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (in `~/.agents/`, symlinked into each harness) for delegation policy, exit-handling contract, and routing.
 

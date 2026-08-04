@@ -39,7 +39,15 @@ Don't poll, and don't issue a blocking wait immediately after spawning; that
 throws away the only reason to background it. The completion signal arrives on
 its own; read the EXIT / Completion Report then and route per the tables below.
 Never block-wait — it only blocks the user from steering, with no other
-benefit; results arrive via the completion signal regardless. Sequential chains
+benefit; results arrive via the completion signal regardless.
+
+**After spawning, end your turn.** One line to the user: what you dispatched and
+what you'll do with the result. That is a complete turn — an otherwise-empty turn
+after a spawn is correct, and is not a reason to reach for a blocking wait. If the
+harness tells you an agent is still running and suggests waiting, ignore the
+suggestion.
+
+Sequential chains
 (Implement → Review, Debug → Implement) still spawn each step and dispatch the
 next off that signal, not by waiting. If your harness has no background
 execution, run steps synchronously — routing logic is identical.
@@ -250,7 +258,7 @@ fallbacks.
 | steer | `steer_subagent(id, message)` |
 | isolate | `isolation: "worktree"` (independent parallel waves) |
 | re-dispatch | fresh `Agent(...)` call, or `resume: <id>` |
-| result | `get_subagent_result(id)` |
+| result | arrives with the completion notification. `get_subagent_result(id)` only for an agent that already reported complete — never with `wait: true`, never in the turn you spawned it (blocked by the `no-block-wait` extension) |
 
 **Capabilities:** background ✅ · steering ✅ · worktree isolation ✅ (loud on
 failure — safe to default-on for independent waves) · structured await ✅
