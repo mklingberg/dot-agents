@@ -72,7 +72,7 @@ Produces:
 
 ### 3. Spawn runs
 
-For each eval, spawn **two `general-purpose` subagents in parallel** (one per configuration). Each must use a **fresh context** (`inherit_context: false`) and run in background (`run_in_background: true`) per project policy in `~/.pi/agent/subagent-protocol.md`.
+For each eval, spawn **two `general-purpose` subagents in parallel** (one per configuration). Each must use a **fresh context** (`inherit_context: false`) and run in background (`run_in_background: true`) per the `delegate-subagents` skill.
 
 **With-skill prompt template:**
 ```

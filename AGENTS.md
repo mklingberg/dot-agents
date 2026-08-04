@@ -14,6 +14,6 @@ Git: small logical commits, one topic each — never one dump commit at the end.
 
 Subagents: Scope first. No launch under open decisions. Background always, never block-wait (no `get_subagent_result(wait: true)`) — end the turn and let the completion notification arrive.
 
-Delegating to subagents or orchestrating `Implement` (create-plans executor): read `subagent-protocol.md` (in `~/.agents/`, symlinked into each harness) for delegation policy, exit-handling contract, and routing.
+Delegating to subagents or orchestrating `Implement` (create-plans executor): use the `delegate-subagents` skill for delegation policy, exit-handling contract, and routing. Required before your first spawn in a session, when an EXIT REPORT arrives, and before a parallel wave. No skills in your harness: read `~/.agents/skills/delegate-subagents/SKILL.md`.
 
 UI changes: if the app runs locally, verify in the Orca browser before reporting done.

@@ -12,7 +12,7 @@ Four shared assets live here and propagate to each tool (see [Cross-harness sync
 |---|---|
 | `skills/` | Agent Skills (SKILL.md) — the bulk of this repo |
 | `agents/` | Subagent definitions (Pi-format source) |
-| `subagent-protocol.md` | Hybrid orchestration protocol (agnostic core + per-harness adapters) |
+| `skills/delegate-subagents/` | Orchestration protocol as a skill (agnostic core + per-harness adapter files) |
 | `AGENTS.md` | Global instructions (reporting style, git rules, language, delegation) |
 
 ## What this library is really for
@@ -29,7 +29,6 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
 ```text
 ~/.agents/
 ├── AGENTS.md                 Global instructions, shared across harnesses
-├── subagent-protocol.md      Hybrid orchestration protocol (core + adapters)
 ├── agents/                   Pi-format subagent defs (source of truth)
 │   ├── Explore.md  Research.md  Debug.md  Review.md  Implement.md
 ├── bin/                      sync.sh (propagate) + gen_agent.py (transform)
@@ -77,7 +76,7 @@ Beyond skills, `~/.agents` is the single source for **subagent definitions**, th
 |---|---|---|---|---|
 | `skills/` | native scan | **flat per-skill symlinks** `~/.claude/skills/<name>` | native scan | native scan |
 | `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` | **`@import` line appended** |
-| `subagent-protocol.md` | symlink | (referenced) | (referenced) | (via AGENTS.md) |
+| `skills/delegate-subagents/` | (via `skills/` scan) | (via flattened symlink) | (via `skills/` scan) | (via `skills/` scan) |
 | `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` | — |
 
 Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink needed. Claude scans only **one level deep**, so it can't see skills grouped under `_commands/` or `_experimental/`; `sync.sh` rebuilds `~/.claude/skills` as a real dir of per-skill symlinks (any depth → flat), keeping the grouped source layout for your own organization. Codex also scans `~/.agents/skills` natively (it's Codex's preferred user-level skills path, ahead of the legacy `~/.codex/skills`).
@@ -99,7 +98,9 @@ The agent frontmatter genuinely diverges per harness — mainly the `tools` voca
 
 ### The protocol is a hybrid
 
-`subagent-protocol.md` = an **agnostic core** (create-plans pipeline, EXIT-report contract, routing tables, re-invocation — all text convention, portable everywhere) written in generic verbs (`spawn`/`await`/`steer`/`isolate`), plus per-harness **adapter** sections that bind those verbs to concrete tools, state capabilities, and define degradation fallbacks (e.g. no steering → abort + re-dispatch; no worktree isolation → sequential).
+`skills/delegate-subagents/SKILL.md` = an **agnostic core** (create-plans pipeline, EXIT-report contract, routing tables, re-invocation — all text convention, portable everywhere) written in generic verbs (`spawn`/`await`/`steer`/`isolate`). `references/adapters/<harness>.md` binds those verbs to concrete tools per harness, states capabilities, and defines degradation fallbacks (e.g. no steering → abort + re-dispatch; no worktree isolation → sequential). An agent reads the core plus its own adapter, not all three.
+
+It lives as a skill so the harness's own skill machinery handles the referral — a pointer to a file competes with everything else in the turn, a listed skill does not.
 
 ### Not shipped / excluded
 

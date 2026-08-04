@@ -3,7 +3,7 @@
 #
 # Source of truth (this repo):
 #   skills/                shared Agent Skills (SKILL.md)         -> flat per-skill symlinks (Claude)
-#   subagent-protocol.md   hybrid orchestration protocol          -> symlink
+#                          incl. delegate-subagents (orchestration protocol)
 #   AGENTS.md              global instructions                    -> symlink (CLAUDE.md on Claude)
 #   agents/*.md            Pi-format agent defs                   -> symlink (Pi) / generate (Claude, Copilot)
 #
@@ -24,8 +24,7 @@ link() { # link <target> <linkname>
   echo "  link $2 -> $1"
 }
 
-echo "== instructions + protocol =="
-link "$AG/subagent-protocol.md" "$PI/subagent-protocol.md"
+echo "== instructions =="
 link "$AG/AGENTS.md"            "$PI/AGENTS.md"
 link "$AG/AGENTS.md"            "$CLAUDE/CLAUDE.md"
 link "$AG/AGENTS.md"            "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
@@ -46,7 +45,7 @@ for ch in "$HOME/.codex" "$HOME/Library/Application Support/orca/codex-accounts"
 done
 
 echo "== skills =="
-# Pi and Copilot discover ~/.agents/skills natively (recursive / native scan).
+# Pi, Copilot and Codex discover ~/.agents/skills natively (recursive / native scan).
 # Claude scans only ONE level deep -> it can't see _commands/ or _experimental/.
 # Give Claude a flat dir of per-skill symlinks (Claude follows dir symlinks).
 CS="$CLAUDE/skills"

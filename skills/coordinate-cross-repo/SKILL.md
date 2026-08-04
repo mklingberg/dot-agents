@@ -27,7 +27,7 @@ This skill supplies the repo set and the order; it stays out of plan authoring.
 ### The orchestrator is whatever is available
 Coordination speaks five verbs — **isolate**, **spawn**, **dispatch**, **await**, **gate** —
 and an orchestration skill binds them to a tool. With none available, run the DAG
-sequentially through `subagent-protocol.md`: slower, same result.
+sequentially per the `delegate-subagents` skill: slower, same result.
 
 ### Every node reaches a terminal state you can name
 `merged`, `pr-open-awaiting-owner`, `blocked-on-pipeline`, `blocked-on-user`. A node parked
@@ -89,7 +89,7 @@ unblocked. Translate what comes back:
 |---|---|
 | plan complete, review passed | mark node done, dispatch newly ready nodes |
 | needs a decision spanning repos | **gate** — resolve from the brief, or ask the user |
-| needs a decision inside its own repo | the worker owns it; `subagent-protocol.md` routes it |
+| needs a decision inside its own repo | the worker owns it; `delegate-subagents` routes it |
 | blocked on a pipeline or an owning team | mark the node with that terminal state and carry on |
 
 Waits are long — coding nodes routinely run tens of minutes. A wait that returns nothing is

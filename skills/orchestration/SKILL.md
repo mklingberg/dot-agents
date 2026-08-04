@@ -11,7 +11,9 @@ description: >-
   ordinary terminal control, lightweight terminal prompts, shell commands, Orca
   worktree management, reading or waiting on terminals, and automation of the
   browser embedded inside Orca. Use Computer Use for browser windows, webviews,
-  Orca app UI, or desktop UI outside Orca's embedded browser.
+  Orca app UI, or desktop UI outside Orca's embedded browser. For ordinary
+  subagent delegation in this harness — which role to spawn, background/await
+  discipline, Implement EXIT REPORT routing — use `delegate-subagents`.
 ---
 
 # Orca Orchestration
