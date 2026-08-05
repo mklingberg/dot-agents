@@ -12,7 +12,7 @@ Four shared assets live here and propagate to each tool (see [Cross-harness sync
 |---|---|
 | `skills/` | Agent Skills (SKILL.md) — the bulk of this repo |
 | `agents/` | Subagent definitions (Pi-format source) |
-| `skills/delegate-subagents/` | Orchestration protocol as a skill (agnostic core + per-harness adapter files) |
+| `skills/delegate-subagents/` | Delegation protocol as a skill (harness-agnostic; exit-handling + roadmap references) |
 | `AGENTS.md` | Global instructions (reporting style, git rules, language, delegation) |
 
 ## What this library is really for
@@ -96,9 +96,9 @@ source-grep that says otherwise; re-run the probe if it ever looks broken.
 
 The agent frontmatter genuinely diverges per harness — mainly the `tools` vocabulary (`read,bash,grep` → Claude `Read,Bash,Grep,Glob` → Copilot `read,execute,search`) and `model`. The Pi source pins a fully-qualified id (e.g. `github-copilot/claude-sonnet-5`) so Pi resolves it deterministically and it passes `scopeModels` (must be in `enabledModels`); `bin/gen_agent.py` derives the bare Claude alias (`sonnet`/`haiku`/`opus`) from the id's family keyword, and Copilot omits `model`. Symlinking would silently break the read-only tool restriction. So `gen_agent.py` transforms the Pi-format source into each harness's schema; only `tools`/`name`/`model`/extension change — bodies are written in harness-agnostic capability language and pass through unchanged.
 
-### The protocol is a hybrid
+### The protocol is harness-agnostic, with no adapters
 
-`skills/delegate-subagents/SKILL.md` = an **agnostic core** (create-plans pipeline, EXIT-report contract, routing tables, re-invocation — all text convention, portable everywhere) written in generic verbs (`spawn`/`await`/`steer`/`isolate`). `references/adapters/<harness>.md` binds those verbs to concrete tools per harness, states capabilities, and defines degradation fallbacks (e.g. no steering → abort + re-dispatch; no worktree isolation → sequential). An agent reads the core plus its own adapter, not all three.
+`skills/delegate-subagents/SKILL.md` is all text convention — role routing, the EXIT-report contract, re-invocation — portable everywhere. It used to ship a per-harness adapter file mapping generic verbs (`spawn`/`await`/`steer`/`isolate`) to each harness's tools; those were deleted. Every harness already documents its own spawn tool in an always-loaded tool description, so the adapters duplicated that surface and drifted from it (the Claude Code one still claimed steering was impossible after `SendMessage` shipped). What the tool descriptions *don't* state — the protocol consequence of a missing capability — survives as conditionals in the skill: no background → synchronous, no isolation → sequential, no steering → hard abort only.
 
 It lives as a skill so the harness's own skill machinery handles the referral — a pointer to a file competes with everything else in the turn, a listed skill does not.
 

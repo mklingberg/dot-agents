@@ -9,7 +9,7 @@ Implement exits with an `EXIT REPORT` containing a `Reason`. **The EXIT REPORT i
 a text convention, not a tool** — it works identically on every harness. Each
 invocation is a fresh subagent — to resolve, **re-dispatch** with the resolution
 (see §Re-invocation). To redirect *while still running* (rare), **steer** if your
-harness supports it; otherwise abort and re-dispatch (see your adapter in `references/adapters/`).
+harness supports it; otherwise abort and re-dispatch with a fresh spawn.
 
 | Reason | Try first | Escalate if |
 |---|---|---|

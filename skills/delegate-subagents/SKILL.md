@@ -6,20 +6,33 @@ description: "Delegate to subagents: role choice, fire-and-forget background spa
 # Subagent Delegation
 
 Roles are referenced by name — `Explore`, `Research`, `Debug`, `Review`,
-`Implement`, and the built-in `general-purpose`. An adapter maps each name, and
-each generic verb, to the local tool.
+`Implement`, and the built-in `general-purpose`. Your harness's own tool
+descriptions say how to spawn them; this skill says which one to spawn and what to
+do with what comes back.
 
 ## Read on demand
 
 | Read this | When |
 |---|---|
-| `references/adapters/pi.md` | Running in Pi (`Agent` tool, `run_in_background`, `steer_subagent`) |
-| `references/adapters/claude-code.md` | Running in Claude Code (`Task`/`Agent` tool, `.claude/agents/`) |
-| `references/adapters/copilot-cli.md` | Running in GitHub Copilot CLI (`/agent`, `/delegate`, `/fleet`) |
 | `references/exit-handling.md` | An Implement EXIT REPORT or Review FAIL arrived, you are aborting a running Implement, or you are re-dispatching a stopped plan |
 | `references/roadmap-runs.md` | Running an approved ROADMAP: plan-to-plan auto-chain, hard stops, parallel waves |
 
-Read the adapter for the harness you are in, and the others only if you switch.
+## Where harnesses differ
+
+Capabilities vary; the routing above does not. Read these as conditionals against
+whatever your spawn tool actually offers:
+
+- **No background execution** → run steps synchronously. Routing is identical.
+- **No filesystem isolation** → independent plans run sequentially, not as
+  parallel waves.
+- **No mid-run steering** → the graceful abort is unavailable: let the subagent
+  finish or stop consuming its result, then re-dispatch.
+- **Cloud/async delegation** (a spawn that commits to a branch and opens a PR) is
+  a different tool with different semantics — the fire-and-forget loop above
+  assumes a local subagent.
+- **general-purpose context** — assume it sees none of your live conversation and
+  pass what it needs explicitly, unless your harness hands it the parent's prompt
+  (where it does, that inheritance is also what makes it the expensive option).
 
 ## Execution Loop
 
@@ -91,6 +104,9 @@ which returns a root cause. The parent re-dispatches Implement with the fix.
     task depends on any rule, convention, or constraint that lives in
     `AGENTS.md`/`CLAUDE.md` (or elsewhere) and isn't captured by a skill, quote
     the relevant section verbatim in the invocation. When in doubt, include it.
+    If you find yourself pasting the same rules every time, check whether your
+    harness can inject shared rules into every subagent (Claude Code:
+    `--append-subagent-system-prompt`).
 - **Review** — after every Implement Completion Report (not EXIT REPORT). Pass
   the PLAN.md path (Plan Mode) or the inline spec + changed files (Spec Mode).
   **Skip** only when both hold: ≤2 auto tasks, and no file changed outside those

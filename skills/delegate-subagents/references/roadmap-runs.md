@@ -38,11 +38,13 @@ full run to the user when the roadmap completes or a hard stop is hit.
 
 Gate on **dependency**, not files:
 - **Independent plans** (neither reads the other's output) → spawn in parallel,
-  each **isolated** (see your adapter for the isolation mechanism, or whether it exists).
-  Cap waves at 4. After all complete, merge the resulting branches sequentially;
+  each **isolated** (a git worktree per plan, if your harness offers it). Cap
+  waves at 4. After all complete, merge the resulting branches sequentially;
   resolve conflicts at merge.
 - **Dependent plans** (B reads A's code) → sequential, no isolation.
 
-
+Without filesystem isolation, run independent plans **sequentially** instead. A
+parallel mechanism that shares task state rather than isolating the filesystem is
+safe only for plans whose file sets are disjoint.
 
 Batch Review: one call with all PLAN.md paths after the wave completes.
