@@ -24,6 +24,20 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 W="https://norionbank.atlassian.net/wiki"
 AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 ```
+
+**Never echo, log, or paste the token; always reference `$ATLASSIAN_PAT`.** Where the env
+var is empty — a fresh shell, or a subagent that never sourced the login publisher — read
+the keychain by expansion inside the command that needs it, never into a literal:
+
+```bash
+AUTH="-u $ATLASSIAN_USER:$(security find-generic-password -s atlassian-token -w)"
+```
+
+The token is ~190 characters and contains shell-significant characters. Pasting the literal
+into a command both leaks it and corrupts it, so **a 401/403 here means a malformed request,
+not missing access** — fix the quoting before concluding anything about permissions. A
+delegated task that reports "user not permitted to use Confluence" has almost certainly
+mangled its own auth header.
 </config>
 
 <essential_principles>

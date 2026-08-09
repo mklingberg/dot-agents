@@ -29,6 +29,16 @@ JIRA_SITE="https://norionbank.atlassian.net"
 AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 B="$JIRA_SITE/rest/api/3"
 ```
+
+**Never echo, log, or paste the token; always reference `$ATLASSIAN_PAT`.** Where the env
+var is empty — a fresh shell, or a subagent that never sourced the login publisher — read
+the keychain by expansion, never into a literal (see `references/rest-api.md`).
+
+The token is ~190 characters and contains shell-significant characters. Pasting the literal
+into a command both leaks it and corrupts it, so **a 401/403 here means a malformed request,
+not missing access** — fix the quoting before concluding anything about permissions. This
+token is shared with Confluence; a delegated task reporting "user not permitted" on either
+product has almost certainly mangled its own auth header.
 </config>
 
 <essential_principles>
