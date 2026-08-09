@@ -50,6 +50,14 @@ intended when they wrote it, which is not the same as what ships. Recency raises
 settles nothing. Where a page and the code disagree, the code is what runs, and the operator
 outranks both — record the divergence rather than picking the newer document.
 
+**Dormant is a third state, and the one most often misread.** A page can be historically
+accurate and currently wrong — documenting a deprecated predecessor, with nothing on it saying
+so. That looks identical to abandoned and reads as settled. It matters because the action
+differs: settled means rely on it, abandoned means discard it, dormant means neither — don't
+build as if the capability exists, and don't strip its remnants either, because a dormant
+feature is one someone intends to revive. Record which of the three a claim is, and record
+that a page describes a predecessor when it does; nothing in the page metadata will say it.
+
 ### Cite space key with every page
 Several Confluence spaces carry parts of this domain, and their keys collide with product
 words — the space whose key reads like a product is usually not the one holding that
