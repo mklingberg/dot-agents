@@ -1,18 +1,35 @@
 ---
-name: walley-domain
-description: "Walley domain orientation from cached ~/Dev/DOMAIN.md: products, markets, vocabulary. Triggers: 'how does X work', 'which systems does X touch'. Wiki search: confluence."
+name: domain-knowledge
+description: "Business domain orientation from a local cached DOMAIN.md: products, markets, vocabulary. Triggers: 'how does X work', 'which systems does X touch'. Wiki search: confluence."
 ---
 
 <objective>
 Answer domain questions — what a product is, which market differs, what a term means, which
-system owns it — without hunting the wiki every time. The knowledge lives in `~/Dev/DOMAIN.md`;
-this skill is the procedure for reading it, trusting it, and refreshing it.
+system owns it — without hunting the wiki every time. The knowledge lives in a local cache
+file; this skill is the procedure for reading it, trusting it, and refreshing it.
 </objective>
+
+<config>
+Site- and team-specific. Fork the skill, edit this block, leave the rest alone. Nothing here
+is a secret, but the paths are local and the wiki is private.
+
+| Setting | Value |
+|---|---|
+| Domain cache | `~/Dev/DOMAIN.md` — untracked; `~/Dev` is not a git repo |
+| Repo index | `~/Dev/INDEX.md` — maintained by `create-repo-index`; reconciled against, never written |
+| Root instruction file | `~/Dev/AGENTS.md` — points at both, via `@` includes |
+| Wiki | Confluence, reached through the `confluence` skill; space keys and the collision table live in that skill's `<config>` |
+| Cache template | `templates/DOMAIN.template.md` in this skill |
+
+**This skill holds no domain content.** It is committed to a public remote, so the products,
+markets, vocabulary and business rules live only in the cache file above. That split is the
+whole design, not an accident of this repo — see `<what_not_to_record>`.
+</config>
 
 <essential_principles>
 
 ### This file is public; the domain knowledge is not
-This skill is committed to a public remote. `~/Dev/DOMAIN.md` is not — `~/Dev` is no git
+This skill is committed to a public remote. The domain cache is not — its folder is no git
 repo, so nothing there is tracked or ignored. Every product fact, market difference, term
 definition, partner name and page id belongs in that file. Nothing that would embarrass on
 a public diff gets written here, in a commit message, or in a PR.
@@ -49,12 +66,13 @@ The frequent path. Three sources, in this order, stopping when answered:
 
 | Read | For | Note |
 |---|---|---|
-| `~/Dev/DOMAIN.md` | products, markets, lifecycle, vocabulary, term → system | absent? say so and offer the sync workflow — don't improvise the domain from training data |
-| `~/Dev/INDEX.md` | which repos and components, dependency edges, ownership, `## Domain Notes` | authoritative on topology; `DOMAIN.md` must not duplicate it |
-| the repo's own `AGENTS.md` / `CLAUDE.md` | current detail for the repo in hand | most repos here carry one, and it beats both files on its own subject |
+| the **domain cache** (`<config>`) | products, markets, lifecycle, vocabulary, term → system | absent? say so and offer the sync workflow — don't improvise the domain from training data |
+| the **repo index** (`<config>`) | which repos and components, dependency edges, ownership, `## Domain Notes` | authoritative on topology; the cache must not duplicate it |
+| the repo's own `AGENTS.md` / `CLAUDE.md` | current detail for the repo in hand | most repos carry one, and it beats both files on its own subject |
 
-Working inside a repo or a worktree does not change this. The absolute paths above resolve
-from anywhere, which is the point — `~/Dev/AGENTS.md` is not read when cwd is a repo below it.
+Working inside a repo or a worktree does not change this. Both paths in `<config>` are
+absolute and resolve from anywhere, which is the point — the root instruction file is **not**
+read when cwd is a repo below it, so its `@` includes never fire.
 
 **If the three disagree, the narrower source wins on its own subject** — a repo's own
 instruction file over `INDEX.md` over `DOMAIN.md` — and say that you saw a conflict rather
@@ -104,8 +122,8 @@ a POST.
 </routing>
 
 <gotchas>
-- **`~/Dev` is not a git repo.** `DOMAIN.md` has no history and no backup. The sync workflow
-  writes `DOMAIN.md.bak` because that is the only way back.
+- **The cache's folder is not a git repo.** The file has no history and no backup, which is
+  why the sync workflow writes a `.bak` beside it — that is the only way back.
 - **Space keys collide with product words, and one key means different things in Confluence
   and Jira.** Resolve by key against the `confluence` skill's collision table, and state the
   key you used.

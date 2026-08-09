@@ -1,7 +1,7 @@
 # DOMAIN — Walley business domain
 
 Domain knowledge for designing features and improving existing systems. Derived regions are
-rebuilt by the `walley-domain` skill; everything else is curated by hand and preserved across
+rebuilt by the `domain-knowledge` skill; everything else is curated by hand and preserved across
 runs, byte for byte.
 
 **Business domain only.** Repos, components and dependency edges live in `INDEX.md` beside

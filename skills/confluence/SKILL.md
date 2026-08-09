@@ -1,6 +1,6 @@
 ---
 name: confluence
-description: "Find and read docs in norionbank Confluence. Read-only. Triggers: 'search Confluence', 'find the doc on', 'which page covers'. Domain questions: walley-domain first."
+description: "Find and read docs in norionbank Confluence. Read-only. Triggers: 'search Confluence', 'find the doc on', 'which page covers'. Domain questions: domain-knowledge first."
 ---
 
 <config>
@@ -101,7 +101,11 @@ beats a plausible paragraph assembled from three stale pages.
 
 <routing>
 One job today: find and read. Don't open with a menu — go straight to
-`workflows/find-docs.md` for any lookup, research or "how does X work" question.
+`workflows/find-docs.md` for any lookup or research question.
+
+A broad "how does X work" is `domain-knowledge`'s to answer first — it reads the cached
+domain file and comes back here for the pages it cites. Arriving from there, or asked for a
+specific page, proceed normally.
 
 For "document this" / "update that page", see `<read_only>` above.
 </routing>

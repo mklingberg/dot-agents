@@ -2,7 +2,7 @@
 1. `templates/DOMAIN.template.md` — the current schema, every run
 2. `~/.agents/skills/confluence/references/rest-api.md` — auth, the v1/v2 split, endpoints
 3. `~/.agents/skills/confluence/SKILL.md` `<config>` — the space key map
-4. `~/Dev/INDEX.md` `## Domain Notes` — for the contradictions pass in step 6
+4. the **repo index** named in `SKILL.md` `<config>`, section `## Domain Notes` — for the contradictions pass in step 6
 </required_reading>
 
 <process>
@@ -12,7 +12,7 @@ Read the template before anything else, every run. An existing `DOMAIN.md` carri
 schema was current when it was last written; holding the template's shape in mind while you
 derive is what stops a refresh reproducing an old one.
 
-Target is `~/Dev/DOMAIN.md`, beside `INDEX.md`. State which path you resolved.
+Target is the **domain cache** named in `SKILL.md` `<config>`, beside the repo index. State which path you resolved.
 
 ### 2. Verify auth before deriving anything
 ```bash
@@ -75,23 +75,23 @@ and the real changes disappear into the noise.
 "this page moved after you read it", nothing else.
 
 ### 6. Reconcile against INDEX.md
-Read `INDEX.md` `## Domain Notes` and compare with the curated prose here. Report:
+Read the repo index's `## Domain Notes` and compare with the curated prose in the cache. Report:
 
 - a curated claim the wiki now contradicts
-- a curated claim `INDEX.md` contradicts
-- domain context in `Domain Notes` that belongs here and is missing
+- a curated claim the repo index contradicts
+- domain context in the index's `Domain Notes` that belongs in the cache and is missing
 
-All three are Contradictions rows. Do not migrate anything out of `INDEX.md` — it has its own
+All three are Contradictions rows. Do not migrate anything out of the repo index — it has its own
 skill and its own curated regions, and moving prose between two hand-written files without
 being asked loses the reason it was written where it was.
 
 ### 7. Write
 The template defines the schema on every run, creating and refreshing alike.
 
-- **No `DOMAIN.md`** — copy the template, fill the derived regions, leave curated sections as
+- **No cache file yet** — copy the template, fill the derived regions, leave curated sections as
   the template's prompts. An empty curated section is an honest empty; invented content is
   worse than nothing because nothing signals its own absence.
-- **It exists** — copy to `DOMAIN.md.bak` first; `~/Dev` is not version controlled, so that
+- **It exists** — copy to `<cache>.bak` first; its folder is not version controlled, so that
   backup is the only way back. Then rewrite each fenced derived region. Where the file's
   columns differ from the template's, migrate to the template's shape and populate the new
   columns. A rewrite that lands byte-identical is a valid outcome; skipping it because you
@@ -110,13 +110,13 @@ carries a space key. Report any that didn't rather than asserting they did.
 - candidates judged `unsure`, as questions for the user
 - curated sections still empty — an empty Vocabulary is the difference between a cache that
   turns a business request into a repo set and one that doesn't
-- whether `AGENTS.md` at `~/Dev` points at `DOMAIN.md`; if not, offer to add the pointer
+- whether the root instruction file points at the cache; if not, offer to add the pointer
   alongside the existing `INDEX.md` one, as a pointer and never a copy
 
 </process>
 
 <success_criteria>
-- `~/Dev/DOMAIN.md` exists, derived regions fenced and populated, curated regions preserved
+- the domain cache exists, derived regions fenced and populated, curated regions preserved
   byte-identically
 - Every sources row carries page id, **space key**, and a `modified` taken from
   `version.createdAt`
