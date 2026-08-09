@@ -9,7 +9,8 @@ v2 has no search endpoint; `GET /api/v2/search` returns 400.
 
 <auth>
 ```bash
-W="https://norionbank.atlassian.net/wiki"
+: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
+W="$JIRA_SITE/wiki"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
 Basic auth with the API token as the password — not a bearer token.

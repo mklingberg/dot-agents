@@ -1,6 +1,6 @@
 ---
 name: confluence
-description: "Search and read norionbank Confluence, read-only. Triggers: 'search Confluence', 'find the doc'. Domain: domain-knowledge."
+description: "Search and read the team Confluence, read-only. Triggers: 'search Confluence', 'find the doc'. Domain: domain-knowledge."
 ---
 
 <config>
@@ -8,7 +8,7 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 
 | Setting | Value |
 |---|---|
-| Site | `https://norionbank.atlassian.net/wiki` |
+| Site | `$JIRA_SITE/wiki` — `$JIRA_SITE` is the required env var, e.g. `https://your-site.atlassian.net` |
 | Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token`) — both published at login |
 | APIs | reads on **v2** `/wiki/api/v2`; search only on **v1** `/wiki/rest/api/search` |
 | Scope | **read-only.** Writing is deferred and untested — see `<read_only>` |
@@ -22,7 +22,8 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 
 ```bash
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
-W="https://norionbank.atlassian.net/wiki"
+: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
+W="$JIRA_SITE/wiki"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
 

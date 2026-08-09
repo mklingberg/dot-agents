@@ -85,7 +85,7 @@ Lead with the answer, then cite. Per `<retrieval_honesty>` in SKILL.md:
 ```
 Feature flags are cleaned up one week after release via a CleanUp sub-task.
   — "How to: Deploy av feature samt uppstädning av flaggor" (TM, updated 2025-11-04)
-    https://norionbank.atlassian.net/wiki/spaces/TM/pages/…
+    $JIRA_SITE/wiki/spaces/TM/pages/…
 ```
 
 State staleness for anything older than ~18 months. Show both sides of a

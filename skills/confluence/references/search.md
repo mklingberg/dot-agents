@@ -78,7 +78,7 @@ available once you know the section.
 <reading_results>
 The v1 search result gives you, per hit: `title`, `lastModified`,
 `resultGlobalContainer.title` (the space), `url` (relative — prefix with
-`$W`... actually with the site root: `https://norionbank.atlassian.net/wiki`),
+`$W`, i.e. the site root: `$JIRA_SITE/wiki`),
 and `excerpt`.
 
 **Triage on the excerpt before fetching bodies.** Fetching 10 full pages to
@@ -97,7 +97,7 @@ Report findings as claim + source, never bare prose:
 ```
 Feature flags are cleaned up one week after release via a CleanUp sub-task.
   — "How to: Deploy av feature samt uppstädning av flaggor" (TM, updated 2025-11-04)
-    https://norionbank.atlassian.net/wiki/spaces/TM/pages/…
+    $JIRA_SITE/wiki/spaces/TM/pages/…
 ```
 
 If the best source is old, say "updated 2023 — may be stale". If two pages
