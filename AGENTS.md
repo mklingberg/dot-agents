@@ -18,4 +18,4 @@ Delegating to subagents: the `delegate-subagents` skill is required when an EXIT
 
 UI changes: if the app runs locally, verify in the Orca browser before reporting done.
 
-Walley context, two files at `${DEV_ROOT:-~/Dev}`, absolute so they resolve from inside any repo: repo topology in `INDEX.md` (skill `repo-index`) and business domain in `DOMAIN.md` (skill `domain-knowledge`). Read the relevant one before answering from memory which markets exist, what a term maps to, who owns a repo, or which repos a change touches. That folder's own `AGENTS.md` points at both, but it is not loaded when cwd is a repo below it — hence this line.
+Walley: `${DEV_ROOT:-~/Dev}/INDEX.md` = repo topology (skill `repo-index`), `DOMAIN.md` = business domain (skill `domain-knowledge`). Read them; don't answer from memory.
