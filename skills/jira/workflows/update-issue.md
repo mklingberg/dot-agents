@@ -58,7 +58,7 @@ it doesn't, tell the user and let them decide — the DoD requires it.
 ### Assign
 ```bash
 curl -s $AUTH -X PUT -H "Content-Type: application/json" \
-  --data '{"accountId":"613779557eb35f006928eb06"}' "$B/issue/MS-6548/assignee"
+  --data "{\"accountId\":\"$ATLASSIAN_ACCOUNT_ID\"}" "$B/issue/MS-6548/assignee"
 ```
 Find other people with `GET $B/user/search?query=<name or email>`. `null`
 unassigns.

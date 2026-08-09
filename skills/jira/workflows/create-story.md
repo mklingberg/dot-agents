@@ -93,7 +93,7 @@ After approval:
   "issuetype": {"id": "10001"},
   "summary": "See my invoices",
   "description": { "...ADF...": true },
-  "reporter": {"id": "613779557eb35f006928eb06"},
+  "reporter": {"id": "$ATLASSIAN_ACCOUNT_ID"},
   "customfield_12035": {"value": "Magica"},
   "labels": ["Frontend"]
 }}

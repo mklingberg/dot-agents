@@ -9,10 +9,27 @@ The username is the account email; the password is the token.
 
 ```bash
 JIRA_SITE="https://norionbank.atlassian.net"
-JIRA_USER="$ATLASSIAN_USER"
-AUTH="-u $JIRA_USER:$ATLASSIAN_PAT"
+AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 B="$JIRA_SITE/rest/api/3"
 ```
+
+Neither the account email nor the token is written into this skill — this repo is
+public. `$ATLASSIAN_USER` is the Atlassian account email; `$ATLASSIAN_PAT` is the
+API token.
+
+`$ATLASSIAN_PAT` is published at login from the keychain. `$ATLASSIAN_USER` is
+**not a secret and not keychain-backed**, so it needs publishing once:
+
+```bash
+launchctl setenv ATLASSIAN_USER you@yourcompany.com   # this login session
+```
+
+To survive a reboot, add it to the login publisher
+(`~/.config/secrets/environment-secrets.sh`) — it publishes keychain-backed
+secrets only today, so a non-secret needs a line of its own. Until that is done,
+expect `$ATLASSIAN_USER` to be empty in a fresh login session; the guard in
+`SKILL.md` will say so rather than sending an empty username and returning a
+confusing 401.
 
 If `$ATLASSIAN_PAT` is unset, the login-session publisher has not run in this
 process tree. Fall back to the keychain:
@@ -21,14 +38,25 @@ process tree. Fall back to the keychain:
 export ATLASSIAN_PAT=$(security find-generic-password -s atlassian-token -a "$USER" -w)
 ```
 
-Permanent fix (then restart the harness):
+Permanent fix (then restart the harness) — discover the label rather than
+assuming it, since it carries the local account name:
 ```bash
-launchctl kickstart -k gui/$(id -u)/com.marcusklingberg.environment-secrets
+launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')
 ```
 
 Verify auth before anything else — a 401 here saves ten confusing errors later:
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" $AUTH "$B/myself"   # expect 200
+```
+
+## Your own accountId
+
+Required as `reporter` on create and as the target when self-assigning. Resolve
+it once per session and reuse; do not hardcode it — an accountId is a stable
+cross-product identifier for a named person.
+
+```bash
+export ATLASSIAN_ACCOUNT_ID=$(curl -s $AUTH "$B/myself" | python3 -c 'import json,sys; print(json.load(sys.stdin)["accountId"])')
 ```
 </auth>
 

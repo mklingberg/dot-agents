@@ -10,7 +10,7 @@ leave the rest alone.
 | Setting | Value |
 |---|---|
 | Site | `https://norionbank.atlassian.net` |
-| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain item `atlassian-token`) |
+| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain item `atlassian-token`) — both published at login |
 | API | REST v3 — `$JIRA_SITE/rest/api/3`. **no Atlassian MCP**; the skill works in any harness |
 | Project | `MS` — "Mina sidor", company-managed (classic), Scrum |
 | Issue type ids | Epic `10000` · Story `10001` · Task `10002` · Sub-task `10003` · Bug `10004` · Sub-Bug `10100` |
@@ -18,13 +18,14 @@ leave the rest alone.
 | Sprint | `customfield_10007` · Epic Link `customfield_10003` |
 | Required on create | `project`, `issuetype`, `summary`, `reporter` |
 | Story points | not on the MS Story screen — **do not send** |
-| Reporter accountId | `613779557eb35f006928eb06` (Marcus Klingberg) |
+| Reporter accountId | `$ATLASSIAN_ACCOUNT_ID` — resolve once per session, never stored: see `<auth>` in `references/rest-api.md` |
 | Labels in use | `MyWalley`, `Risklevel-1`, `Risklevel-2`, `Frontend`, `Android` — no `Backend` label exists today |
 | Risk level | `Risklevel-1` … `Risklevel-5` as a label, 5 = highest. Set by the PM at **Up next** |
 | DoD source | Confluence *Definition Of Done (DOD)*, space `TM`, page `30867490` |
 | Risk policy source | Confluence *Riskhantering*, space `Payments`, page `4242636856` |
 
 ```bash
+: "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
 JIRA_SITE="https://norionbank.atlassian.net"
 AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 B="$JIRA_SITE/rest/api/3"

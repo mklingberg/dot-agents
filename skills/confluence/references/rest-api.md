@@ -13,14 +13,19 @@ W="https://norionbank.atlassian.net/wiki"
 AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 ```
 Basic auth with the API token as the password — not a bearer token.
+`$ATLASSIAN_USER` is the account email; neither it nor the token is written into
+this skill — this repo is public. Setup and the `ATLASSIAN_USER` caveat are in
+`jira/references/rest-api.md` `<auth>`; the same token and email cover both
+products.
 
 If `$ATLASSIAN_PAT` is unset in this process:
 ```bash
 export ATLASSIAN_PAT=$(security find-generic-password -s atlassian-token -a "$USER" -w)
 ```
-Permanent fix, then restart the harness:
+Permanent fix, then restart the harness — discover the label rather than
+assuming it, since it carries the local account name:
 ```bash
-launchctl kickstart -k gui/$(id -u)/com.marcusklingberg.environment-secrets
+launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')
 ```
 
 Verify before anything else:

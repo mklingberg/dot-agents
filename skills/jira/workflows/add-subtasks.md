@@ -65,7 +65,7 @@ After approval, one POST per subtask — issue type `10003`, parent by key:
   "parent": {"key": "MS-1234"},
   "summary": "[FE] Render the invoice list",
   "description": { ...ADF... },
-  "reporter": {"id": "613779557eb35f006928eb06"},
+  "reporter": {"id": "$ATLASSIAN_ACCOUNT_ID"},
   "customfield_12035": {"value": "Magica"}
 }}
 ```

@@ -156,7 +156,7 @@ If `$LAUNCHDARKLY_PAT` is empty, the login publisher hasn't run or the keychain 
 is missing. Recover with:
 ```bash
 ~/.config/secrets/register-secret.sh orca-launchdarkly-token
-launchctl kickstart -k gui/$(id -u)/com.marcusklingberg.environment-secrets
+launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')
 ```
 `launchctl setenv` only reaches processes started afterwards — an already-running
 terminal keeps the old (empty) value. Read straight from the keychain to work in the

@@ -80,8 +80,8 @@ curl -s "${AUTH[@]}" "$LD/auditlog?limit=10&spec=proj/$PROJ:env/production:flag/
   | jq -r '.items[] | "\(.date)\t\(.titleVerb)\t\(.member.email)"'
 ```
 ```
-1641203635830   turned on the flag    bjorn.hagstrom@collectorbank.se
-1636024280014   created the flag      $ATLASSIAN_USER
+1641203635830   turned on the flag    first.last@example.com
+1636024280014   created the flag      other.person@example.com
 ```
 `date` is epoch **milliseconds**: `date -r $((1641203635830/1000))`.
 The `spec` triple is required — plain `?q=` does not filter by flag.

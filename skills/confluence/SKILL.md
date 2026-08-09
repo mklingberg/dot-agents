@@ -9,7 +9,7 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Setting | Value |
 |---|---|
 | Site | `https://norionbank.atlassian.net/wiki` |
-| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token`) |
+| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token`) — both published at login |
 | APIs | reads on **v2** `/wiki/api/v2`; search only on **v1** `/wiki/rest/api/search` |
 | Scope | **read-only.** Writing is deferred and untested — see `<read_only>` |
 | Own team space | `TM` — "Teamy McTeamface", spaceId `23887873`, homepage `23855107` |
@@ -18,9 +18,10 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Cross-team / shared concerns | `Payments` — displayed as **"Walley Wiki"** |
 | Merchant services, partner support | `MS` — displayed as **"Payments"** |
 | Also payments-adjacent | `PAY` (Payments IT) · `PP` (Payments Product) · `PAYM` (PaymentsOld) |
-| Author accountId | `613779557eb35f006928eb06` |
+| Author accountId | resolve live, never stored: `curl -s $AUTH "$W/rest/api/user/current"` → `.accountId` |
 
 ```bash
+: "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
 W="https://norionbank.atlassian.net/wiki"
 AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
 ```

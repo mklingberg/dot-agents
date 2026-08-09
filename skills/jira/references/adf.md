@@ -110,7 +110,7 @@ def doc(*blocks): return {"type":"doc","version":1,"content":list(blocks)}
 
 Then:
 ```python
-import json
+import json, os
 body = doc(
     p("As a customer"), p("I want to see my invoices"), p("So that I can pay them"),
     h("Acceptance criteria"),
@@ -120,7 +120,7 @@ body = doc(
 )
 json.dump({"fields": {"project": {"key": "MS"}, "issuetype": {"id": "10001"},
                       "summary": "See my invoices", "description": body,
-                      "reporter": {"id": "613779557eb35f006928eb06"},
+                      "reporter": {"id": os.environ["ATLASSIAN_ACCOUNT_ID"]},
                       "customfield_12035": {"value": "Magica"}}},
           open("/tmp/issue.json", "w"))
 ```
