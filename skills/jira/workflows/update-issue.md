@@ -38,7 +38,7 @@ curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" \
 `{"body": <ADF doc>}`. Markdown 400s. Returns `201` with the comment `id` —
 keep it; `DELETE $B/issue/KEY/comment/ID` is the undo.
 
-Comments post under Marcus Klingberg, not as an AI. Write in that register.
+Comments post under the account whose token is in use, not as an AI. Write in that register.
 
 ### Transition status
 ```bash

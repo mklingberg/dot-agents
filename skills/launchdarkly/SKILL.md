@@ -13,11 +13,12 @@ leave the rest alone.
 | API base | `https://app.launchdarkly.com/api/v2` |
 | Token env var | `LAUNCHDARKLY_PAT` |
 | Token source | login keychain `orca-launchdarkly-token`, published by `~/.config/secrets/environment-secrets.sh` at login |
-| Token identity | service token "Marcus Klingberg MCP" — writes are attributed to it, not to a person |
+| Token identity | a **service token**, not a user token — writes are attributed to the token, not to a person. Confirm with `/caller-identity` |
 | MCP server | **removed on purpose — do not re-add.** See `<integration>` |
 | Critical environments | `production` only (`critical=true`); everything else is `false` |
 
 ```bash
+: "${LD_DEV_ENV:?not set — see Environments below}"
 LD="https://app.launchdarkly.com/api/v2"
 PROJ="after-purchase"
 ```
@@ -28,7 +29,7 @@ The four this skill ever touches:
 
 | Key | Use |
 |---|---|
-| `marcus-klingberg-dev` | the operator's own development environment |
+| `$LD_DEV_ENV` | the operator's own development environment — keychain-backed, see above |
 | `ci` | shared CI |
 | `uat` | shared UAT |
 | `production` | live customers, the only `critical=true` environment |
@@ -38,7 +39,10 @@ environments — never touch them**, not to enable, disable, or tidy up. If a ta
 need one, stop and ask. List them with the environments call in `references/rest-api.md`
 if you need to read state, but treat them as read-only property of their owner.
 
-"Dev" always means `marcus-klingberg-dev`.
+"Dev" always means `$LD_DEV_ENV`. The key contains the operator's name, so it is not written
+into this skill — it comes from keychain item `launchdarkly-dev-env`, published as
+`$LD_DEV_ENV` by the login publisher alongside the token. Empty in this process:
+`export LD_DEV_ENV=$(security find-generic-password -s launchdarkly-dev-env -a "$USER" -w)`
 </config>
 
 <essential_principles>
@@ -99,12 +103,12 @@ meaningless UUID — the name is what humans recognise), every environment key t
 touched, and the exact instruction. Then wait. Reads need no confirmation.
 
 ### Never touch another developer's environment
-Writes go to `marcus-klingberg-dev`, `ci`, `uat`, `production` and nowhere else. The
+Writes go to `$LD_DEV_ENV`, `ci`, `uat`, `production` and nowhere else. The
 other 13 environments belong to other people; flipping a flag in one of them changes
 someone else's local behaviour with no warning and no attribution to them.
 
 ### Rollout order is fixed
-`marcus-klingberg-dev` → `ci` → `uat` → `production`, verifying at each step before
+`$LD_DEV_ENV` → `ci` → `uat` → `production`, verifying at each step before
 advancing. Don't batch them into one loop.
 </essential_principles>
 
@@ -231,7 +235,7 @@ Verified live against `after-purchase`. Add to this list whenever a call surpris
 - Both halves exist and agree: class `Keyname` is byte-identical to the LD flag key
 - Auth verified before any write; `tokenName` known
 - Every write confirmed by the user first, with flag name and explicit environment list
-- No write to any environment outside `marcus-klingberg-dev`, `ci`, `uat`, `production`
+- No write to any environment outside `$LD_DEV_ENV`, `ci`, `uat`, `production`
 - Rollout advanced one environment at a time, verified before the next
 - Endpoints taken from `references/rest-api.md`, not memory
 - Every response in a multi-environment loop checked for 429

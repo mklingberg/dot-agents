@@ -26,7 +26,7 @@ curl -s "${AUTH[@]}" "$LD/caller-identity"
 ```
 ```json
 {"accountId":"57daae…","authKind":"token","tokenKind":"auth",
- "tokenName":"Marcus Klingberg MCP","serviceToken":true}
+ "tokenName":"<your service token name>","serviceToken":true}
 ```
 `tokenName` is what will appear against every write. Run this before any write.
 
@@ -127,7 +127,7 @@ kinds: `turnFlagOff`, `addUserTargets`, `removeUserTargets`, `updateFallthroughV
 `environmentKey` is a scalar — one request per environment, and LD rate-limits the loop.
 
 ```bash
-for ENV in marcus-klingberg-dev ci uat; do
+for ENV in "$LD_DEV_ENV" ci uat; do
   CODE=$(curl -s -o /tmp/ld-out.json -w '%{http_code}' -X PATCH "${AUTH[@]}" \
     -H "Content-Type: application/json; domain-model=launchdarkly.semanticpatch" \
     "$LD/flags/$PROJ/$KEY" \
