@@ -143,7 +143,11 @@ a POST.
   documented better in a team space than in the shared one; seeds are page ids across
   several spaces, never one space's tree.
 - **Hub pages hold no content.** Many pages are a children-macro and a sentence. A fetch that
-  finds almost nothing means "descend", not "the wiki doesn't cover this".
+  finds almost nothing means "descend", not "the wiki doesn't cover this". Content can sit two
+  levels down — a hub whose children are also hubs is common.
+- **A hub's own last-edited date measures nothing.** Adding or retiring a child never touches
+  the parent, so an index page can look abandoned while the taxonomy it indexes is current.
+  Judge a hub by its children's dates, never its own.
 - **Most source pages are years old.** That is the normal state of this domain, not a defect
   to flag on every answer. See the settled/abandoned principle.
 - **Diagrams are usually external links**, not embedded. A page can look empty while its
