@@ -1,38 +1,9 @@
----
-name: create-repo-index
-description: "Create or refresh a polyrepo INDEX.md: repos, components, dependency edges. Triggers: 'index the repos', 'update repo index', repo added or moved."
----
-
-<objective>
-Produce `INDEX.md` at the root of a folder holding many sibling repos, describing what
-lives there and how the repos depend on each other. One file, two kinds of content:
-**derived** (re-read from disk every run) and **curated** (human judgment, preserved
-across runs).
-</objective>
-
-<essential_principles>
-### Derived regions are rebuilt, curated regions are untouched
-Every run rewrites the content between `<!-- index:derived:* -->` fences from disk, and
-carries all other prose forward verbatim. This is the whole reason the file survives:
-the mechanical half stays true, the judgment half stays.
-
-### Derive identity from paths, never from IDs
-A repo's identity is its path. Worktree IDs, workspace UUIDs, and pipeline IDs belong to
-tools that outlive nothing — resolve those live at the point of use.
-
-### Record evidence for every derived edge
-Each dependency row names the file it came from and the key within it. An edge whose
-evidence no longer resolves is a signal to re-derive, and a reader who doubts a row can
-check it in one hop.
-
-### The node is a component, not always a repo
-A monorepo publishes several independently versioned contracts. Address those as
-`repo:path`, so an edge points at the thing that actually changes.
-
-### An edge with one end outside the root is still an edge
-Systems with no local checkout are the ones a reader most needs told about. Name that end
-`external:<system>` and keep the row.
-</essential_principles>
+<required_reading>
+1. `templates/INDEX.template.md` — the current schema, **every run**
+2. `SKILL.md` `<config>` — the root and index paths
+3. `SKILL.md` `<essential_principles>` — derived vs curated, evidence, component nodes,
+   external ends. Those hold while writing, not only while reading
+</required_reading>
 
 <process>
 
@@ -42,13 +13,11 @@ region fences and table columns, and an existing `INDEX.md` carries whichever on
 current when it was last written. Holding the template's shape in mind while you derive is
 what keeps a refresh from reproducing an older schema.
 
-
 The root is the folder holding the sibling repos, and it can arrive three ways — take the
 first that applies:
 
-1. **Passed as an argument** — a path in the skill invocation (`/create-repo-index ~/Dev`)
-   or named in the user's request. Use it as given; expand `~` and relative paths, then
-   confirm it exists.
+1. **Passed as an argument** — a path in the invocation or named in the user's request. Use it
+   as given; expand `~` and relative paths, then confirm it exists.
 2. **Found by walking up** from cwd to the first directory containing `INDEX.md`.
 3. **Inferred** from cwd's nearest ancestor holding many sibling repos.
 
@@ -184,7 +153,7 @@ The section names the index and the refresh trigger:
 ```markdown
 ## Repo Topology
 Repos, components, dependency edges, ownership, and change patterns: @INDEX.md
-Refresh with the `create-repo-index` skill after a repo is added, moved, removed,
+Refresh with the `repo-index` skill after a repo is added, moved, removed,
 or folded into a monorepo.
 ```
 
@@ -210,9 +179,6 @@ say where they belong instead of them vanishing from the report.
 - **The root's instruction file usually already holds a topology table.** Make the index
   canonical, leave the pointer from step 7, and migrate that prose into the curated sections
   rather than deriving alongside it.
-- **The most consequential edges often have no local producer.** A third-party or
-  other-team system publishing events you consume shapes ordering as much as any internal
-  edge; `external:<system>` keeps it visible.
 - **Some edges live in no config file.** An SPA served from an API host, or proxied in dev,
   is a real dependency whose only trace is bundler config or a host project's output paths.
 - **The root is usually not a git repo**, so `INDEX.md` is untracked and unignored. Nothing

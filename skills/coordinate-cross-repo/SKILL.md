@@ -37,7 +37,7 @@ in none of these is the failure this skill exists to prevent.
 <process>
 
 ### 1. Resolve the repo set
-Read `INDEX.md` at the polyrepo root (`create-repo-index` maintains it). Match the feature
+Read `INDEX.md` at the polyrepo root (`repo-index` reads and maintains it). Match the feature
 against its **Change Patterns** table first, then widen along **Dependency Edges** to catch
 consumers the pattern misses.
 
@@ -45,7 +45,7 @@ Present the resulting set with a one-line reason per repo and get confirmation b
 touching anything. A wrong repo set wastes every phase downstream, and the user recognises
 a wrong set instantly.
 
-Absent `INDEX.md`, offer to run `create-repo-index` — deriving the set by sweeping every
+Absent `INDEX.md`, offer to run `repo-index`'s refresh workflow — deriving the set by sweeping every
 repo costs more than indexing them once.
 
 ### 2. Order by edge kind

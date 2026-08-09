@@ -1,7 +1,7 @@
 # INDEX — {{ROOT_PATH}}
 
 What lives in this folder and how it fits together. Derived regions are rebuilt by the
-`create-repo-index` skill; everything else is curated by hand and preserved across runs.
+`repo-index` skill; everything else is curated by hand and preserved across runs.
 
 Last derived: {{YYYY-MM-DD HH:MM}}
 

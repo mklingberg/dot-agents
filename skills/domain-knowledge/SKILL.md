@@ -1,6 +1,6 @@
 ---
 name: domain-knowledge
-description: "Business domain orientation from a local cached DOMAIN.md: products, markets, vocabulary. Triggers: 'how does X work', 'which systems does X touch'. Wiki search: confluence."
+description: "Business domain from a cached DOMAIN.md: products, markets, vocabulary, rules. Triggers: 'how does X work', 'what does <term> mean'. Repos and topology: repo-index."
 ---
 
 <objective>
@@ -16,7 +16,7 @@ is a secret, but the paths are local and the wiki is private.
 | Setting | Value |
 |---|---|
 | Domain cache | `~/Dev/DOMAIN.md` — untracked; `~/Dev` is not a git repo |
-| Repo index | `~/Dev/INDEX.md` — maintained by `create-repo-index`; reconciled against, never written |
+| Repo index | `~/Dev/INDEX.md` — read via `repo-index`; reconciled against, never written |
 | Root instruction file | `~/Dev/AGENTS.md` — points at both, via `@` includes |
 | Wiki | Confluence, reached through the `confluence` skill; space keys and the collision table live in that skill's `<config>` |
 | Cache template | `templates/DOMAIN.template.md` in this skill |
@@ -101,7 +101,8 @@ Systems in this domain have their own skills. Route to them rather than re-deriv
 | PRs, builds, pipelines | `azure-devops` |
 | feature flag state per environment | `launchdarkly` |
 | exercising flows locally against test data | `walley-bruno` |
-| which repos a change spans | `INDEX.md`, then `coordinate-cross-repo` |
+| which repos or components exist, who owns them, what depends on what | `repo-index` |
+| executing a change across several repos | `coordinate-cross-repo` |
 
 Credentials for those live in each skill's `<config>`, sourced from the login keychain.
 Never copy a credential, endpoint, or account identifier into `DOMAIN.md` — it is a domain
