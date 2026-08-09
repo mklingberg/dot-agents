@@ -42,6 +42,14 @@ The CLI cannot resolve `{{$secrets...}}`. Fetch from `kv-walley-bruno-core` and 
 az keyvault secret show --vault-name kv-walley-bruno-core --name <secret> --query value -o tsv
 ```
 
+**Keep the value in a shell variable and pass it expanded** — `--env-var
+payment_service_password="$PW"`, never the literal. `--env-var` puts whatever it receives in
+the process argument list, where `ps` shows it to every local user for the life of the run;
+that much is unavoidable with this CLI, but a literal additionally lands in shell history and
+in any transcript of the session, which is not. Don't echo it, don't write it to a file, and
+don't inline it "just to test" — prefer running a folder in one process, which needs the
+injection once instead of per request.
+
 Environments are named `CI - B2C - Sweden|Norway|Finland|Denmark`, `CI - B2B - Sweden|Norway|Finland`,
 `UAT - B2C - Sweden|Norway|Finland`. Pick country **and** customer type; partner IDs and currency
 come with it.
