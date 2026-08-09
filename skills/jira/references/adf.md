@@ -83,7 +83,7 @@ paragraph is the single most common ADF mistake.
 paragraph**; as a top-level block node it returns 400.
 ```json
 {"type":"paragraph","content":[
-  {"type":"inlineCard","attrs":{"url":"https://norionbank.atlassian.net/browse/MS-6545"}}]}
+  {"type":"inlineCard","attrs":{"url":"https://your-site.atlassian.net/browse/MS-6545"}}]}
 ```
 </blocks>
 
@@ -102,7 +102,7 @@ def ul(items): return {"type":"bulletList","content":[
 def link(text, href): return {"type":"paragraph","content":[
     {"type":"text","text":text,"marks":[{"type":"link","attrs":{"href":href}}]}]}
 def card(key): return {"type":"paragraph","content":[{"type":"inlineCard",
-    "attrs":{"url":f"https://norionbank.atlassian.net/browse/{key}"}}]}
+    "attrs":{"url":f"https://your-site.atlassian.net/browse/{key}"}}]}
 def doc(*blocks): return {"type":"doc","version":1,"content":list(blocks)}
 ```
 

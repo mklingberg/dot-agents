@@ -9,7 +9,7 @@ leave the rest alone.
 
 | Setting | Value |
 |---|---|
-| Site | `https://norionbank.atlassian.net` |
+| Site | `$JIRA_SITE` — required env var, e.g. `https://your-site.atlassian.net` |
 | Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain item `atlassian-token`) — both published at login |
 | API | REST v3 — `$JIRA_SITE/rest/api/3`. **no Atlassian MCP**; the skill works in any harness |
 | Project | `MS` — "Mina sidor", company-managed (classic), Scrum |
@@ -26,7 +26,7 @@ leave the rest alone.
 
 ```bash
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
-JIRA_SITE="https://norionbank.atlassian.net"
+: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
 ```

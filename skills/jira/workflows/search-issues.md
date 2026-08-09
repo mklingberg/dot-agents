@@ -60,7 +60,7 @@ Flatten ADF to text. One line per issue:
 MS-6548  To be Refined  Magica  — Visa fakturor i listan
 ```
 
-Link keys as `https://norionbank.atlassian.net/browse/MS-6548`. Summarise; don't
+Link keys as `$JIRA_SITE/browse/MS-6548`. Summarise; don't
 paste raw JSON unless the user asked for a field the summary doesn't cover.
 
 </process>

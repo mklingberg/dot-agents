@@ -106,7 +106,7 @@ curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" --data @/tmp/st
 3. Create each subtask with issue type `10003` and `"parent": {"key": "<story key>"}`,
    one at a time, checking each response.
 
-4. Report every created issue as `https://norionbank.atlassian.net/browse/<KEY>`.
+4. Report every created issue as `$JIRA_SITE/browse/<KEY>`.
 
 If a create returns 400, read `<gotchas>` in `references/rest-api.md` before
 retrying — Story Points and markdown descriptions are the usual causes.

@@ -8,14 +8,16 @@ Atlassian Cloud uses **basic auth with an API token**, not a bearer token.
 The username is the account email; the password is the token.
 
 ```bash
-JIRA_SITE="https://norionbank.atlassian.net"
+: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
 ```
 
-Neither the account email nor the token is written into this skill — this repo is
-public. `$ATLASSIAN_USER` is the Atlassian account email; `$ATLASSIAN_PAT` is the
-API token. Both come from the login keychain, published into the login session by
+Neither the site, the account email, nor the token is written into this skill —
+this repo is public. `$JIRA_SITE` is the Atlassian site root (no trailing
+slash), set once per environment. `$ATLASSIAN_USER` is the Atlassian account
+email; `$ATLASSIAN_PAT` is the API token. The latter two come from the login
+keychain, published into the login session by
 `~/.config/secrets/environment-secrets.sh` (services `atlassian-user` and
 `atlassian-token`).
 
@@ -87,7 +89,7 @@ curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" \
   --data @/tmp/issue.json "$B/issue"
 ```
 Returns `{"id","key","self"}`. Echo the key and the browse URL back to the user:
-`https://norionbank.atlassian.net/browse/MS-1234`.
+`$JIRA_SITE/browse/MS-1234`.
 
 **Create a sub-task** — same endpoint; the parent goes in `fields.parent.key`
 and the issue type must be the sub-task type (`10003`), not `Sub-task` by name
