@@ -15,26 +15,17 @@ B="$JIRA_SITE/rest/api/3"
 
 Neither the account email nor the token is written into this skill — this repo is
 public. `$ATLASSIAN_USER` is the Atlassian account email; `$ATLASSIAN_PAT` is the
-API token.
+API token. Both come from the login keychain, published into the login session by
+`~/.config/secrets/environment-secrets.sh` (services `atlassian-user` and
+`atlassian-token`).
 
-`$ATLASSIAN_PAT` is published at login from the keychain. `$ATLASSIAN_USER` is
-**not a secret and not keychain-backed**, so it needs publishing once:
+The email is not a credential, but it is still personal and this repo is public,
+so it lives in the keychain for the same reason the token does.
 
-```bash
-launchctl setenv ATLASSIAN_USER you@yourcompany.com   # this login session
-```
-
-To survive a reboot, add it to the login publisher
-(`~/.config/secrets/environment-secrets.sh`) — it publishes keychain-backed
-secrets only today, so a non-secret needs a line of its own. Until that is done,
-expect `$ATLASSIAN_USER` to be empty in a fresh login session; the guard in
-`SKILL.md` will say so rather than sending an empty username and returning a
-confusing 401.
-
-If `$ATLASSIAN_PAT` is unset, the login-session publisher has not run in this
-process tree. Fall back to the keychain:
+If either is empty, the publisher has not run in this process tree:
 
 ```bash
+export ATLASSIAN_USER=$(security find-generic-password -s atlassian-user -a "$USER" -w)
 export ATLASSIAN_PAT=$(security find-generic-password -s atlassian-token -a "$USER" -w)
 ```
 
