@@ -19,14 +19,14 @@ Read-only. **No approval gate applies** — answer directly.
 ## Step 2a: Single issue
 
 ```bash
-curl -s $AUTH "$B/issue/MS-6548?fields=summary,status,assignee,labels,description,parent,subtasks,customfield_12035"
+curl -s "${AUTH[@]}" "$B/issue/MS-6548?fields=summary,status,assignee,labels,description,parent,subtasks,customfield_12035"
 ```
 Name the fields. The unfiltered response is thousands of lines of nulls.
 
 ## Step 2b: JQL search
 
 ```bash
-curl -s -G $AUTH \
+curl -s -G "${AUTH[@]}" \
   --data-urlencode 'jql=project=MS AND status="To be Refined" ORDER BY created DESC' \
   --data-urlencode 'fields=summary,status,assignee,labels' \
   --data-urlencode 'maxResults=50' \

@@ -13,7 +13,7 @@ what you're about to change, get an explicit yes, then act.
 ## Step 1: Read the current state first
 
 ```bash
-curl -s $AUTH "$B/issue/MS-6548?fields=summary,status,assignee,labels,customfield_12035"
+curl -s "${AUTH[@]}" "$B/issue/MS-6548?fields=summary,status,assignee,labels,customfield_12035"
 ```
 Never write blind. The user's mental model of the ticket is often stale.
 
@@ -21,7 +21,7 @@ Never write blind. The user's mental model of the ticket is often stale.
 
 ### Edit fields
 ```bash
-curl -s $AUTH -X PUT -H "Content-Type: application/json" \
+curl -s "${AUTH[@]}" -X PUT -H "Content-Type: application/json" \
   --data '{"fields":{"summary":"New summary","labels":["Frontend","MyWalley"]}}' \
   "$B/issue/MS-6548"
 ```
@@ -32,7 +32,7 @@ Only use labels already in `<config>`; ask before introducing a new one.
 
 ### Add a comment
 ```bash
-curl -s $AUTH -X POST -H "Content-Type: application/json" \
+curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" \
   --data @/tmp/comment.json "$B/issue/MS-6548/comment"
 ```
 `{"body": <ADF doc>}`. Markdown 400s. Returns `201` with the comment `id` —
@@ -42,8 +42,8 @@ Comments post under Marcus Klingberg, not as an AI. Write in that register.
 
 ### Transition status
 ```bash
-curl -s $AUTH "$B/issue/MS-6548/transitions"     # always discover first
-curl -s $AUTH -X POST -H "Content-Type: application/json" \
+curl -s "${AUTH[@]}" "$B/issue/MS-6548/transitions"     # always discover first
+curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" \
   --data '{"transition":{"id":"91"}}' "$B/issue/MS-6548/transitions"
 ```
 Transition ids are per-workflow **and depend on the current status** — the id
@@ -57,7 +57,7 @@ it doesn't, tell the user and let them decide — the DoD requires it.
 
 ### Assign
 ```bash
-curl -s $AUTH -X PUT -H "Content-Type: application/json" \
+curl -s "${AUTH[@]}" -X PUT -H "Content-Type: application/json" \
   --data "{\"accountId\":\"$ATLASSIAN_ACCOUNT_ID\"}" "$B/issue/MS-6548/assignee"
 ```
 Find other people with `GET $B/user/search?query=<name or email>`. `null`

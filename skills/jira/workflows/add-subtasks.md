@@ -14,7 +14,7 @@
 Ask the user for the story key (e.g., MS-1234) if not provided.
 
 ```bash
-curl -s $AUTH "$B/issue/MS-1234?fields=summary,description,labels,subtasks,customfield_12035"
+curl -s "${AUTH[@]}" "$B/issue/MS-1234?fields=summary,description,labels,subtasks,customfield_12035"
 ```
 Flatten the ADF description (see `references/adf.md`) before reading it. Note the
 existing subtasks and the Teamy Team value — new subtasks inherit both.
@@ -70,7 +70,7 @@ After approval, one POST per subtask — issue type `10003`, parent by key:
 }}
 ```
 ```bash
-curl -s $AUTH -X POST -H "Content-Type: application/json" --data @/tmp/sub1.json "$B/issue"
+curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" --data @/tmp/sub1.json "$B/issue"
 ```
 
 Create them one at a time and check each response. If one 400s, stop and fix

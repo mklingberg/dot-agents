@@ -14,7 +14,7 @@
 Ask the user for the story key (e.g., MS-1234) if not provided.
 
 ```bash
-curl -s $AUTH "$B/issue/MS-1234?fields=summary,description,labels,subtasks,status,customfield_12035"
+curl -s "${AUTH[@]}" "$B/issue/MS-1234?fields=summary,description,labels,subtasks,status,customfield_12035"
 ```
 Flatten the ADF description for reading (see `references/adf.md`).
 

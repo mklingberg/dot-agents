@@ -18,12 +18,12 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Cross-team / shared concerns | `Payments` — displayed as **"Walley Wiki"** |
 | Merchant services, partner support | `MS` — displayed as **"Payments"** |
 | Also payments-adjacent | `PAY` (Payments IT) · `PP` (Payments Product) · `PAYM` (PaymentsOld) |
-| Author accountId | resolve live, never stored: `curl -s $AUTH "$W/rest/api/user/current"` → `.accountId` |
+| Author accountId | resolve live, never stored: `curl -s "${AUTH[@]}" "$W/rest/api/user/current"` → `.accountId` |
 
 ```bash
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
 W="https://norionbank.atlassian.net/wiki"
-AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
+AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
 
 **Never echo, log, or paste the token; always reference `$ATLASSIAN_PAT`.** Where the env
@@ -31,7 +31,7 @@ var is empty — a fresh shell, or a subagent that never sourced the login publi
 the keychain by expansion inside the command that needs it, never into a literal:
 
 ```bash
-AUTH="-u $ATLASSIAN_USER:$(security find-generic-password -s atlassian-token -w)"
+AUTH=(-u "$ATLASSIAN_USER:$(security find-generic-password -s atlassian-token -w)")
 ```
 
 The token is ~190 characters and contains shell-significant characters. Pasting the literal
@@ -39,6 +39,11 @@ into a command both leaks it and corrupts it, so **a 401/403 here means a malfor
 not missing access** — fix the quoting before concluding anything about permissions. A
 delegated task that reports "user not permitted to use Confluence" has almost certainly
 mangled its own auth header.
+
+**`AUTH` must stay an array (`AUTH=(-u "user:pat")`) and be expanded as `"${AUTH[@]}"`.**
+zsh does not word-split unquoted parameter expansions, so assigning `AUTH` as a plain
+string and expanding it as `$AUTH` sends the whole thing as one argv entry — curl fails auth silently,
+returning a 401/403 that reads as a permissions problem, not a quoting bug.
 </config>
 
 <essential_principles>
@@ -63,7 +68,7 @@ answers.
 When a space is mentioned by name, resolve it to a key before querying — the
 name the user says is often another space's key:
 ```bash
-curl -s $AUTH "$W/api/v2/spaces?limit=100" | grep -i "<name>"
+curl -s "${AUTH[@]}" "$W/api/v2/spaces?limit=100" | grep -i "<name>"
 ```
 </space_key_collision>
 

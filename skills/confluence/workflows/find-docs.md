@@ -18,7 +18,7 @@ and `Gaia`; about our own process, `TM`.
 If the question names a system you can't map to a space, list the spaces first
 rather than guessing:
 ```bash
-curl -s $AUTH "$W/api/v2/spaces?limit=100"
+curl -s "${AUTH[@]}" "$W/api/v2/spaces?limit=100"
 ```
 
 ## Step 2: Climb the ladder
@@ -27,7 +27,7 @@ Title-in-space → label → text-in-space → text-in-several-spaces → tree w
 Stop at the first rung with good hits. Do not start at full text.
 
 ```bash
-curl -s -G $AUTH \
+curl -s -G "${AUTH[@]}" \
   --data-urlencode 'cql=space=TM AND type=page AND title ~ "<terms>"' \
   --data-urlencode 'limit=10' "$W/rest/api/search"
 ```
@@ -46,7 +46,7 @@ window.
 ## Step 4: Read the chosen pages
 
 ```bash
-curl -s $AUTH "$W/api/v2/pages/<id>?body-format=storage"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/<id>?body-format=storage"
 ```
 Use the `content.id` from the search hit — never construct or recall a page id.
 A wrong id returns a body-less JSON object rather than a clean 404, so the
@@ -59,7 +59,7 @@ them as markup.
 If the page turns out to be an index of child pages rather than content, walk
 its children instead of reporting the index as the answer:
 ```bash
-curl -s $AUTH "$W/api/v2/pages/<id>/children?limit=25"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/<id>/children?limit=25"
 ```
 
 ## Step 4b: Follow the links in the body
@@ -70,7 +70,7 @@ id and fetch it:
 
 ```bash
 grep -oE '/pages/[0-9]+' /tmp/body.html | sort -u
-curl -s $AUTH "$W/api/v2/pages/<id>?body-format=storage"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/<id>?body-format=storage"
 ```
 
 When a page says "enligt kriterierna för X" or "see the Y page" and links it,

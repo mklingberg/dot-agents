@@ -13,7 +13,7 @@ straight to full-text costs tokens and returns noise.
 
 **1. Title, scoped to a space**
 ```bash
-curl -s -G $AUTH \
+curl -s -G "${AUTH[@]}" \
   --data-urlencode 'cql=space=TM AND type=page AND title ~ "feature flag"' \
   --data-urlencode 'limit=10' "$W/rest/api/search"
 ```
@@ -35,7 +35,7 @@ curl -s -G $AUTH \
 
 **5. Page tree walk** — when search fails but you know roughly where it lives
 ```bash
-curl -s $AUTH "$W/api/v2/pages/23855107/children?limit=25"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/23855107/children?limit=25"
 ```
 TM's tree is organised by topic (`DevOps / Tekniskt`, `Workflow`, `🔥 Produkter`,
 `🔪 Testning`), so descending it is often faster than guessing search terms.

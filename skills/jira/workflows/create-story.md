@@ -80,7 +80,7 @@ N. [TEST] Acceptance test (estimate)
 
 After approval:
 
-1. Verify auth once — `curl -s -o /dev/null -w "%{http_code}\n" $AUTH "$B/myself"`.
+1. Verify auth once — `curl -s -o /dev/null -w "%{http_code}\n" "${AUTH[@]}" "$B/myself"`.
    Issue type and field ids are already in `<config>`; only call `createmeta` if
    a create fails or the project looks different from the config.
 
@@ -99,7 +99,7 @@ After approval:
 }}
 ```
 ```bash
-curl -s $AUTH -X POST -H "Content-Type: application/json" --data @/tmp/story.json "$B/issue"
+curl -s "${AUTH[@]}" -X POST -H "Content-Type: application/json" --data @/tmp/story.json "$B/issue"
 ```
    Keep the returned `key` — the subtasks need it.
 

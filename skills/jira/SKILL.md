@@ -27,7 +27,7 @@ leave the rest alone.
 ```bash
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
 JIRA_SITE="https://norionbank.atlassian.net"
-AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
+AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
 ```
 
@@ -40,6 +40,11 @@ into a command both leaks it and corrupts it, so **a 401/403 here means a malfor
 not missing access** — fix the quoting before concluding anything about permissions. This
 token is shared with Confluence; a delegated task reporting "user not permitted" on either
 product has almost certainly mangled its own auth header.
+
+**`AUTH` must stay an array (`AUTH=(-u "user:pat")`) and be expanded as `"${AUTH[@]}"`.**
+zsh does not word-split unquoted parameter expansions, so assigning `AUTH` as a plain
+string and expanding it as `$AUTH` sends the whole thing as one argv entry — curl fails auth silently,
+returning a 401/403 that reads as a permissions problem, not a quoting bug.
 </config>
 
 <essential_principles>

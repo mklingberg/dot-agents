@@ -10,7 +10,7 @@ v2 has no search endpoint; `GET /api/v2/search` returns 400.
 <auth>
 ```bash
 W="https://norionbank.atlassian.net/wiki"
-AUTH="-u $ATLASSIAN_USER:$ATLASSIAN_PAT"
+AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
 Basic auth with the API token as the password — not a bearer token.
 `$ATLASSIAN_USER` is the account email; neither it nor the token is written into
@@ -30,14 +30,14 @@ launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets
 
 Verify before anything else:
 ```bash
-curl -s -o /dev/null -w "%{http_code}\n" $AUTH "$W/api/v2/spaces?limit=1"   # 200
+curl -s -o /dev/null -w "%{http_code}\n" "${AUTH[@]}" "$W/api/v2/spaces?limit=1"   # 200
 ```
 </auth>
 
 <spaces>
 ```bash
-curl -s $AUTH "$W/api/v2/spaces?limit=100"          # id, key, name, type, homepageId
-curl -s $AUTH "$W/api/v2/spaces?keys=TM"
+curl -s "${AUTH[@]}" "$W/api/v2/spaces?limit=100"          # id, key, name, type, homepageId
+curl -s "${AUTH[@]}" "$W/api/v2/spaces?keys=TM"
 ```
 There are ~48 spaces. **Writes need `spaceId` (numeric), search needs `key`** —
 `TM` is key `TM`, id `23887873`. Confusing the two produces a 400 that blames
@@ -47,7 +47,7 @@ the wrong field.
 <reading>
 **A page by id**, choosing a body format:
 ```bash
-curl -s $AUTH "$W/api/v2/pages/30867490?body-format=storage"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/30867490?body-format=storage"
 ```
 
 | `body-format` | You get | Use for |
@@ -61,12 +61,12 @@ Do not paste raw storage XHTML into the conversation; it's mostly layout noise.
 
 **Children** (page tree navigation — often better than search):
 ```bash
-curl -s $AUTH "$W/api/v2/pages/23855107/children?limit=25"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/23855107/children?limit=25"
 ```
 
 **Labels** — a strong retrieval signal, curated by humans:
 ```bash
-curl -s $AUTH "$W/api/v2/pages/30867490/labels"
+curl -s "${AUTH[@]}" "$W/api/v2/pages/30867490/labels"
 ```
 
 **Pagination** is `_links.next`, a **relative** path. Prefix it with `$W`:
