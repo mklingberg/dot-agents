@@ -39,12 +39,16 @@ a public diff gets written here, in a commit message, or in a PR.
 Confluence round-trip. Consult it first, and fetch a page only when you need detail past the
 distilled line — then cite what you fetched.
 
-### A timestamp cannot tell settled from abandoned
-Most of this domain changes rarely. A page last edited in 2021 describing a stable product
-boundary is settled, not stale; a page last edited in 2021 describing a migration is
-abandoned. Only a human distinguishes those, and `DOMAIN.md` records the verdict. So
-**never downgrade a curated claim because its source page looks old** — the age was already
-considered. Report the age alongside the claim and let the reader judge.
+### A timestamp cannot tell settled from abandoned — in either direction
+Most of this domain changes rarely. A page last edited years ago describing a stable product
+boundary is settled, not stale; the same age on a page describing a migration means abandoned.
+Only a human distinguishes those, and the cache records the verdict. So **never downgrade a
+curated claim because its source page looks old** — the age was already considered.
+
+**And never promote a claim because its page is recent.** A wiki page describes what someone
+intended when they wrote it, which is not the same as what ships. Recency raises the odds and
+settles nothing. Where a page and the code disagree, the code is what runs, and the operator
+outranks both — record the divergence rather than picking the newer document.
 
 ### Cite space key with every page
 Several Confluence spaces carry parts of this domain, and their keys collide with product
