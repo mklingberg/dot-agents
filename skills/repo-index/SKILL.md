@@ -1,6 +1,6 @@
 ---
 name: repo-index
-description: "What repos, components and dependencies exist, from INDEX.md. Triggers: 'what else uses', 'who owns this repo', 'what is <repo> for'. Multi-repo change: coordinate-cross-repo."
+description: "Repos, dependencies and ownership from INDEX.md. Triggers: 'what else uses this', 'who owns this repo'."
 ---
 
 <objective>
@@ -12,11 +12,14 @@ rare, and lives in `workflows/refresh-index.md`.
 <config>
 Site-specific. Fork the skill, edit this block, leave the rest alone.
 
+`$DEV_ROOT` below means `${DEV_ROOT:-~/Dev}` — export `DEV_ROOT` to move the root; unset is
+fine, the default covers it, so nothing has to be published for this skill to work.
+
 | Setting | Value |
 |---|---|
-| Polyrepo root | `~/Dev` — sibling repos one level down; not a git repo itself |
-| Index | `~/Dev/INDEX.md` — untracked, so no history and no blame |
-| Domain cache | `~/Dev/DOMAIN.md` — business meaning, maintained by `domain-knowledge`; read alongside, never written from here |
+| Polyrepo root | `$DEV_ROOT` — sibling repos one level down; not a git repo itself |
+| Index | `$DEV_ROOT/INDEX.md` — untracked, so no history and no blame |
+| Domain cache | `$DEV_ROOT/DOMAIN.md` — business meaning, maintained by `domain-knowledge`; read alongside, never written from here |
 | Schema | `templates/INDEX.template.md` in this skill |
 | Refresh | `workflows/refresh-index.md` |
 </config>

@@ -1,6 +1,6 @@
 ---
 name: confluence
-description: "Find and read docs in norionbank Confluence. Read-only. Triggers: 'search Confluence', 'find the doc on', 'which page covers'. Domain questions: domain-knowledge first."
+description: "Search and read norionbank Confluence, read-only. Triggers: 'search Confluence', 'find the doc'. Domain: domain-knowledge."
 ---
 
 <config>

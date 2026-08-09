@@ -1,6 +1,6 @@
 ---
 name: coordinate-cross-repo
-description: "Coordinate a feature spanning several repos — repo set, dependency order, per-repo plans, PR order. Triggers: 'cross-repo feature', 'change across services'. One repo: create-plans."
+description: "Coordinate one feature across several repos: set, order, plans, PRs. Triggers: 'cross-repo feature'. One repo: create-plans."
 ---
 
 <objective>

@@ -1,6 +1,6 @@
 ---
 name: walley-bruno
-description: "Run Walley Bruno/Edge requests locally: test customers, purchases, notify flows, SE/NO/FI/DK. Triggers: 'add direct invoice', 'create a test customer'."
+description: "Run Bruno/Edge requests locally: test customers, purchases, notify flows. Triggers: 'add direct invoice', 'create a test customer'."
 ---
 
 # Walley Bruno
@@ -8,10 +8,12 @@ description: "Run Walley Bruno/Edge requests locally: test customers, purchases,
 Drive the `walley-bruno` collections from the CLI: seed test people, create purchases of a given
 account type, notify accounts/installments, inspect results through PublicWebApi.
 
-Repo: `~/Dev/walley-bruno`. Collection root for everything below:
-`~/Dev/walley-bruno/Walley/collections/Edge`.
+`$DEV_ROOT` means `${DEV_ROOT:-~/Dev}` — export `DEV_ROOT` to move the polyrepo root.
 
-**Read `~/Dev/walley-bruno/AGENTS.md` before acting.** It is the domain map and always current with
+Repo: `$DEV_ROOT/walley-bruno`. Collection root for everything below:
+`$DEV_ROOT/walley-bruno/Walley/collections/Edge`.
+
+**Read `$DEV_ROOT/walley-bruno/AGENTS.md` before acting.** It is the domain map and always current with
 the repo: environment × market table with partner IDs, `invoice_type` codes per product, request
 template locations, ready-made scenario folders, old vs new dunning, partner selection, variable
 ownership. This skill covers only how to get started and the recipes.
@@ -19,14 +21,14 @@ ownership. This skill covers only how to get started and the recipes.
 ## Bootstrap
 
 ```bash
-cd ~/Dev/walley-bruno && npm install
+cd $DEV_ROOT/walley-bruno && npm install
 az login && az account set --subscription "Walley - CORE"   # VPN required
 ```
 
 Run from the collection root, always with `--sandbox=developer`:
 
 ```bash
-cd ~/Dev/walley-bruno/Walley/collections/Edge
+cd $DEV_ROOT/walley-bruno/Walley/collections/Edge
 npx -y @usebruno/cli run '<request>.bru' --env 'CI - B2C - Sweden' --sandbox=developer
 ```
 
@@ -73,7 +75,7 @@ Before stitching requests by hand, check `Edge/Test scenarios/{B2C,B2B}/` and
 Worked example, NO customer + DirectInvoice:
 
 ```bash
-cd ~/Dev/walley-bruno/Walley/collections/Edge
+cd $DEV_ROOT/walley-bruno/Walley/collections/Edge
 PW=$(az keyvault secret show --vault-name kv-walley-bruno-core \
   --name EDGE--ci-payment-service-password --query value -o tsv)
 npx -y @usebruno/cli run 'Test data/Generate new NO person using local algorithm.bru' \

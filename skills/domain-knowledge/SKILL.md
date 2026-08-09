@@ -1,6 +1,6 @@
 ---
 name: domain-knowledge
-description: "Business domain from a cached DOMAIN.md: products, markets, vocabulary, rules. Triggers: 'how does X work', 'what does <term> mean'. Repos and topology: repo-index."
+description: "Products, markets, vocabulary and rules from DOMAIN.md. Triggers: 'how does X work', 'what does <term> mean'."
 ---
 
 <objective>
@@ -13,11 +13,14 @@ file; this skill is the procedure for reading it, trusting it, and refreshing it
 Site- and team-specific. Fork the skill, edit this block, leave the rest alone. Nothing here
 is a secret, but the paths are local and the wiki is private.
 
+`$DEV_ROOT` below means `${DEV_ROOT:-~/Dev}` — export `DEV_ROOT` to move the root; unset is
+fine, the default covers it.
+
 | Setting | Value |
 |---|---|
-| Domain cache | `~/Dev/DOMAIN.md` — untracked; `~/Dev` is not a git repo |
-| Repo index | `~/Dev/INDEX.md` — read via `repo-index`; reconciled against, never written |
-| Root instruction file | `~/Dev/AGENTS.md` — points at both, via `@` includes |
+| Domain cache | `$DEV_ROOT/DOMAIN.md` — untracked; the root is not a git repo |
+| Repo index | `$DEV_ROOT/INDEX.md` — read via `repo-index`; reconciled against, never written |
+| Root instruction file | `$DEV_ROOT/AGENTS.md` — points at both, via `@` includes |
 | Wiki | Confluence, reached through the `confluence` skill; space keys and the collision table live in that skill's `<config>` |
 | Cache template | `templates/DOMAIN.template.md` in this skill |
 

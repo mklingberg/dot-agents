@@ -1,6 +1,6 @@
 ---
 name: launchdarkly
-description: "LaunchDarkly flags in the Teamy C# stack: create/use/test/remove FeatureFlag<T> classes, plus the LD REST API. Triggers: 'add a feature flag', 'is flag X on in prod', 'toggle the flag'."
+description: "Feature flags in the Teamy C# stack, plus the LD REST API. Triggers: 'add a feature flag', 'is flag X on in prod'."
 ---
 
 <config>
