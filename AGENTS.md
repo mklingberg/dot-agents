@@ -17,3 +17,5 @@ Subagents: Scope first — no launch under open decisions, though an approved pl
 Delegating to subagents: the `delegate-subagents` skill is required when an EXIT REPORT arrives, when running a roadmap, and before a parallel wave — read it earlier if the routing isn't obvious. Harness without skills: read `~/.agents/skills/delegate-subagents/SKILL.md`.
 
 UI changes: if the app runs locally, verify in the Orca browser before reporting done.
+
+Walley context, two files at `~/Dev`, both absolute so they resolve from inside any repo: repo topology in `INDEX.md` (skill `repo-index`) and business domain in `DOMAIN.md` (skill `domain-knowledge`). Read the relevant one before answering from memory which markets exist, what a term maps to, who owns a repo, or which repos a change touches. `~/Dev/AGENTS.md` points at both, but it is not loaded when cwd is a repo below it — hence this line.
