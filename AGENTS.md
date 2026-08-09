@@ -18,4 +18,4 @@ Delegating to subagents: the `delegate-subagents` skill is required when an EXIT
 
 UI changes: if the app runs locally, verify in the Orca browser before reporting done.
 
-Walley: repo topology → skill `repo-index`, business domain → skill `domain-knowledge`. Use them rather than answering from memory.
+Walley: repo topology → skill `repo-index`, business domain → skill `domain-knowledge`. Don't answer from memory.
