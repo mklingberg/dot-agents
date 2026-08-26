@@ -19,11 +19,12 @@ this skill — this repo is public. Setup and the `ATLASSIAN_USER` caveat are in
 `jira/references/rest-api.md` `<auth>`; the same token and email cover both
 products.
 
-If `$ATLASSIAN_PAT` is unset in this process:
+If `$ATLASSIAN_PAT` is unset in this process — likely, since `launchctl setenv` never
+reaches an already-running app:
 ```bash
-export ATLASSIAN_PAT=$(security find-generic-password -s atlassian-token -a "$USER" -w)
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
 ```
-Permanent fix, then restart the harness — discover the label rather than
+Permanent fix for GUI apps, then restart them — discover the label rather than
 assuming it, since it carries the local account name:
 ```bash
 launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')

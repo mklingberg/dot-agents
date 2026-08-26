@@ -12,12 +12,13 @@ leave the rest alone.
 | Project key | `after-purchase` (171 flags) |
 | API base | `https://app.launchdarkly.com/api/v2` |
 | Token env var | `LAUNCHDARKLY_PAT` |
-| Token source | login keychain `orca-launchdarkly-token`, published by `~/.config/secrets/environment-secrets.sh` at login |
+| Token source | login keychain `orca-launchdarkly-token`, published by `~/.config/secrets/environment-secrets.sh` at login. Empty var → refill from the keychain, see below |
 | Token identity | a **service token**, not a user token — writes are attributed to the token, not to a person. Confirm with `/caller-identity` |
 | MCP server | **removed on purpose — do not re-add.** See `<integration>` |
 | Critical environments | `production` only (`critical=true`); everything else is `false` |
 
 ```bash
+. ~/.config/secrets/secret-env.sh && secret_env LAUNCHDARKLY_PAT LD_DEV_ENV
 : "${LD_DEV_ENV:?not set — see Environments below}"
 LD="https://app.launchdarkly.com/api/v2"
 PROJ="after-purchase"
@@ -41,8 +42,8 @@ if you need to read state, but treat them as read-only property of their owner.
 
 "Dev" always means `$LD_DEV_ENV`. The key contains the operator's name, so it is not written
 into this skill — it comes from keychain item `launchdarkly-dev-env`, published as
-`$LD_DEV_ENV` by the login publisher alongside the token. Empty in this process:
-`export LD_DEV_ENV=$(security find-generic-password -s launchdarkly-dev-env -a "$USER" -w)`
+`$LD_DEV_ENV` by the login publisher alongside the token. Empty in this process: the
+`secret_env` line above fills it.
 </config>
 
 <essential_principles>
@@ -156,15 +157,18 @@ curl -s -H "Authorization: $LAUNCHDARKLY_PAT" "$LD/caller-identity"
 | `401 {"code":"unauthorized","message":"Invalid key"}` | token dead, revoked, or absent | stop, tell the operator to rotate |
 | `Invalid account ID header` | no credential was sent | fix the caller — not the token |
 
-If `$LAUNCHDARKLY_PAT` is empty, the login publisher hasn't run or the keychain item
-is missing. Recover with:
+If `$LAUNCHDARKLY_PAT` is empty, the overwhelmingly likely cause is launch order, not a
+missing token: the publisher uses `launchctl setenv`, which only reaches processes started
+after it ran, and Orca.app routinely starts first at login and then stays up for days.
+Refill from the keychain and carry on:
+```bash
+. ~/.config/secrets/secret-env.sh && secret_env LAUNCHDARKLY_PAT
+```
+Only if that is still empty is the keychain item actually missing:
 ```bash
 ~/.config/secrets/register-secret.sh orca-launchdarkly-token
 launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')
 ```
-`launchctl setenv` only reaches processes started afterwards — an already-running
-terminal keeps the old (empty) value. Read straight from the keychain to work in the
-current shell.
 </integration>
 
 <routing>

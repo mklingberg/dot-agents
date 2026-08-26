@@ -21,6 +21,7 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Author accountId | resolve live, never stored: `curl -s "${AUTH[@]}" "$W/rest/api/user/current"` → `.accountId` |
 
 ```bash
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
 : "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
 W="$JIRA_SITE/wiki"
@@ -28,12 +29,9 @@ AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
 
 **Never echo, log, or paste the token; always reference `$ATLASSIAN_PAT`.** Where the env
-var is empty — a fresh shell, or a subagent that never sourced the login publisher — read
-the keychain by expansion inside the command that needs it, never into a literal:
-
-```bash
-AUTH=(-u "$ATLASSIAN_USER:$(security find-generic-password -s atlassian-token -w)")
-```
+vars are empty — a fresh shell, or an agent whose process started before the login
+publisher ran — refill them from the keychain with the `secret_env` line above. It is
+idempotent and leaves set values alone. Never expand the token into a literal.
 
 The token is ~190 characters and contains shell-significant characters. Pasting the literal
 into a command both leaks it and corrupts it, so **a 401/403 here means a malformed request,

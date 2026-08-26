@@ -13,7 +13,7 @@ If `$LAUNCHDARKLY_PAT` is unset in the current shell (the login publisher only r
 processes started after it ran):
 
 ```bash
-LAUNCHDARKLY_PAT=$(security find-generic-password -s orca-launchdarkly-token -a "$USER" -w)
+. ~/.config/secrets/secret-env.sh && secret_env LAUNCHDARKLY_PAT LD_DEV_ENV
 ```
 
 ---

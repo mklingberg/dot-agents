@@ -8,6 +8,7 @@ Atlassian Cloud uses **basic auth with an API token**, not a bearer token.
 The username is the account email; the password is the token.
 
 ```bash
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
 : "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
@@ -24,14 +25,16 @@ keychain, published into the login session by
 The email is not a credential, but it is still personal and this repo is public,
 so it lives in the keychain for the same reason the token does.
 
-If either is empty, the publisher has not run in this process tree:
+If either is empty, the process started before the login publisher ran — `launchctl
+setenv` reaches nothing that is already running, so a long-lived app (Orca.app, which
+usually beats the publisher at login by seconds) hands out an empty environment for
+days. Refill from the keychain; the helper is idempotent and leaves set values alone:
 
 ```bash
-export ATLASSIAN_USER=$(security find-generic-password -s atlassian-user -a "$USER" -w)
-export ATLASSIAN_PAT=$(security find-generic-password -s atlassian-token -a "$USER" -w)
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
 ```
 
-Permanent fix (then restart the harness) — discover the label rather than
+Permanent fix for GUI apps (then restart them) — discover the label rather than
 assuming it, since it carries the local account name:
 ```bash
 launchctl kickstart -k gui/$(id -u)/$(launchctl list | awk '/environment-secrets/{print $3}')

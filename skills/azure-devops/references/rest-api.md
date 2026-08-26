@@ -18,6 +18,12 @@ PROJID="<project-guid>"       # required by some endpoints, see A4
 Auth is HTTP basic with an **empty username** and the PAT as password:
 `curl -s -u ":$AZURE_DEVOPS_PAT" ...`
 
+If `$AZURE_DEVOPS_PAT` is empty, the process started before the login publisher ran —
+fill it from the keychain rather than giving up:
+```bash
+. ~/.config/secrets/secret-env.sh && secret_env AZURE_DEVOPS_PAT
+```
+
 Base: `https://dev.azure.com/{org}/{project}/_apis/git/repositories/{repo}/...?api-version=7.1`
 The repo segment accepts a name or a GUID; the project segment still needs encoding.
 

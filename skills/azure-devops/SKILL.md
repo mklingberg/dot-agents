@@ -12,6 +12,7 @@ leave the rest alone.
 | Organisation | `collectorbank` |
 | Default project | `Teamy McTeamface` — encode as `Teamy%20McTeamface` in URLs; GUID `2cca68fc-4c5c-42c2-bb57-2a45f031ea75` |
 | PAT env var | `AZURE_DEVOPS_PAT` (`ORCA_AZURE_DEVOPS_TOKEN` holds the same value) |
+| PAT source | login keychain `orca-azure-devops-pat`. **If the var is empty, do not stop** — recover with the one-liner in `<integration>` |
 | PAT scopes held | observed: Code (read/write), Build (read). Identity/Graph read: **no**. Others untested — discover by use |
 | MCP server | configured but not connected — treat as unavailable |
 | `az` CLI | extension installed but **not activated**; do not attempt |
@@ -66,6 +67,21 @@ curl -s -u ":$AZURE_DEVOPS_PAT" "https://dev.azure.com/$ORG/..."
 
 The PAT env var is named in `<config>`. Never echo, log, or paste the token — always
 reference it as the variable.
+
+### An empty `$AZURE_DEVOPS_PAT` is not a missing PAT
+The login publisher hands the value out with `launchctl setenv`, which only reaches
+processes started *after* it runs. Orca.app usually wins that race at login and then
+stays up for days, so its terminals and agents can hold an empty variable while
+`launchctl getenv AZURE_DEVOPS_PAT` reports a perfectly good token. Read the keychain
+instead — idempotent, and a no-op when the variable is already set:
+
+```bash
+. ~/.config/secrets/secret-env.sh && secret_env AZURE_DEVOPS_PAT
+```
+
+Run that before the first call of a session rather than reporting "no credentials".
+Only if it still comes back empty is the keychain item genuinely missing:
+`~/.config/secrets/register-secret.sh orca-azure-devops-pat`.
 
 Fallbacks, in order:
 1. **Azure DevOps MCP server** — when REST is unavailable or blocked. Non-interactive
@@ -161,6 +177,8 @@ subtly wrong and the failures are silent.
 Verified live against Azure DevOps (see `references/rest-api.md` for the evidence).
 Add to this list whenever a call surprises you.
 
+- **An empty `$AZURE_DEVOPS_PAT` usually means launch order, not a missing token.**
+  `. ~/.config/secrets/secret-env.sh && secret_env AZURE_DEVOPS_PAT` before concluding anything.
 - **Invalid PAT returns 302/HTML, not 401.** Check the first byte of the body, not the status code.
 - **`api-version=7.1` is not universal.** `policy/evaluations` and `connectionData` require
   `7.1-preview`; plain `7.1` gives HTTP 400 `VssInvalidPreviewVersionException`. The 400 body
