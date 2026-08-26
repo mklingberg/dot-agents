@@ -9,8 +9,8 @@ leave the rest alone.
 
 | Setting | Value |
 |---|---|
-| Site | `$JIRA_SITE` — required env var, e.g. `https://your-site.atlassian.net` |
-| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain item `atlassian-token`) — both published at login |
+| Site | `$JIRA_SITE` — keychain item `atlassian-site`, published at login |
+| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token` / `atlassian-user`) — published at login |
 | API | REST v3 — `$JIRA_SITE/rest/api/3`. **no Atlassian MCP**; the skill works in any harness |
 | Project | `MS` — "Mina sidor", company-managed (classic), Scrum |
 | Issue type ids | Epic `10000` · Story `10001` · Task `10002` · Sub-task `10003` · Bug `10004` · Sub-Bug `10100` |
@@ -25,9 +25,9 @@ leave the rest alone.
 | Risk policy source | Confluence *Riskhantering*, space `Payments`, page `4242636856` |
 
 ```bash
-. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT JIRA_SITE
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
-: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
+: "${JIRA_SITE:?not set — register it: ~/.config/secrets/register-secret.sh atlassian-site}"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
 ```

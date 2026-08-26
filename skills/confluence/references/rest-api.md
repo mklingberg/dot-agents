@@ -22,7 +22,7 @@ products.
 If `$ATLASSIAN_PAT` is unset in this process — likely, since `launchctl setenv` never
 reaches an already-running app:
 ```bash
-. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT JIRA_SITE
 ```
 Permanent fix for GUI apps, then restart them — discover the label rather than
 assuming it, since it carries the local account name:

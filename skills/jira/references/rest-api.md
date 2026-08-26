@@ -8,30 +8,28 @@ Atlassian Cloud uses **basic auth with an API token**, not a bearer token.
 The username is the account email; the password is the token.
 
 ```bash
-. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
-: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT JIRA_SITE
+: "${JIRA_SITE:?not set — register it: ~/.config/secrets/register-secret.sh atlassian-site}"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 B="$JIRA_SITE/rest/api/3"
 ```
 
 Neither the site, the account email, nor the token is written into this skill —
-this repo is public. `$JIRA_SITE` is the Atlassian site root (no trailing
-slash), set once per environment. `$ATLASSIAN_USER` is the Atlassian account
-email; `$ATLASSIAN_PAT` is the API token. The latter two come from the login
-keychain, published into the login session by
-`~/.config/secrets/environment-secrets.sh` (services `atlassian-user` and
-`atlassian-token`).
+this repo is public. All three live in the login keychain (services
+`atlassian-site`, `atlassian-user`, `atlassian-token`) and are published into
+the login session by `~/.config/secrets/environment-secrets.sh`. `$JIRA_SITE`
+is the Atlassian site root, no trailing slash.
 
-The email is not a credential, but it is still personal and this repo is public,
-so it lives in the keychain for the same reason the token does.
+The site URL and the email are not credentials, but they are personal and this
+repo is public, so they live in the keychain for the same reason the token does.
 
-If either is empty, the process started before the login publisher ran — `launchctl
+If any is empty, the process started before the login publisher ran — `launchctl
 setenv` reaches nothing that is already running, so a long-lived app (Orca.app, which
 usually beats the publisher at login by seconds) hands out an empty environment for
 days. Refill from the keychain; the helper is idempotent and leaves set values alone:
 
 ```bash
-. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT JIRA_SITE
 ```
 
 Permanent fix for GUI apps (then restart them) — discover the label rather than

@@ -8,8 +8,8 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 
 | Setting | Value |
 |---|---|
-| Site | `$JIRA_SITE/wiki` — `$JIRA_SITE` is the required env var, e.g. `https://your-site.atlassian.net` |
-| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token`) — both published at login |
+| Site | `$JIRA_SITE/wiki` — `$JIRA_SITE` comes from keychain item `atlassian-site`, published at login |
+| Auth | basic `$ATLASSIAN_USER` : `$ATLASSIAN_PAT` (keychain `atlassian-token` / `atlassian-user`) — published at login |
 | APIs | reads on **v2** `/wiki/api/v2`; search only on **v1** `/wiki/rest/api/search` |
 | Scope | **read-only.** Writing is deferred and untested — see `<read_only>` |
 | Own team space | `TM` — "Teamy McTeamface", spaceId `23887873`, homepage `23855107` |
@@ -21,9 +21,9 @@ Site- and team-specific. Fork the skill, edit this block, leave the rest alone.
 | Author accountId | resolve live, never stored: `curl -s "${AUTH[@]}" "$W/rest/api/user/current"` → `.accountId` |
 
 ```bash
-. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT
+. ~/.config/secrets/secret-env.sh && secret_env ATLASSIAN_USER ATLASSIAN_PAT JIRA_SITE
 : "${ATLASSIAN_USER:?not set — see <auth> in references/rest-api.md}"
-: "${JIRA_SITE:?not set — export the site root, e.g. https://your-site.atlassian.net}"
+: "${JIRA_SITE:?not set — register it: ~/.config/secrets/register-secret.sh atlassian-site}"
 W="$JIRA_SITE/wiki"
 AUTH=(-u "$ATLASSIAN_USER:$ATLASSIAN_PAT")
 ```
