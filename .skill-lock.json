@@ -113,18 +113,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/stablyai/orca.git",
       "skillPath": "skills/orca-cli/SKILL.md",
-      "skillFolderHash": "a5a90c9731fbee834eca6d655b39eaa795dd2323",
+      "skillFolderHash": "953feacb808f096f4d3d6bf4ba1b6d299aa49138bbe805da609dca51f3c72713",
       "installedAt": "2026-07-24T15:25:34.816Z",
-      "updatedAt": "2026-08-11T08:43:38.276Z"
+      "updatedAt": "2026-09-14T06:41:45.537Z"
     },
     "computer-use": {
       "source": "stablyai/orca",
       "sourceType": "github",
       "sourceUrl": "https://github.com/stablyai/orca.git",
       "skillPath": "skills/computer-use/SKILL.md",
-      "skillFolderHash": "2072384f53670cb61d93f4f6264ad2d8f6b5239c",
+      "skillFolderHash": "87549f18a6a67d02dc03b27d53def70becb95bee90c5f2a41946766256bcaae8",
       "installedAt": "2026-07-24T21:49:26.809Z",
-      "updatedAt": "2026-07-24T21:49:26.809Z"
+      "updatedAt": "2026-09-14T06:42:27.738Z"
     }
   },
   "dismissed": {
