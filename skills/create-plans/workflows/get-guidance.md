@@ -73,7 +73,7 @@ Is there a brief?
 → Tasks aren't specific enough. Add Files/Action/Verification.
 
 **"Context keeps running out mid-task"**
-→ Tasks are too big. Break into smaller chunks + use handoff.
+→ Tasks are too big. Break into smaller plans.
 </common_situations>
 
 <success_criteria>

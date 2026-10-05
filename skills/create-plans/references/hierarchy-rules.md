@@ -109,7 +109,6 @@ All planning artifacts in `.planning/`:
 └── phases/
     ├── 01-phase-name/
     │   ├── PLAN.md             # One per phase
-    │   ├── .continue-here.md   # Temporary (when paused)
     │   └── prompts/            # Generated execution prompts
     ├── 02-phase-name/
     │   ├── PLAN.md

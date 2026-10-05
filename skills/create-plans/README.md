@@ -52,7 +52,6 @@ All planning artifacts go in `.planning/`:
     ├── 01-foundation/
     │   ├── PLAN.md             # THE PROMPT (execute this)
     │   ├── SUMMARY.md          # Outcome (exists = done)
-    │   └── .continue-here.md   # Handoff (temporary)
     └── 02-auth/
         ├── RESEARCH.md         # Research prompt (if needed)
         ├── FINDINGS.md         # Research output
@@ -83,11 +82,9 @@ All planning artifacts go in `.planning/`:
 
 The skill doesn't execute. The `Implement` agent runs the PLAN.md in a fresh context, verifies each task, writes SUMMARY.md and commits; `delegate-subagents` handles dispatch and EXIT REPORTs.
 
-### Pausing Work (Handoff)
+### Pausing Work
 
-1. Choose "Create handoff"
-2. Skill creates `.continue-here.md` with full context
-3. When resuming, skill loads handoff and continues
+Use `/handoff`. Plans, SUMMARYs and the ROADMAP on disk are the state; a fresh session reads them.
 
 ## Quality Controls
 
@@ -111,14 +108,6 @@ PLAN.md IS the execution prompt. It contains objective, context (@file reference
 
 ### Ship Fast, Iterate Fast
 Plan → Execute → Ship → Learn → Repeat. No multi-week timelines, approval gates, or sprint ceremonies.
-
-### Context Awareness
-Monitors token usage:
-- **25% remaining**: Mentions context getting full
-- **15% remaining**: Pauses, offers handoff
-- **10% remaining**: Auto-creates handoff, stops
-
-Never starts large operations below 15% without confirmation.
 
 ### User Gates
 Pauses at critical decision points:
@@ -159,7 +148,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `references/plan-format.md` - PLAN.md structure
 
 ### Patterns
-- `references/context-management.md` - Token usage monitoring
 - `references/user-gates.md` - When to pause and ask
 - `references/git-integration.md` - Version control patterns
 - `references/research-pitfalls.md` - Known research mistakes
@@ -169,7 +157,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `templates/roadmap.md` - Phase structure
 - `templates/research-prompt.md` - Research prompt (RESEARCH.md)
 - `templates/summary.md` - Phase outcome (SUMMARY.md)
-- `templates/continue-here.md` - Context handoff
 
 ### Workflows
 - `workflows/create-brief.md` - Create project vision
@@ -178,8 +165,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `workflows/research-phase.md` - Create and run research
 - `workflows/plan-chunk.md` - Plan immediate next tasks
 - `workflows/transition.md` - Mark phase complete, advance
-- `workflows/handoff.md` - Create context handoff for pausing
-- `workflows/resume.md` - Load handoff, restore context
 - `workflows/get-guidance.md` - Help decide planning approach
 
 ## Success Criteria
@@ -189,7 +174,5 @@ Planning skill succeeds when:
 - Appropriate workflow selected based on state
 - PLAN.md IS the executable prompt (not separate doc)
 - Hierarchy is maintained (brief → roadmap → phase)
-- Handoffs preserve full context for resumption
-- Context limits respected (auto-handoff at 10%)
 - Quality controls prevent research gaps
 - Streaming writes prevent token limit failures

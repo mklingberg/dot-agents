@@ -110,16 +110,6 @@ NEVER include in plans:
 If it sounds like corporate PM theater, delete it.
 </principle>
 
-<principle name="context_awareness">
-Monitor token usage via system warnings.
-
-**At 25% remaining**: Mention context getting full
-**At 15% remaining**: Pause, offer handoff
-**At 10% remaining**: Auto-create handoff, stop
-
-Never start large operations below 15% without user confirmation.
-</principle>
-
 <principle name="user_gates">
 Never charge ahead at critical decision points. Use gates:
 - **AskUserQuestion**: Structured choices (2-4 options)
@@ -143,7 +133,7 @@ belong in ADRs (`docs/adr/`), not in plans.
 
 - On creating `.planning/`, ensure `.planning/` is in `.gitignore`. Add it if missing,
   in the same action — never leave the folder untracked-but-unignored.
-- Never `git add .planning/`, not at initialization, phase completion, or handoff.
+- Never `git add .planning/`, not at initialization or phase completion.
 - Commit **code only**, at phase completion. The git log reads as a changelog of what
   shipped, never as a diary of planning activity.
 - If a decision inside a plan deserves to outlive it, write an ADR and commit that.
@@ -163,9 +153,6 @@ git rev-parse --git-dir 2>/dev/null || echo "NO_GIT_REPO"
 # Check for planning structure
 ls -la .planning/ 2>/dev/null
 ls -la .planning/phases/ 2>/dev/null
-
-# Find any continue-here files
-find . -name ".continue-here.md" -type f 2>/dev/null
 
 # Check for existing artifacts
 [ -f .planning/BRIEF.md ] && echo "BRIEF: exists"
@@ -200,16 +187,6 @@ If yes: `git init`
 <intake>
 Based on scan results, present context-aware options:
 
-**If handoff found:**
-```
-Found handoff: .planning/phases/XX/.continue-here.md
-[Summary of state from handoff]
-
-1. Resume from handoff
-2. Discard handoff, start fresh
-3. Different action
-```
-
 **If planning structure exists:**
 ```
 Project: [from BRIEF or directory]
@@ -220,9 +197,8 @@ Current: [phase status]
 What would you like to do?
 1. Plan next phase
 2. Execute current phase
-3. Create handoff (stopping for now)
-4. View/update roadmap
-5. Something else
+3. View/update roadmap
+4. Something else
 ```
 
 **If no planning structure:**
@@ -248,8 +224,6 @@ What would you like to do?
 | "chunk", "next tasks", "what's next" | `workflows/plan-chunk.md` |
 | "execute", "run", "do it", "build it", 2 (has structure) | **EXIT SKILL** → hand the PLAN.md to the `Implement` agent; call the Skill tool with `delegate-subagents` for the dispatch |
 | "research", "investigate", "unknowns" | `workflows/research-phase.md` |
-| "handoff", "pack up", "stopping", 3 (has structure) | `workflows/handoff.md` |
-| "resume", "continue", 1 (has handoff) | `workflows/resume.md` |
 | "transition", "complete", "done", "next" | `workflows/transition.md` |
 | "guidance", "help", 4 | `workflows/get-guidance.md` |
 
@@ -297,7 +271,6 @@ All planning artifacts go in `.planning/`:
     │   ├── 01-02-PLAN.md       # Plan 2: API routes
     │   ├── 01-02-SUMMARY.md
     │   ├── 01-03-PLAN.md       # Plan 3: UI components
-    │   └── .continue-here-01-03.md  # Handoff (temporary, if needed)
     └── 02-auth/
         ├── 02-01-RESEARCH.md   # Research prompt (if needed)
         ├── 02-01-FINDINGS.md   # Research output
@@ -318,7 +291,6 @@ All in `references/`:
 
 **Structure:** hierarchy-rules.md
 **Formats:** plan-format.md
-**Patterns:** context-management.md
 **Planning:** scope-estimation.md, checkpoints.md
 **Process:** user-gates.md, git-integration.md, research-pitfalls.md
 </reference_index>
@@ -333,7 +305,6 @@ All in `templates/`:
 | research-prompt.md | Research prompt (RESEARCH.md) |
 | summary.md | Phase outcome (SUMMARY.md) with deviations |
 | issues.md | Deferred enhancements log (ISSUES.md) |
-| continue-here.md | Context handoff format |
 </templates_index>
 
 <workflows_index>
@@ -347,8 +318,6 @@ All in `workflows/`:
 | research-phase.md | Create and run research prompt |
 | plan-chunk.md | Plan immediate next tasks |
 | transition.md | Mark phase complete, advance |
-| handoff.md | Create context handoff for pausing |
-| resume.md | Load handoff, restore context |
 | get-guidance.md | Help decide planning approach |
 </workflows_index>
 
@@ -358,8 +327,6 @@ Planning skill succeeds when:
 - Appropriate workflow selected based on state
 - PLAN.md IS the executable prompt (not separate)
 - Hierarchy is maintained (brief → roadmap → phase)
-- Handoffs preserve full context for resumption
-- Context limits are respected (auto-handoff at 10%)
 - Deviations handled automatically per embedded rules
 - All work (planned and discovered) fully documented
 - Plan execution handed to the Implement agent (not run in this skill)

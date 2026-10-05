@@ -52,7 +52,6 @@ Loop continues until user selects "Proceed".
 | create-brief | AskUserQuestion | Decision gate before writing |
 | create-roadmap | Inline | Confirm phase breakdown |
 | create-roadmap | AskUserQuestion | Decision gate before writing |
-| handoff | Inline | Handoff acknowledgment |
 
 ## Good vs Bad Gating
 

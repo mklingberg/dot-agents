@@ -33,7 +33,6 @@ change itself **is** committed, as a normal repo-hygiene change.
 | BRIEF + ROADMAP created | NO | scratch |
 | PLAN.md created | NO | scratch |
 | SUMMARY.md written | NO | scratch |
-| Handoff created | NO | scratch |
 | **Phase completed** | YES | **code only** |
 | Decision worth keeping | YES | the ADR under `docs/adr/` |
 
