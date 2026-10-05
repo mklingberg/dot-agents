@@ -74,7 +74,7 @@ All planning artifacts go in `.planning/`:
 ### Planning a Phase
 
 1. Skill reads BRIEF + ROADMAP
-2. Loads domain expertise if applicable (see Domain Skills below)
+2. Binds project and global skills the phase touches into the plan's `<context>`
 3. If phase has unknowns → create RESEARCH.md first
 4. Creates PLAN.md (the executable prompt)
 5. You review or execute
@@ -92,83 +92,6 @@ All planning artifacts go in `.planning/`:
 1. Choose "Create handoff"
 2. Skill creates `.continue-here.md` with full context
 3. When resuming, skill loads handoff and continues
-
-## Domain Skills (Optional)
-
-**What are domain skills?**
-
-Full-fledged agent skills that exhaustively document how to build in a specific framework/platform. They make your plans concrete instead of generic.
-
-**Without domain skill:**
-```
-Task: Create authentication system
-Action: Implement user login
-```
-Generic. Not helpful.
-
-**With domain skill (macOS apps):**
-```
-Task: Create login window
-Files: Sources/Views/LoginView.swift
-Action: SwiftUI view with @Bindable for User model. TextField for username/password.
-SecureField for password (uses system keychain). Submit button triggers validation
-logic. Use @FocusState for tab order. Add Command-L keyboard shortcut.
-Verify: xcodebuild test && open App.app (check tab order, keychain storage)
-```
-Specific. Executable. Framework-appropriate.
-
-**Structure of domain skills:**
-
-```
-~/.agents/skills/expertise/[domain]/
-├── SKILL.md              # Router + essential principles
-├── workflows/            # build-new-app, add-feature, debug-app, etc.
-└── references/           # Exhaustive domain knowledge (often 10k+ lines)
-```
-
-**Domain skills are dual-purpose:**
-
-1. **Standalone skills** - Invoke with `Skill("build-macos-apps")` for guided development
-2. **Context for create-plans** - Loaded automatically when planning that domain
-
-**Example domains:**
-- `macos-apps` - Swift/SwiftUI macOS (19 references, 10k+ lines)
-- `iphone-apps` - Swift/SwiftUI iOS
-- `unity-games` - Unity game development
-- `swift-midi-apps` - MIDI/audio apps
-- `with-agent-sdk` - Claude Agent SDK apps
-- `nextjs-ecommerce` - Next.js e-commerce
-
-**How it works:**
-
-1. Skill infers domain from your request ("build a macOS app" → build-macos-apps)
-2. Before creating PLAN.md, reads all `~/.agents/skills/build/macos-apps/references/*.md`
-3. Uses that exhaustive knowledge to write framework-specific tasks
-4. Result: Plans that match your actual tech stack with all the details
-
-**What if you don't have domain skills?**
-
-Skill works fine without them - proceeds with general planning. But tasks will be more generic and require more clarification during execution.
-
-### Creating a Domain Skill
-
-Domain skills are created with [create-agent-skills](../create-agent-skills/) skill.
-
-**Process:**
-
-1. `Skill("create-agent-skills")` → choose "Build a new skill"
-2. Name: `build-[your-domain]`
-3. Description: "Build [framework/platform] apps. Full lifecycle - build, debug, test, optimize, ship."
-4. Ask it to create exhaustive references covering:
-   - Architecture patterns
-   - Project scaffolding
-   - Common features (data, networking, UI)
-   - Testing and debugging
-   - Platform-specific conventions
-   - CLI workflow (how to build/run without IDE)
-   - Deployment/shipping
-
-**The skill should be comprehensive** - 5k-10k+ lines documenting everything about building in that domain. When create-plans loads it, the resulting PLAN.md tasks will be detailed and executable.
 
 ## Quality Controls
 
@@ -267,17 +190,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `workflows/handoff.md` - Create context handoff for pausing
 - `workflows/resume.md` - Load handoff, restore context
 - `workflows/get-guidance.md` - Help decide planning approach
-
-## Example Domain Skill
-
-See `build/example-nextjs/` for a minimal domain skill showing:
-- Framework-specific patterns
-- Project structure conventions
-- Common commands
-- Phase breakdown strategies
-- Task specificity guidelines
-
-Use this as a template for creating your own domain skills.
 
 ## Success Criteria
 

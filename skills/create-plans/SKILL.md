@@ -184,124 +184,8 @@ If yes: `git init`
 **Present findings before intake question.**
 </context_scan>
 
-<domain_expertise>
-**Domain expertise lives in `~/.agents/skills/expertise/`**
-
-Before creating roadmap or phase plans, determine if domain expertise should be loaded.
-
-<scan_domains>
-```bash
-ls ~/.agents/skills/expertise/ 2>/dev/null
-```
-
-This reveals available domain expertise (e.g., macos-apps, iphone-apps, unity-games, nextjs-ecommerce).
-
-**If no domain skills found:** Proceed without domain expertise (graceful degradation). The skill works fine without domain-specific context.
-</scan_domains>
-
-<inference_rules>
-If user's request contains domain keywords, INFER the domain:
-
-| Keywords | Domain Skill |
-|----------|--------------|
-| "macOS", "Mac app", "menu bar", "AppKit", "SwiftUI desktop" | expertise/macos-apps |
-| "iPhone", "iOS", "iPad", "mobile app", "SwiftUI mobile" | expertise/iphone-apps |
-| "Unity", "game", "C#", "3D game", "2D game" | expertise/unity-games |
-| "MIDI", "MIDI tool", "sequencer", "MIDI controller", "music app", "MIDI 2.0", "MPE", "SysEx" | expertise/midi |
-| "Agent SDK", "Claude SDK", "agentic app" | expertise/with-agent-sdk |
-| "Python automation", "workflow", "API integration", "webhooks", "Celery", "Airflow", "Prefect" | expertise/python-workflow-automation |
-| "UI", "design", "frontend", "interface", "responsive", "visual design", "landing page", "website design", "Tailwind", "CSS", "web design" | expertise/ui-design |
-| "LaunchDarkly", "feature flag", "FeatureFlag", "IFeatureFlagProvider", "ldClient", "teamy-" | expertise/launchdarkly-csharp |
-
-If domain inferred, confirm:
-```
-Detected: [domain] project → expertise/[skill-name]
-Load this expertise for planning? (Y / see other options / none)
-```
-</inference_rules>
-
-<no_inference>
-If no domain obvious from request, present options:
-
-```
-What type of project is this?
-
-Available domain expertise:
-1. macos-apps - Native macOS with Swift/SwiftUI
-2. iphone-apps - Native iOS with Swift/SwiftUI
-3. unity-games - Unity game development
-4. swift-midi-apps - MIDI/audio apps
-5. with-agent-sdk - Claude Agent SDK apps
-6. ui-design - Stunning UI/UX design & frontend development
-[... any others found in expertise/]
-
-N. None - proceed without domain expertise
-C. Create domain skill first
-
-Select:
-```
-</no_inference>
-
-<load_domain>
-When domain selected, use intelligent loading:
-
-**Step 1: Read domain SKILL.md**
-```bash
-cat ~/.agents/skills/expertise/[domain]/SKILL.md 2>/dev/null
-```
-
-This loads core principles and routing guidance (~5k tokens).
-
-**Step 2: Determine what references are needed**
-
-Domain SKILL.md should contain a `<references_index>` section that maps planning contexts to specific references.
-
-Example:
-```markdown
-<references_index>
-**For database/persistence phases:** references/core-data.md, references/swift-concurrency.md
-**For UI/layout phases:** references/swiftui-layout.md, references/appleHIG.md
-**For system integration:** references/appkit-integration.md
-**Always useful:** references/swift-conventions.md
-</references_index>
-```
-
-**Step 3: Load only relevant references**
-
-Based on the phase being planned (from ROADMAP), load ONLY the references mentioned for that type of work.
-
-```bash
-# Example: Planning a database phase
-cat ~/.agents/skills/expertise/macos-apps/references/core-data.md
-cat ~/.agents/skills/expertise/macos-apps/references/swift-conventions.md
-```
-
-**Context efficiency:**
-- SKILL.md only: ~5k tokens
-- SKILL.md + selective references: ~8-12k tokens
-- All references (old approach): ~20-27k tokens
-
-Announce: "Loaded [domain] expertise ([X] references for [phase-type])."
-
-**If domain skill not found:** Inform user and offer to proceed without domain expertise.
-
-**If SKILL.md doesn't have references_index:** Fall back to loading all references with warning about context usage.
-</load_domain>
-
-<when_to_load>
-Domain expertise should be loaded BEFORE:
-- Creating roadmap (phases should be domain-appropriate)
-- Planning phases (tasks must be domain-specific)
-
-Domain expertise is NOT needed for:
-- Creating brief (vision is domain-agnostic)
-- Resuming from handoff (context already established)
-- Transition between phases (just updating status)
-</when_to_load>
-</domain_expertise>
-
 <project_conventions>
-**Project-local skills and `AGENTS.md` are the repo's own coding standards** — distinct from global domain expertise. They live in `.agents/skills/` (or `.pi/skills/`) and `AGENTS.md`/`CLAUDE.md` at the repo root.
+**Project-local skills and `AGENTS.md` are the repo's own coding standards.** They live in `.agents/skills/` (or `.pi/skills/`) and `AGENTS.md`/`CLAUDE.md` at the repo root. Global skills whose scope a phase touches (e.g. `launchdarkly`, `create-tests-autofixture`) bind the same way — embed `@~/.agents/skills/<name>/SKILL.md`.
 
 **Why this matters for planning:** the `Implement` subagent that executes plans **cannot see `AGENTS.md`/`CLAUDE.md`** (subagents suppress them), and it only *lazily* reads the skill catalog. The reliable channel is the PLAN's `<context>` — Implement force-reads every `@context` file on startup. So the planner must bind conventions into the plan itself.
 
@@ -437,7 +321,6 @@ All in `references/`:
 **Patterns:** context-scanning.md, context-management.md
 **Planning:** scope-estimation.md, checkpoints.md
 **Process:** user-gates.md, git-integration.md, research-pitfalls.md
-**Domain:** domain-expertise.md (guide for creating context-efficient domain skills)
 </reference_index>
 
 <templates_index>

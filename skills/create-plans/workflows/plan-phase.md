@@ -8,10 +8,6 @@
 4. Read `.planning/ROADMAP.md`
 5. Read `.planning/BRIEF.md`
 
-**If domain expertise should be loaded (determined by intake):**
-6. Read domain SKILL.md: `~/.agents/skills/expertise/[domain]/SKILL.md` (or `~/.agents/skills/expertise/[domain]/SKILL.md` if not found at first path)
-7. Determine phase type from ROADMAP (UI, database, API, etc.)
-8. Read ONLY relevant references from domain's `<references_index>` section
 </required_reading>
 
 <purpose>
