@@ -5,7 +5,7 @@
 1. references/recommended-structure.md
 2. references/skill-structure.md
 3. references/use-xml-tags.md
-4. `writing-great-skills` skill — the pruning lens (no-op test, duplication, sediment, failure modes); apply it to the audit.
+4. `writing-for-agents` skill — the pruning lens (no-op test, duplication, sediment, failure modes); apply it to the audit.
 </required_reading>
 
 <process>
