@@ -90,7 +90,7 @@ Plans are guides, not straitjackets. Real development always involves discoverie
 
 **Result:** Flow never breaks. Bugs get fixed. Scope stays controlled. Complete transparency.
 
-See: workflows/execute-phase.md (deviation_rules section)
+The executable version lives in the `Implement` agent (§4 Deviation Rules).
 </principle>
 
 <principle name="ship_fast_iterate_fast">
@@ -246,14 +246,14 @@ What would you like to do?
 | "roadmap", "phases", 2 (no structure) | `workflows/create-roadmap.md` |
 | "phase", "plan phase", "next phase", 1 (has structure) | `workflows/plan-phase.md` |
 | "chunk", "next tasks", "what's next" | `workflows/plan-chunk.md` |
-| "execute", "run", "do it", "build it", 2 (has structure) | **EXIT SKILL** → Use `/run-plan <path>` slash command |
+| "execute", "run", "do it", "build it", 2 (has structure) | **EXIT SKILL** → hand the PLAN.md to the `Implement` agent; call the Skill tool with `delegate-subagents` for the dispatch |
 | "research", "investigate", "unknowns" | `workflows/research-phase.md` |
 | "handoff", "pack up", "stopping", 3 (has structure) | `workflows/handoff.md` |
 | "resume", "continue", 1 (has handoff) | `workflows/resume.md` |
 | "transition", "complete", "done", "next" | `workflows/transition.md` |
 | "guidance", "help", 4 | `workflows/get-guidance.md` |
 
-**Critical:** Plan execution should NOT invoke this skill. Use `/run-plan` for context efficiency (skill loads ~20k tokens, /run-plan loads ~5-7k).
+**Critical:** plans never execute inside this skill. Implement runs them in a fresh context with only the PLAN.md and its `@` files.
 
 **After reading the workflow, follow it exactly.**
 </routing>
@@ -345,7 +345,6 @@ All in `workflows/`:
 | create-brief.md | Create project vision document |
 | create-roadmap.md | Define phases from brief |
 | plan-phase.md | Create executable phase prompt |
-| execute-phase.md | Run phase prompt, create summary |
 | research-phase.md | Create and run research prompt |
 | plan-chunk.md | Plan immediate next tasks |
 | transition.md | Mark phase complete, advance |
@@ -364,5 +363,5 @@ Planning skill succeeds when:
 - Context limits are respected (auto-handoff at 10%)
 - Deviations handled automatically per embedded rules
 - All work (planned and discovered) fully documented
-- Plan execution uses /run-plan command (not skill invocation)
+- Plan execution handed to the Implement agent (not run in this skill)
 </success_criteria>

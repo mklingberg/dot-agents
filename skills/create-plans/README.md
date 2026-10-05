@@ -81,11 +81,7 @@ All planning artifacts go in `.planning/`:
 
 ### Executing a Phase
 
-1. Skill reads PLAN.md
-2. Executes each task with verification
-3. Creates SUMMARY.md when complete
-4. Git commits phase completion
-5. Offers to plan next phase
+The skill doesn't execute. The `Implement` agent runs the PLAN.md in a fresh context, verifies each task, writes SUMMARY.md and commits; `delegate-subagents` handles dispatch and EXIT REPORTs.
 
 ### Pausing Work (Handoff)
 
@@ -180,7 +176,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `workflows/create-brief.md` - Create project vision
 - `workflows/create-roadmap.md` - Define phases from brief
 - `workflows/plan-phase.md` - Create executable phase prompt
-- `workflows/execute-phase.md` - Run phase, create summary
 - `workflows/research-phase.md` - Create and run research
 - `workflows/plan-chunk.md` - Plan immediate next tasks
 - `workflows/transition.md` - Mark phase complete, advance

@@ -49,9 +49,6 @@ Loop continues until user selects "Proceed".
 | plan-phase | AskUserQuestion | Decision gate before writing |
 | research-phase | AskUserQuestion | Low confidence findings |
 | research-phase | Inline | Open questions acknowledgment |
-| execute-phase | Inline | Verification failure |
-| execute-phase | Inline | Issues review before proceeding |
-| execute-phase | AskUserQuestion | Previous phase had issues |
 | create-brief | AskUserQuestion | Decision gate before writing |
 | create-roadmap | Inline | Confirm phase breakdown |
 | create-roadmap | AskUserQuestion | Decision gate before writing |
