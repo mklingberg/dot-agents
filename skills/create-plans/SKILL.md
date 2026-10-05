@@ -330,7 +330,6 @@ All in `templates/`:
 |----------|---------|
 | brief.md | Project vision document with current state |
 | roadmap.md | Phase structure |
-| phase-prompt.md | Executable phase prompt (PLAN.md) |
 | research-prompt.md | Research prompt (RESEARCH.md) |
 | summary.md | Phase outcome (SUMMARY.md) with deviations |
 | issues.md | Deferred enhancements log (ISSUES.md) |

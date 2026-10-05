@@ -263,7 +263,7 @@ Phase planning is complete when:
 - [ ] One or more PLAN files exist with XML structure ({phase}-{plan}-PLAN.md)
 - [ ] Each plan has: Objective, context, tasks, verification, success criteria, output
 - [ ] @context references included
-- [ ] Each plan has 3-6 tasks (scoped to ~80% context)
+- [ ] Each plan has 2-3 tasks (scoped to ~50% context)
 - [ ] Each task has: Type, Files (if auto), Action, Verify, Done
 - [ ] Checkpoints identified and properly structured
 - [ ] Tasks are specific enough for Claude to execute

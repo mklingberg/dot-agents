@@ -167,7 +167,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 ### Templates
 - `templates/brief.md` - Project vision document
 - `templates/roadmap.md` - Phase structure
-- `templates/phase-prompt.md` - Executable phase prompt (PLAN.md)
 - `templates/research-prompt.md` - Research prompt (RESEARCH.md)
 - `templates/summary.md` - Phase outcome (SUMMARY.md)
 - `templates/continue-here.md` - Context handoff

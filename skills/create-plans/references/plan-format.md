@@ -11,64 +11,7 @@ If Claude has to guess, interpret, or make assumptions - the task is too vague.
 </core_principle>
 
 <prompt_structure>
-Every PLAN.md follows this XML structure:
-
-```markdown
----
-phase: XX-name
-type: execute
----
-
-<objective>
-[What and why]
-Purpose: [...]
-Output: [...]
-</objective>
-
-<context>
-@.planning/BRIEF.md
-@.planning/ROADMAP.md
-@relevant/source/files.ts
-</context>
-
-<tasks>
-<task type="auto">
-  <name>Task N: [Name]</name>
-  <files>[paths]</files>
-  <action>[what to do, what to avoid and WHY]</action>
-  <verify>[command/check]</verify>
-  <done>[criteria]</done>
-</task>
-
-<task type="checkpoint:human-verify" gate="blocking">
-  <what-built>[what Claude automated]</what-built>
-  <how-to-verify>[numbered verification steps]</how-to-verify>
-  <resume-signal>[how to continue - "approved" or describe issues]</resume-signal>
-</task>
-
-<task type="checkpoint:decision" gate="blocking">
-  <decision>[what needs deciding]</decision>
-  <context>[why this matters]</context>
-  <options>
-    <option id="option-a"><name>[Name]</name><pros>[pros]</pros><cons>[cons]</cons></option>
-    <option id="option-b"><name>[Name]</name><pros>[pros]</pros><cons>[cons]</cons></option>
-  </options>
-  <resume-signal>[how to indicate choice]</resume-signal>
-</task>
-</tasks>
-
-<verification>
-[Overall phase checks]
-</verification>
-
-<success_criteria>
-[Measurable completion]
-</success_criteria>
-
-<output>
-[SUMMARY.md specification]
-</output>
-```
+The template is the `<template>` block in `~/.agents/skills/_commands/to-plan/SKILL.md` — the one copy both `to-plan` and `plan-phase` write from. This file explains why each part is there.
 </prompt_structure>
 
 <task_anatomy>
