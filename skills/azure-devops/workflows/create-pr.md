@@ -41,21 +41,26 @@ vs. the target branch, focused on blocking issues.
 `_`, the ticket becomes a suffix, kebab-case becomes Title Case, max ~72 chars.
 Example: `feature/MS6375_account-cancellation` → `Account cancellation [MS6375]`
 
-**Description:**
-```markdown
-## Summary
-[1–3 sentences, inferred from commits]
+**Description** — write the body with the `pr` skill (Summary, Evidence, Merge Danger),
+then apply these Azure DevOps rules on top:
 
-## Changes
-[bullets from git diff --stat]
+- **No Mermaid.** PR descriptions render it as a raw code block (tested). Use the text
+  views: pseudocode, call tree, file tree, `diff`.
+- **Under 4000 characters** — the description cap. One visual, not a gallery.
+- **Screenshots** go in as attachments; they render inline.
+- **Domain language** comes from the `domain-knowledge` skill; there is no `GLOSSARY.md`.
+- **One-way doors by default:** DB schema migrations, removing a LaunchDarkly flag or
+  its fallback path, breaking a public API or message contract, and anything that
+  leaves the building — customer emails, notifications, invoices, payments. Rolling back
+  the commit doesn't unsend them.
+- Append, when non-empty:
+  ```markdown
+  ## ⚠️ Known issues
+  [blocking issues the operator chose to merge anyway, from Step 2]
 
-## Testing
-- [ ] Unit tests pass
-- [ ] Manual testing done
-
-## Related work items
-[blank if none]
-```
+  ## Related work items
+  [#12345]
+  ```
 
 Published under the operator's name — apply the persona rules in SKILL.md. No filler, no
 self-congratulation, no apologising for the diff size.
