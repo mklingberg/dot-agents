@@ -157,6 +157,7 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`create-agent-skills`** *(command)* — how to write better skills instead of cargo-culting prompt files
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
 - **`code-review`** — two-axis review (standards + spec) run as parallel sub-agents
+- **`pr`** — PR body format: a visual summary, before/after evidence, and a merge-danger call (one-way/two-way door, blast radius)
 - **`prototype`** — build a throwaway prototype to answer a design question
 - **`repo-index`** — answers what repos, components and dependencies exist from `INDEX.md`; its refresh workflow rebuilds the derived regions and leaves curated ones untouched. Named for the common path (reading, daily) rather than the rare one (regenerating), which is why it isn't `create-*`
 - **`resolving-merge-conflicts`** — intent-preserving merge/rebase conflict resolution
@@ -261,7 +262,8 @@ This library exists to fix that.
 Some skills here are adapted from strong existing work:
 
 - **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
-- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-for-agents`, and `retro`
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-for-agents`, `retro`, and `pr`
+- **[Dex Horthy](https://github.com/humanlayer/humanlayer)** — the visuals menu in `pr`, via his `show-me` skill
 - **[vercel-labs](https://github.com/vercel-labs/skills)** — source of `find-skills`
 - **[Zara Zhang](https://github.com/zarazhangrui/frontend-slides)** — source of `create-frontend-slides`
 
