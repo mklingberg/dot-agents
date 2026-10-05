@@ -27,7 +27,7 @@ This skill supplies the repo set and the order; it stays out of plan authoring.
 ### The orchestrator is whatever is available
 Coordination speaks five verbs — **isolate**, **spawn**, **dispatch**, **await**, **gate** —
 and an orchestration skill binds them to a tool. With none available, run the DAG
-sequentially per the `delegate-subagents` skill: slower, same result.
+sequentially — call the Skill tool with `delegate-subagents`: slower, same result.
 
 ### Every node reaches a terminal state you can name
 `merged`, `pr-open-awaiting-owner`, `blocked-on-pipeline`, `blocked-on-user`. A node parked

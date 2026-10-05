@@ -24,7 +24,7 @@ with a confusing error.
 
 Ask: "Has this branch already been reviewed?"
 
-**If no or unsure** → invoke the `code-review` skill now, scoped to all changed files
+**If no or unsure** → call the Skill tool with `code-review` now, scoped to all changed files
 vs. the target branch, focused on blocking issues.
 
 - Blocking issues found → present them, ask "fix first, or proceed anyway?"
@@ -41,7 +41,7 @@ vs. the target branch, focused on blocking issues.
 `_`, the ticket becomes a suffix, kebab-case becomes Title Case, max ~72 chars.
 Example: `feature/MS6375_account-cancellation` → `Account cancellation [MS6375]`
 
-**Description** — write the body with the `pr` skill (Summary, Evidence, Merge Danger),
+**Description** — call the Skill tool with `pr` and write the body to it (Summary, Evidence, Merge Danger),
 then apply these Azure DevOps rules on top:
 
 - **One line of why** above the Summary visual — the problem this solves, in reviewer
@@ -54,7 +54,7 @@ then apply these Azure DevOps rules on top:
   views: pseudocode, call tree, file tree, `diff`.
 - **Under 4000 characters** — the description cap. One visual, not a gallery.
 - **Screenshots** go in as attachments; they render inline.
-- **Domain language** comes from the `domain-knowledge` skill; there is no `GLOSSARY.md`.
+- **Domain language**: call the Skill tool with `domain-knowledge`; there is no `GLOSSARY.md`.
 - **One-way doors by default:** DB schema migrations, removing a LaunchDarkly flag or
   its fallback path, breaking a public API or message contract, and anything that
   leaves the building — customer emails, notifications, invoices, payments. Rolling back

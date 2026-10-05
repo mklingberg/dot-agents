@@ -28,7 +28,7 @@ Prefer a ranked/research-style search for questions; fetch full page content whe
 you need docs, API references, or specs. Run independent searches in parallel.
 Deep topics: search → identify best sources → fetch those.
 
-**Internal:** load the `confluence` skill for wiki lookups and the `jira` skill
+**Internal:** call the Skill tool with `confluence` for wiki lookups and with `jira`
 for ticket lookups, and follow them. They carry the site config, the search
 ladder, and the traps — don't improvise curl calls against Atlassian from memory.
 Internal sources are read-only for you in every case.
