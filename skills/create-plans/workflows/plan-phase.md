@@ -84,7 +84,7 @@ Each task must have:
 
 **Critical:** If external resource has CLI/API (Vercel, Stripe, Upstash, GitHub, etc.), use type="auto" to automate it. Only checkpoint for verification AFTER automation.
 
-See references/checkpoints.md and references/cli-automation.md for checkpoint structure and automation guidance.
+See references/checkpoints.md for checkpoint structure and automation guidance.
 </step>
 
 <step name="estimate_scope">

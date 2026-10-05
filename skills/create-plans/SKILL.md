@@ -70,7 +70,7 @@ See: references/scope-estimation.md
 
 **Protocol:** Claude automates work → reaches checkpoint:human-verify → presents what was done → waits for confirmation → resumes
 
-See: references/checkpoints.md, references/cli-automation.md
+See: references/checkpoints.md
 </principle>
 
 <principle name="deviation_rules">

@@ -276,7 +276,7 @@ Plans execute autonomously. Checkpoints formalize the interaction points where h
 
 **Key distinction:** Authentication gates are created dynamically when Claude encounters auth errors during automation. They're NOT pre-planned - Claude tries to automate first, only asks for credentials when blocked.
 
-See references/cli-automation.md "Authentication Gates" section for more examples and full protocol.
+The executor's protocol is the `Implement` agent's §5 Auth Gates.
 
 ## Execution Protocol
 
@@ -581,4 +581,3 @@ Checkpoints formalize human-in-the-loop points. Use them when Claude cannot comp
 2. **checkpoint:decision** (9% of checkpoints) - Human makes architectural/technology choices
 3. **checkpoint:human-action** (1% of checkpoints) - Truly unavoidable manual steps with no API/CLI
 
-**See also:** references/cli-automation.md for exhaustive list of what Claude can automate.

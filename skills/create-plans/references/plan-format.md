@@ -157,7 +157,6 @@ Use ONLY for: Email verification links, SMS 2FA codes, manual approvals with no 
 
 Do NOT use for: Anything with a CLI (Vercel, Stripe, Upstash, Railway, GitHub), builds, tests, file creation, deployments.
 
-See: references/cli-automation.md for what Claude can automate.
 
 **Execution:** Claude automates everything with CLI/API, stops only for truly unavoidable manual steps.
 </type>
@@ -231,7 +230,7 @@ Use for: Technology selection, architecture decisions, design choices, feature p
 - Creating resources (Upstash, Stripe, GitHub) → `type="auto"` with CLI/API
 - File operations, tests, builds → `type="auto"`
 
-**Golden rule:** If Claude CAN automate it, Claude MUST automate it. See: references/cli-automation.md
+**Golden rule:** If Claude CAN automate it, Claude MUST automate it.
 
 See `references/checkpoints.md` for comprehensive checkpoint guidance.
 </task_types>
