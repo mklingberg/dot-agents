@@ -34,9 +34,9 @@ Do NOT interview the user — context is already established.
    grep -qxF '.planning/' .gitignore 2>/dev/null || echo '.planning/' >> .gitignore
    ```
 
-2. **Extract tasks** from the conversation — every concrete agreed action becomes a task candidate.
+3. **Extract tasks** from the conversation — every concrete agreed action becomes a task candidate.
 
-3. **Confirm breakdown** — present inline, wait for confirmation before writing:
+4. **Confirm breakdown** — present inline, wait for confirmation before writing:
    ```
    ### {phase}-01-PLAN.md — [Subsystem]
    1. [Task name] [auto/checkpoint]
@@ -48,7 +48,11 @@ Do NOT interview the user — context is already established.
    Does this look right?
    ```
 
-4. **Write PLAN.md file(s)** using the template below.
+5. **Bind conventions.** Implement can't see `AGENTS.md`/`CLAUDE.md`; the plan's `<context>` is its only channel. Follow `<project_conventions>` in `~/.agents/skills/create-plans/SKILL.md`: embed the project and global skills each plan touches, and inline the `AGENTS.md` rules that govern its tasks.
+
+6. **Write PLAN.md file(s)** using the template below.
+
+7. **Hand off.** Execution is the `Implement` agent's job, not this skill's. Call the Skill tool with `delegate-subagents` to dispatch, or tell the user the plan path if they'd rather run it later.
 
 </process>
 
@@ -66,8 +70,6 @@ Output: [Artifacts created]
 </objective>
 
 <execution_context>
-@~/.agents/skills/create-plans/references/scope-estimation.md
-@~/.agents/skills/create-plans/workflows/execute-phase.md
 @~/.agents/skills/create-plans/templates/summary.md
 [If any checkpoint tasks:]
 @~/.agents/skills/create-plans/references/checkpoints.md
@@ -77,8 +79,15 @@ Output: [Artifacts created]
 [If .planning/BRIEF.md and ROADMAP.md exist, reference them:]
 @.planning/BRIEF.md
 @.planning/ROADMAP.md
+[If research exists:]
+@.planning/phases/XX-name/FINDINGS.md
 [If previous plan in same phase:]
 @.planning/phases/XX-name/{phase}-{prev}-SUMMARY.md
+[Relevant source files:]
+@src/path/to/relevant.ext
+[Conventions this plan touches (step 5):]
+@.agents/skills/<relevant-skill>/SKILL.md
+@~/.agents/skills/<relevant-global-skill>/SKILL.md
 
 [If standalone — replace above with:]
 <inline_context>

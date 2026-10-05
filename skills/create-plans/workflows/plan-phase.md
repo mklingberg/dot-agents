@@ -201,7 +201,7 @@ Follow `~/.agents/skills/_commands/to-plan/SKILL.md` to write the PLAN.md artifa
 
 Output path: `.planning/phases/XX-name/{phase}-{plan}-PLAN.md`
 
-The confirmed breakdown from `confirm_breakdown` is your task list — pass it directly into `to-plan`'s process at step 4 (skip re-confirmation since the user already approved it here).
+The confirmed breakdown from `confirm_breakdown` is your task list — pass it directly into `to-plan`'s process at step 5 (skip re-confirmation since the user already approved it here).
 </step>
 
 <step name="offer_next">
