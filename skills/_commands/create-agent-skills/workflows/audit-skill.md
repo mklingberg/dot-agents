@@ -3,9 +3,7 @@
 <required_reading>
 **Read these reference files NOW:**
 1. references/recommended-structure.md
-2. references/skill-structure.md
-3. references/use-xml-tags.md
-4. Call the Skill tool with `writing-for-agents` — the pruning lens (no-op test, duplication, sediment, failure modes); apply it to the audit.
+2. Call the Skill tool with `writing-for-agents` — the pruning lens (no-op test, duplication, sediment, failure modes); apply it to the audit.
 </required_reading>
 
 <process>
@@ -60,8 +58,7 @@ Evaluate against each criterion:
 
 ### Structure
 - [ ] SKILL.md contains only content needed on every invocation (conditional content in sub-files; hard ceiling 500 lines)
-- [ ] Pure XML structure (no markdown headings # in body)
-- [ ] All XML tags properly closed
+- [ ] One consistent structure — `##` headings, XML tags only where the name adds meaning; any XML tags closed
 - [ ] Has required tags: objective OR essential_principles
 - [ ] Has success_criteria
 
@@ -128,7 +125,6 @@ If fixing:
 **Mixed concerns**: Procedures and knowledge in same file
 **Vague steps**: "Handle the error appropriately"
 **Untestable criteria**: "User is satisfied"
-**Markdown headings in body**: Using # instead of XML tags
 **Missing routing**: Complex skill without intake/routing
 **Broken references**: Files mentioned but don't exist
 **Redundant content**: Same information in multiple places

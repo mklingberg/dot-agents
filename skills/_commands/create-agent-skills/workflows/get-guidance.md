@@ -2,7 +2,7 @@
 
 <required_reading>
 **Read these reference files NOW:**
-1. references/core-principles.md
+1. Call the Skill tool with `writing-for-agents` — the principles behind the recommendation.
 2. references/recommended-structure.md
 </required_reading>
 

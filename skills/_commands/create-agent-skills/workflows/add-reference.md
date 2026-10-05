@@ -3,7 +3,6 @@
 <required_reading>
 **Read these reference files NOW:**
 1. references/recommended-structure.md
-2. references/skill-structure.md
 </required_reading>
 
 <process>
@@ -42,7 +41,7 @@ Ask:
 
 Create `references/{reference-name}.md`:
 
-Use semantic XML tags to structure the content:
+Structure it with `##` headings, or XML tags where the tag name adds meaning:
 ```xml
 <overview>
 Brief description of what this reference covers

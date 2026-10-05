@@ -1,6 +1,6 @@
 ---
 name: create-agent-skills
-description: "Create or improve Claude Code SKILL.md files. Triggers: 'write a skill', 'new skill', editing SKILL.md, skill-structure questions."
+description: "Create or improve SKILL.md files. Triggers: 'write a skill', 'new skill', editing SKILL.md, skill-structure questions."
 disable-model-invocation: true
 ---
 
@@ -38,14 +38,10 @@ What would you like to do?
 <routing>
 | Response | Next Action | Workflow |
 |----------|-------------|----------|
-| 1, "create", "new", "build" | Ask: "Task-execution skill or domain expertise skill?" | Route to appropriate create workflow |
+| 1, "create", "new", "build" | — | workflows/create-new-skill.md |
 | 2, "audit", "modify", "existing" | Ask: "Path to skill?" | Route to appropriate workflow |
 | 3, "add", "component" | Ask: "Add what? (workflow/reference/template/script)" | workflows/add-{type}.md |
 | 4, "guidance", "help" | General guidance | workflows/get-guidance.md |
-
-**Progressive disclosure for option 1 (create):**
-- If user selects "Task-execution skill" → workflows/create-new-skill.md
-- If user selects "Domain expertise skill" → workflows/create-domain-expertise-skill.md
 
 **Progressive disclosure for option 3 (add component):**
 - If user specifies workflow → workflows/add-workflow.md
@@ -56,7 +52,6 @@ What would you like to do?
 **Intent-based routing (if user provides clear intent without selecting menu):**
 - "audit this skill", "check skill", "review" → workflows/audit-skill.md
 - "verify content", "check if current" → workflows/verify-skill.md
-- "create domain expertise", "exhaustive knowledge base" → workflows/create-domain-expertise-skill.md
 - "create skill for X", "build new skill" → workflows/create-new-skill.md
 - "add workflow", "add reference", etc. → workflows/add-{type}.md
 - "upgrade to router" → workflows/upgrade-to-router.md
@@ -123,17 +118,10 @@ All in `references/`. Don't preload — read only when the trigger condition mat
 | Read this | When |
 |---|---|
 | `recommended-structure.md` | Drafting a new skill's directory layout |
-| `skill-structure.md` | Deciding what goes in SKILL.md vs references vs workflows |
-| `core-principles.md` | User asks "why is my skill bad" / general critique |
-| `be-clear-and-direct.md` | Reviewing skill prose for clarity |
-| `use-xml-tags.md` | Deciding XML vs markdown for a specific section (rarely needed; SKILL.md covers the rule) |
-| `common-patterns.md` | Looking for an example pattern (gotchas, validation loops, plan-validate-execute) |
 | `workflows-and-validation.md` | Building multi-step workflow files |
 | `using-templates.md` | Adding a `templates/` asset |
 | `using-scripts.md` | Adding a `scripts/` asset |
 | `executable-code.md` | Skill needs to run code/tools |
-| `api-security.md` | Skill touches secrets, tokens, or external APIs |
-| `iteration-and-testing.md` | Running the skill against test prompts to refine it |
 </reference_index>
 
 <workflows_index>
@@ -144,7 +132,6 @@ All in `workflows/`:
 | Workflow | Purpose |
 |----------|---------|
 | create-new-skill.md | Build a skill from scratch |
-| create-domain-expertise-skill.md | Build comprehensive domain expertise skill with full lifecycle workflows |
 | audit-skill.md | Analyze skill against best practices |
 | verify-skill.md | Check if content is still accurate |
 | add-workflow.md | Add a workflow to existing skill |
@@ -197,7 +184,7 @@ Non-obvious facts that bite skill authors. Add to this list whenever a skill pro
 - **Avoid menus without defaults** — "use pypdf, pdfplumber, or PyMuPDF" wastes tokens; pick one default and mention alternatives briefly.
 - **Procedures generalise, declarations don't** — teach how to approach a class of problems, not what to produce for one instance.
 - **Sibling skills with overlapping triggers must name each other** — e.g. `to-prd` vs `create-a-prd` — at least one description must say "for X, use other-skill".
-- **Markdown `##` and XML tags are both valid** — Anthropic's official skills use markdown. Use XML only where the tag name adds semantic value.
+- **Secrets come from the keychain, never the skill text** — read them into an env var at call time and refill from the keychain when empty (see `jira`, `azure-devops`). Never echo a token back.
 </gotchas>
 
 <description_authoring>
@@ -245,7 +232,7 @@ A first draft is rarely the final version. After writing or editing a skill, run
 4. **Revise the skill** to address the specific failure. Add a gotcha if the failure was a recurring kind of mistake.
 5. **Repeat** until the prompt produces the right output without correction.
 
-For structured eval-driven iteration with assertions and grading, see `references/iteration-and-testing.md`.
+For a with/without comparison graded against assertions, use the `evaluate-skills` skill.
 
 **Objective validation:** run `skills-ref validate ./skill-name` from the [agentskills reference library](https://github.com/agentskills/agentskills/tree/main/skills-ref) to check frontmatter and naming conventions against the formal spec.
 </validation_loop>

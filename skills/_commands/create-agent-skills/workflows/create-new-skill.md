@@ -3,10 +3,7 @@
 <required_reading>
 **Read these reference files NOW:**
 1. references/recommended-structure.md
-2. references/skill-structure.md
-3. references/core-principles.md
-4. references/use-xml-tags.md
-5. Call the Skill tool with `writing-for-agents` — the quality lens (predictability, information hierarchy, leading words); apply it while drafting.
+2. Call the Skill tool with `writing-for-agents` — the quality lens (predictability, information hierarchy, leading words); apply it while drafting.
 </required_reading>
 
 <process>
@@ -106,7 +103,7 @@ mkdir -p ~/.agents/skills/{skill-name}/scripts    # for reusable code
 - YAML frontmatter (name, description)
 - `<objective>`
 - `<quick_start>`
-- Content sections with pure XML
+- Content sections (`##` headings; XML tags only where the name adds meaning)
 - `<success_criteria>`
 
 **Complex skill:** Write router with:
@@ -146,35 +143,25 @@ Check:
 - [ ] YAML frontmatter valid
 - [ ] Name matches directory (lowercase-with-hyphens)
 - [ ] Description says what it does AND when to use it (third person)
-- [ ] No markdown headings (#) in body - use XML tags
-- [ ] Required tags present: objective, quick_start, success_criteria
+- [ ] Has an objective and success criteria
 - [ ] All referenced files exist
 - [ ] SKILL.md contains only content needed on every invocation (conditional content in sub-files; hard ceiling 500 lines)
-- [ ] XML tags properly closed
+- [ ] Any XML tags closed
 
-## Step 9: Create Slash Command
+## Step 9: Register
 
-```bash
-cat > ~/.agents/commands/{skill-name}.md << 'EOF'
----
-description: {Brief description}
-argument-hint: [{argument hint}]
-allowed-tools: Skill({skill-name})
----
-
-Invoke the {skill-name} skill for: $ARGUMENTS
-EOF
-```
+- Manual-only skill → `skills/_commands/<name>/` with `disable-model-invocation: true`. That flag, not the folder, is what keeps it out of auto-invocation.
+- From an upstream repo → add a `.skill-lock.json` entry (source, `skillPath`, `skillFolderHash` = the folder's git tree hash).
+- Add a line to the README's skill list.
+- Run `bash ~/.agents/bin/sync.sh` and confirm `~/.claude/skills/<name>` links.
 
 ## Step 10: Test
 
-Invoke the skill and observe:
-- Does it ask the right intake question?
-- Does it load the right workflow?
-- Does the workflow load the right references?
+Invoke the skill on one prompt the user would actually type:
+- Does it load the right workflow and references?
 - Does output match expectations?
 
-Iterate based on real usage, not assumptions.
+For a with/without comparison graded against assertions, use the `evaluate-skills` skill.
 </process>
 
 <success_criteria>
@@ -187,6 +174,6 @@ Skill is complete when:
 - [ ] Intake question routes to correct workflow
 - [ ] All workflows have required_reading + process + success_criteria
 - [ ] References contain reusable domain knowledge
-- [ ] Slash command exists and works
+- [ ] Registered: README line, lock entry if upstream, sync run
 - [ ] Tested with real invocation
 </success_criteria>

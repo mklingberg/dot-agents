@@ -1,8 +1,7 @@
 # Workflow: Verify Skill Content Accuracy
 
 <required_reading>
-**Read these reference files NOW:**
-1. references/skill-structure.md
+**Read SKILL.md's `<gotchas>` first.**
 </required_reading>
 
 <purpose>

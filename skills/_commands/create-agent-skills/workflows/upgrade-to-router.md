@@ -3,7 +3,6 @@
 <required_reading>
 **Read these reference files NOW:**
 1. references/recommended-structure.md
-2. references/skill-structure.md
 </required_reading>
 
 <process>
@@ -84,7 +83,7 @@ For each identified reference topic:
 
 1. Create `references/{reference-name}.md`
 2. Move relevant content from original skill
-3. Structure with semantic XML tags
+3. Structure with `##` headings, or XML tags where the tag name adds meaning
 
 ## Step 7: Rewrite SKILL.md as Router
 
