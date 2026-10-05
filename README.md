@@ -135,6 +135,7 @@ This is the strongest part of the library.
 - **`create-plans`** — builds a durable planning system with `BRIEF.md`, `ROADMAP.md`, phase plans, summaries, and handoffs
 - **`to-plan`** *(command)* — fast path when the conversation is already clear and just needs to become an executable `PLAN.md`
 - **`handoff`** *(command)* — compresses working state so another agent/session can resume without guessing
+- **`retro`** *(command)* — retrospective on a session: suggests environment fixes (checks, pointers, tooling) so the next run goes better
 - **`coordinate-cross-repo`** — extends the same model across repos: works out the repo set, orders them by real dependency, delegates a plan per repo, and lands the PRs in that order. Reads the `INDEX.md` served by `repo-index`. Single repo → use `create-plans`
 
 The goal is not documentation theater. The goal is executable planning and continuity.
@@ -261,7 +262,7 @@ This library exists to fix that.
 Some skills here are adapted from strong existing work:
 
 - **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
-- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-great-skills`, and `writing-for-agents`
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-great-skills`, `writing-for-agents`, and `retro`
 - **[vercel-labs](https://github.com/vercel-labs/skills)** — source of `find-skills`
 - **[Zara Zhang](https://github.com/zarazhangrui/frontend-slides)** — source of `create-frontend-slides`
 
