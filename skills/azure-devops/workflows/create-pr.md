@@ -44,6 +44,12 @@ Example: `feature/MS6375_account-cancellation` → `Account cancellation [MS6375
 **Description** — write the body with the `pr` skill (Summary, Evidence, Merge Danger),
 then apply these Azure DevOps rules on top:
 
+- **One line of why** above the Summary visual — the problem this solves, in reviewer
+  terms. The work item has the detail.
+- **Evidence you observed, nothing else.** Only test runs, output, or screenshots seen
+  this session. No observed before? Write `Not verified` and name what would verify it.
+- **Blast radius names who and how many** — consumers, customers, money, data — not a
+  single word.
 - **No Mermaid.** PR descriptions render it as a raw code block (tested). Use the text
   views: pseudocode, call tree, file tree, `diff`.
 - **Under 4000 characters** — the description cap. One visual, not a gallery.
