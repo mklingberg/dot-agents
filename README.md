@@ -153,7 +153,6 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`create-tests-autofixture`** — opinionated xUnit + AutoFixture + FakeItEasy test conventions
 - **`create-feature-flags`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
 - **`azure-devops`** — Azure DevOps over REST+PAT: open PRs, answer PR comment threads, diagnose failing builds. Environment-specific values live in one `<config>` block; the rest is portable
-- **`create-subagents`** *(command)* — how to structure and use subagents well
 - **`create-agent-skills`** *(command)* — how to write better skills instead of cargo-culting prompt files
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
 - **`diagnosing-bugs`** — hard-bug loop: no hypothesis until a command goes red on this bug; then minimise, rank hypotheses, instrument, fix with a regression test
@@ -243,6 +242,25 @@ as intentional, not drift.
 
 Rule of thumb: if a skill is just a fancy alias for a one-off prompt, it probably should not exist. If it works but rarely triggers, move it to `_commands/`.
 
+## Adding a new agent
+
+Never write into `~/.claude/agents/` or `~/.copilot/agents/` — sync regenerates both.
+
+1. Create `agents/<Name>.md` in Pi format:
+   ```yaml
+   ---
+   description: "What it does. Use when …"   # the routing signal every harness sees
+   display_name: Name                          # → Claude `name` (lowercased), Copilot `name`
+   tools: read, bash, grep, find, ls           # Pi vocabulary; `all` (or omit) = inherit everything
+   model: github-copilot/claude-sonnet-5       # pinned for Pi; Claude gets the family alias, Copilot omits it
+   prompt_mode: replace                        # Pi-only: replace = clean context, append = parent twin
+   ---
+   ```
+   `gen_agent.py` maps `read/bash/grep/find` per harness and drops `ls`; any other token passes through verbatim. There is no `skill` token — a restricted agent can't load skills, so reference a skill it needs by path (see `agents/Debug.md`).
+2. Write the body in harness-agnostic capability language ("read the file", not "use the Read tool").
+3. Run `bash bin/sync.sh` and check the generated `~/.claude/agents/<name>.md` frontmatter.
+4. Give it a route: add the role to `skills/delegate-subagents/SKILL.md`, or nothing will dispatch to it.
+
 
 ## Why this repo matters
 
@@ -261,7 +279,7 @@ This library exists to fix that.
 
 Some skills here are adapted from strong existing work:
 
-- **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
+- **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans` and `create-agent-skills`
 - **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `diagnosing-bugs`, `prototype`, `handoff`, `teach`, `writing-for-agents`, `retro`, and `pr`
 - **[Dex Horthy](https://github.com/humanlayer/humanlayer)** — the visuals menu in `pr`, via his `show-me` skill
 - **[vercel-labs](https://github.com/vercel-labs/skills)** — source of `find-skills`
