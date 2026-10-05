@@ -37,7 +37,7 @@ FINDINGS.md       → Research output (if research done)
     ↓
 PLAN.md           → THE PROMPT (Claude executes this)
     ↓
-SUMMARY.md        → Outcome (existence = phase complete)
+SUMMARY.md        → Outcome (existence = plan done; all done = phase done)
 ```
 
 ## Directory Structure
@@ -164,7 +164,6 @@ If it sounds like corporate PM theater, it doesn't belong.
 - `workflows/plan-phase.md` - Create executable phase prompt
 - `workflows/research-phase.md` - Create and run research
 - `workflows/plan-chunk.md` - Plan immediate next tasks
-- `workflows/transition.md` - Mark phase complete, advance
 - `workflows/get-guidance.md` - Help decide planning approach
 
 ## Success Criteria

@@ -81,7 +81,7 @@ Use template from `templates/roadmap.md`.
 Write to `.planning/ROADMAP.md` with:
 - Phase list with names and one-line descriptions
 - Dependencies (what must complete before what)
-- Status tracking (all start as "not started")
+- No status: progress is derived from SUMMARYs
 
 Create phase directories:
 ```bash
@@ -150,5 +150,4 @@ Roadmap is complete when:
 - [ ] 3-6 phases defined with clear names
 - [ ] Phase directories created
 - [ ] Dependencies noted if any
-- [ ] Status tracking in place
 </success_criteria>

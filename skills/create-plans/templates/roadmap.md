@@ -13,10 +13,10 @@ Copy and fill this structure for `.planning/ROADMAP.md`:
 
 ## Phases
 
-- [ ] **Phase 1: [Name]** - [One-line description]
-- [ ] **Phase 2: [Name]** - [One-line description]
-- [ ] **Phase 3: [Name]** - [One-line description]
-- [ ] **Phase 4: [Name]** - [One-line description]
+- **Phase 1: [Name]** - [One-line description]
+- **Phase 2: [Name]** - [One-line description]
+- **Phase 3: [Name]** - [One-line description]
+- **Phase 4: [Name]** - [One-line description]
 
 ## Phase Details
 
@@ -26,9 +26,9 @@ Copy and fill this structure for `.planning/ROADMAP.md`:
 **Plans**: [Number of plans, e.g., "3 plans" or "TBD after research"]
 
 Plans:
-- [ ] 01-01: [Brief description of first plan]
-- [ ] 01-02: [Brief description of second plan]
-- [ ] 01-03: [Brief description of third plan]
+- 01-01: [Brief description of first plan]
+- 01-02: [Brief description of second plan]
+- 01-03: [Brief description of third plan]
 
 ### Phase 2: [Name]
 **Goal**: [What this phase delivers]
@@ -36,7 +36,7 @@ Plans:
 **Plans**: [Number of plans]
 
 Plans:
-- [ ] 02-01: [Brief description]
+- 02-01: [Brief description]
 
 ### Phase 3: [Name]
 **Goal**: [What this phase delivers]
@@ -44,8 +44,8 @@ Plans:
 **Plans**: [Number of plans]
 
 Plans:
-- [ ] 03-01: [Brief description]
-- [ ] 03-02: [Brief description]
+- 03-01: [Brief description]
+- 03-02: [Brief description]
 
 ### Phase 4: [Name]
 **Goal**: [What this phase delivers]
@@ -53,26 +53,17 @@ Plans:
 **Plans**: [Number of plans]
 
 Plans:
-- [ ] 04-01: [Brief description]
-
-## Progress
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. [Name] | 0/3 | Not started | - |
-| 2. [Name] | 0/1 | Not started | - |
-| 3. [Name] | 0/2 | Not started | - |
-| 4. [Name] | 0/1 | Not started | - |
+- 04-01: [Brief description]
 ```
 
 <guidelines>
 **Initial planning (v1.0):**
 - 3-6 phases total (more = scope creep)
 - Each phase delivers something coherent
-- Phases can have 1+ plans (split if >7 tasks or multiple subsystems)
+- Phases can have 1+ plans (2-3 tasks each; split by subsystem)
 - Plans use naming: {phase}-{plan}-PLAN.md (e.g., 01-02-PLAN.md)
 - No time estimates (this isn't enterprise PM)
-- Progress table updated by transition workflow
+- No status, checkboxes or progress table: a phase is done when every PLAN has a SUMMARY
 - Plan count can be "TBD" initially, refined during planning
 
 **Adding phases over time:**
@@ -80,12 +71,6 @@ Plans:
 - Add new phases to the bottom of the roadmap
 </guidelines>
 
-<status_values>
-- `Not started` - Haven't begun
-- `In progress` - Currently working
-- `Complete` - Done (add completion date)
-- `Deferred` - Pushed to later (with reason)
-</status_values>
-
-
-
+<deferring>
+To defer a phase, move it under a `## Deferred` heading with a one-line reason.
+</deferring>

@@ -192,7 +192,7 @@ Based on scan results, present context-aware options:
 Project: [from BRIEF or directory]
 Brief: [exists/missing]
 Roadmap: [X phases defined]
-Current: [phase status]
+Current: [first phase not done, derived from SUMMARYs]
 
 What would you like to do?
 1. Plan next phase
@@ -224,7 +224,6 @@ What would you like to do?
 | "chunk", "next tasks", "what's next" | `workflows/plan-chunk.md` |
 | "execute", "run", "do it", "build it", 2 (has structure) | **EXIT SKILL** → hand the PLAN.md to the `Implement` agent; call the Skill tool with `delegate-subagents` for the dispatch |
 | "research", "investigate", "unknowns" | `workflows/research-phase.md` |
-| "transition", "complete", "done", "next" | `workflows/transition.md` |
 | "guidance", "help", 4 | `workflows/get-guidance.md` |
 
 **Critical:** plans never execute inside this skill. Implement runs them in a fresh context with only the PLAN.md and its `@` files.
@@ -246,14 +245,14 @@ FINDINGS.md       → Research output (if research done)
     ↓
 PLAN.md           → THE PROMPT (Claude executes this)
     ↓
-SUMMARY.md        → Outcome (existence = phase complete)
+SUMMARY.md        → Outcome (existence = plan done)
 ```
 
 **Rules:**
 - Roadmap requires Brief (or prompts to create one)
 - Phase plan requires Roadmap (knows phase scope)
 - PLAN.md IS the execution prompt
-- SUMMARY.md existence marks phase complete
+- SUMMARY.md existence marks the plan done. Progress is derived, never stored: a plan is done when its SUMMARY.md exists, a phase is done when every PLAN.md in it has one, and the current phase is the first in order that isn't done (no PLANs yet counts as not done; phases under ROADMAP's `## Deferred` are skipped). ROADMAP.md holds no status.
 - Each level can look UP for context
 </hierarchy>
 
@@ -317,7 +316,6 @@ All in `workflows/`:
 | plan-phase.md | Create executable phase prompt |
 | research-phase.md | Create and run research prompt |
 | plan-chunk.md | Plan immediate next tasks |
-| transition.md | Mark phase complete, advance |
 | get-guidance.md | Help decide planning approach |
 </workflows_index>
 

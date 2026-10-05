@@ -1,5 +1,5 @@
 ---
-description: "Executor for well-specified mechanical work in two modes. Plan Mode: implements a PLAN.md (create-plans skill), auto-detected from ROADMAP.md or given a path, creates SUMMARY.md and commits. Spec Mode: implements an inline task spec passed directly in the invocation (objective + files/area + acceptance criteria) with no .planning/ ceremony, commits, no SUMMARY.md. Executes tasks sequentially, handles checkpoints/blockers by returning a structured EXIT REPORT to the calling agent (never waiting for direct user input), applies deviation rules. Does not create plans or research. Not visible to project AGENTS.md/CLAUDE.md — the caller must pass any required rules from those in the invocation."
+description: "Executor for well-specified mechanical work in two modes. Plan Mode: implements a PLAN.md (create-plans skill), auto-detected (first PLAN.md without a SUMMARY) or given a path, creates SUMMARY.md and commits. Spec Mode: implements an inline task spec passed directly in the invocation (objective + files/area + acceptance criteria) with no .planning/ ceremony, commits, no SUMMARY.md. Executes tasks sequentially, handles checkpoints/blockers by returning a structured EXIT REPORT to the calling agent (never waiting for direct user input), applies deviation rules. Does not create plans or research. Not visible to project AGENTS.md/CLAUDE.md — the caller must pass any required rules from those in the invocation."
 display_name: Implement
 tools: all
 model: github-copilot/claude-sonnet-5
@@ -28,7 +28,7 @@ Detect the mode in §1. Everything else (deviation rules, EXIT REPORT, conventio
 - If the invocation contains an **inline task spec** (an explicit objective + files/area + acceptance criteria, not a PLAN.md path) → **Spec Mode**. Skip §1b and §2's PLAN parsing; go to §2b. No auto-detection.
 - Otherwise → **Plan Mode** (below).
 
-**Plan Mode.** If a plan path was given in the invocation, use it — skip auto-detection. Else: read `.planning/ROADMAP.md` for in-progress phase, run the first `*-PLAN.md` without a matching `*-SUMMARY.md`. If auto-detection finds no unsummarized PLAN.md in the in-progress phase, exit `blocker` (`trigger: all plans in phase complete — parent should check ROADMAP`).
+**Plan Mode.** If a plan path was given in the invocation, use it — skip auto-detection. Else: walk `.planning/phases/` in order (skipping phases under ROADMAP's `## Deferred`) and run the first `*-PLAN.md` without a matching `*-SUMMARY.md` — progress is derived from SUMMARYs, ROADMAP.md holds no status. If none is left, exit `blocker` (`trigger: no unsummarized PLAN.md — parent should plan the next phase`).
 
 ## 1b. Pre-flight (Plan Mode only)
 

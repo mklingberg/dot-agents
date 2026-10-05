@@ -30,7 +30,7 @@ This is the ONLY document optimized for human reading.
 <level name="roadmap">
 **Purpose**: Define phases and sequence
 **Audience**: Both human and Claude
-**Contains**: Phase names, goals, dependencies, progress tracking
+**Contains**: Phase names, goals, dependencies (no status — derived from SUMMARYs)
 **Creates**: `.planning/ROADMAP.md`, `.planning/phases/` directories
 
 **Requires**: Brief (or quick context if skipping)
@@ -77,10 +77,8 @@ This ensures alignment with overall vision.
 <looking_down>
 When updating a higher-level artifact, check lower levels for status:
 
-- Updating Roadmap progress → Check which phase PLANs exist, completion state
-- Reviewing Brief → See how far we've come via Roadmap
-
-This enables progress tracking.
+- Where are we → which PLANs have a SUMMARY (see create-plans SKILL.md `<hierarchy>`)
+- Reviewing Brief → see how far we've come via those SUMMARYs
 </looking_down>
 
 <missing_prerequisites>

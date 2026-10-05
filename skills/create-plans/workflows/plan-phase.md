@@ -28,7 +28,7 @@ ls .planning/phases/
 ```
 
 If multiple phases available, ask which one to plan.
-If obvious (first incomplete phase), proceed.
+If obvious (the first phase without a SUMMARY for every PLAN, or with no PLANs yet), proceed.
 
 Read any existing PLAN.md or FINDINGS.md in the phase directory.
 </step>

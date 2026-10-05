@@ -124,7 +124,6 @@ How we know it worked:
 <brownfield_guidelines>
 **When to update BRIEF:**
 - When starting significant new phases
-- Use `transition.md` workflow to keep current state accurate
 
 **Current State captures:**
 - What shipped (version, date)
