@@ -35,7 +35,7 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
 └── skills/
     ├── _commands/                Manual-trigger skills (hidden from auto-detection)
     ├── _experimental/            Auto-detected but not yet promoted as core
-    ├── create-feature-flags/    Promoted skills live flat at the root
+    ├── azure-devops/            Promoted skills live flat at the root
     ├── create-feature-branch/
     ├── create-plans/
     ├── grilling/
@@ -144,14 +144,15 @@ The goal is not documentation theater. The goal is executable planning and conti
 
 Once direction is clear, this turns it into project-management artifacts.
 
-- **`create-jira-stories`** *(command)* — Jira story/subtask generation for a specific workflow
+- **`jira`** — Jira REST for Mina Sidor: stories and subtasks, JQL search, transitions
 
 ### 4. Focused specialist help
 
 A few skills encode concrete patterns so the agent does not reinvent them badly.
 
 - **`create-tests-autofixture`** — opinionated xUnit + AutoFixture + FakeItEasy test conventions
-- **`create-feature-flags`** — LaunchDarkly/C# feature-flag workflow aligned to team conventions
+- **`launchdarkly`** — feature flags in the Teamy C# stack, plus the LD REST API
+- **`walley-bruno`** — run Bruno/Edge requests locally: test customers, purchases, notify flows
 - **`azure-devops`** — Azure DevOps over REST+PAT: open PRs, answer PR comment threads, diagnose failing builds. Environment-specific values live in one `<config>` block; the rest is portable
 - **`create-agent-skills`** *(command)* — how to write better skills instead of cargo-culting prompt files
 - **`tdd`** — red→green reference: test seams, vertical slices, test anti-patterns
@@ -159,7 +160,10 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`code-review`** — two-axis review (standards + spec) run as parallel sub-agents
 - **`pr`** — PR body format: a visual summary, before/after evidence, and a merge-danger call (one-way/two-way door, blast radius)
 - **`prototype`** — build a throwaway prototype to answer a design question
+- **`domain-knowledge`** — products, markets, vocabulary and rules, read from the untracked `DOMAIN.md`; canon lives in Confluence
+- **`confluence`** — read-only Confluence search and page reads; holds the space-key map
 - **`repo-index`** — answers what repos, components and dependencies exist from `INDEX.md`; its refresh workflow rebuilds the derived regions and leaves curated ones untouched. Named for the common path (reading, daily) rather than the rare one (regenerating), which is why it isn't `create-*`
+- **`delegate-subagents`** — which agent role to spawn, background discipline, EXIT REPORT routing, parallel waves
 - **`find-skills`** — discover and install skills on demand
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
 - **`writing-for-agents`** — model-invokable style guide for anything agents read: skills, `AGENTS.md`, `CLAUDE.md`
