@@ -80,102 +80,9 @@ Tasks have a `type` attribute that determines how they execute:
 Use for: Everything Claude can do independently (code, tests, builds, file operations).
 </type>
 
-<type name="checkpoint:human-action">
-**RARELY USED** - Only for actions with NO CLI/API. Claude automates everything possible first.
-
-**Structure:**
-```xml
-<task type="checkpoint:human-action" gate="blocking">
-  <action>[Unavoidable manual step - email link, 2FA code]</action>
-  <instructions>
-    [What Claude already automated]
-    [The ONE thing requiring human action]
-  </instructions>
-  <verification>[What Claude can check afterward]</verification>
-  <resume-signal>[How to continue]</resume-signal>
-</task>
-```
-
-Use ONLY for: Email verification links, SMS 2FA codes, manual approvals with no API, 3D Secure payment flows.
-
-Do NOT use for: Anything with a CLI (Vercel, Stripe, Upstash, Railway, GitHub), builds, tests, file creation, deployments.
-
-
-**Execution:** Claude automates everything with CLI/API, stops only for truly unavoidable manual steps.
-</type>
-
-<type name="checkpoint:human-verify">
-**Human must verify Claude's work** - Visual checks, UX testing.
-
-**Structure:**
-```xml
-<task type="checkpoint:human-verify" gate="blocking">
-  <what-built>Responsive dashboard layout</what-built>
-  <how-to-verify>
-    1. Run: npm run dev
-    2. Visit: http://localhost:3000/dashboard
-    3. Desktop (>1024px): Verify sidebar left, content right
-    4. Tablet (768px): Verify sidebar collapses to hamburger
-    5. Mobile (375px): Verify single column, bottom nav
-    6. Check: No layout shift, no horizontal scroll
-  </how-to-verify>
-  <resume-signal>Type "approved" or describe issues</resume-signal>
-</task>
-```
-
-Use for: UI/UX verification, visual design checks, animation smoothness, accessibility testing.
-
-**Execution:** Claude builds the feature, stops, provides testing instructions, waits for approval/feedback.
-</type>
-
-<type name="checkpoint:decision">
-**Human must make implementation choice** - Direction-setting decisions.
-
-**Structure:**
-```xml
-<task type="checkpoint:decision" gate="blocking">
-  <decision>Select authentication provider</decision>
-  <context>We need user authentication. Three approaches with different tradeoffs:</context>
-  <options>
-    <option id="supabase">
-      <name>Supabase Auth</name>
-      <pros>Built-in with Supabase, generous free tier</pros>
-      <cons>Less customizable UI, tied to ecosystem</cons>
-    </option>
-    <option id="clerk">
-      <name>Clerk</name>
-      <pros>Beautiful pre-built UI, best DX</pros>
-      <cons>Paid after 10k MAU</cons>
-    </option>
-    <option id="nextauth">
-      <name>NextAuth.js</name>
-      <pros>Free, self-hosted, maximum control</pros>
-      <cons>More setup, you manage security</cons>
-    </option>
-  </options>
-  <resume-signal>Select: supabase, clerk, or nextauth</resume-signal>
-</task>
-```
-
-Use for: Technology selection, architecture decisions, design choices, feature prioritization.
-
-**Execution:** Claude presents options with balanced pros/cons, waits for decision, proceeds with chosen direction.
-</type>
-
-**When to use checkpoints:**
-- Visual/UX verification (after Claude builds) → `checkpoint:human-verify`
-- Implementation direction choice → `checkpoint:decision`
-- Truly unavoidable manual actions (email links, 2FA) → `checkpoint:human-action` (rare)
-
-**When NOT to use checkpoints:**
-- Anything with CLI/API (Claude automates it) → `type="auto"`
-- Deployments (Vercel, Railway, Fly) → `type="auto"` with CLI
-- Creating resources (Upstash, Stripe, GitHub) → `type="auto"` with CLI/API
-- File operations, tests, builds → `type="auto"`
+**Checkpoint types** (`checkpoint:human-verify`, `checkpoint:decision`, `checkpoint:human-action`): structure, when to use each, and anti-patterns live in `references/checkpoints.md`.
 
 **Golden rule:** If Claude CAN automate it, Claude MUST automate it.
-
-See `references/checkpoints.md` for comprehensive checkpoint guidance.
 </task_types>
 
 <context_references>
@@ -223,23 +130,7 @@ Measurable criteria for phase completion:
 </success_criteria_section>
 
 <output_section>
-Specify the SUMMARY.md structure:
-
-```markdown
-<output>
-After completion, create `.planning/phases/XX-name/SUMMARY.md`:
-
-# Phase X: Name Summary
-
-**[Substantive one-liner]**
-
-## Accomplishments
-## Files Created/Modified
-## Decisions Made
-## Issues Encountered
-## Next Phase Readiness
-</output>
-```
+`<output>` names the SUMMARY.md path and points at `templates/summary.md` for its structure.
 </output_section>
 
 <specificity_levels>
