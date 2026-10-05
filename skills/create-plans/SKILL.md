@@ -316,9 +316,9 @@ Files sort chronologically. Related artifacts (plan + summary) are adjacent.
 <reference_index>
 All in `references/`:
 
-**Structure:** directory-structure.md, hierarchy-rules.md
-**Formats:** handoff-format.md, plan-format.md
-**Patterns:** context-scanning.md, context-management.md
+**Structure:** hierarchy-rules.md
+**Formats:** plan-format.md
+**Patterns:** context-management.md
 **Planning:** scope-estimation.md, checkpoints.md
 **Process:** user-gates.md, git-integration.md, research-pitfalls.md
 </reference_index>
@@ -364,6 +364,5 @@ Planning skill succeeds when:
 - Context limits are respected (auto-handoff at 10%)
 - Deviations handled automatically per embedded rules
 - All work (planned and discovered) fully documented
-- Domain expertise loaded intelligently (SKILL.md + selective references, not all files)
 - Plan execution uses /run-plan command (not skill invocation)
 </success_criteria>

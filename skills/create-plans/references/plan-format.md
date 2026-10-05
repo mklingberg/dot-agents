@@ -17,7 +17,6 @@ Every PLAN.md follows this XML structure:
 ---
 phase: XX-name
 type: execute
-domain: [optional]
 ---
 
 <objective>

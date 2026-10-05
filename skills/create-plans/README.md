@@ -157,15 +157,12 @@ If it sounds like corporate PM theater, it doesn't belong.
 ## Files Reference
 
 ### Structure
-- `references/directory-structure.md` - Planning directory layout
 - `references/hierarchy-rules.md` - How levels build on each other
 
 ### Formats
 - `references/plan-format.md` - PLAN.md structure
-- `references/handoff-format.md` - Context handoff structure
 
 ### Patterns
-- `references/context-scanning.md` - How skill understands current state
 - `references/context-management.md` - Token usage monitoring
 - `references/user-gates.md` - When to pause and ask
 - `references/git-integration.md` - Version control patterns

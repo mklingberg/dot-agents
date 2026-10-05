@@ -8,7 +8,6 @@ Copy and fill this structure for `.planning/phases/XX-name/{phase}-{plan}-PLAN.m
 ---
 phase: XX-name
 type: execute
-domain: [optional - if domain skill loaded]
 ---
 
 <objective>
@@ -160,7 +159,6 @@ From create-meta-prompts patterns:
 ---
 phase: 01-foundation
 type: execute
-domain: next-js
 ---
 
 <objective>
