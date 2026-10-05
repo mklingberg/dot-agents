@@ -278,70 +278,9 @@ Plans execute autonomously. Checkpoints formalize the interaction points where h
 
 The executor's protocol is the `Implement` agent's §5 Auth Gates.
 
-## Execution Protocol
+## Execution
 
-When Claude encounters `type="checkpoint:*"`:
-
-1. **Stop immediately** - do not proceed to next task
-2. **Display checkpoint clearly:**
-
-```
-════════════════════════════════════════
-CHECKPOINT: [Type]
-════════════════════════════════════════
-
-Task [X] of [Y]: [Name]
-
-[Display checkpoint-specific content]
-
-[Resume signal instruction]
-════════════════════════════════════════
-```
-
-3. **Wait for user response** - do not hallucinate completion
-4. **Verify if possible** - check files, run tests, whatever is specified
-5. **Resume execution** - continue to next task only after confirmation
-
-**For checkpoint:human-verify:**
-```
-════════════════════════════════════════
-CHECKPOINT: Verification Required
-════════════════════════════════════════
-
-Task 5 of 8: Responsive dashboard layout
-
-I built: Responsive dashboard at /dashboard
-
-How to verify:
-1. Run: npm run dev
-2. Visit: http://localhost:3000/dashboard
-3. Test: Resize browser window to mobile/tablet/desktop
-4. Confirm: No layout shift, proper responsive behavior
-
-Type "approved" to continue, or describe issues.
-════════════════════════════════════════
-```
-
-**For checkpoint:decision:**
-```
-════════════════════════════════════════
-CHECKPOINT: Decision Required
-════════════════════════════════════════
-
-Task 2 of 6: Select authentication provider
-
-Decision: Which auth provider should we use?
-
-Context: Need user authentication. Three options with different tradeoffs.
-
-Options:
-1. supabase - Built-in with our DB, free tier
-2. clerk - Best DX, paid after 10k users
-3. nextauth - Self-hosted, maximum control
-
-Select: supabase, clerk, or nextauth
-════════════════════════════════════════
-```
+The executor never waits for the user. Implement stops at a `checkpoint:*` task and exits with an EXIT REPORT (its §9); the orchestrator puts it to the user and re-dispatches with the answer (`delegate-subagents` → `references/exit-handling.md`). Write each checkpoint so that report needs nothing else: what was built, how to verify it, the options and their trade-offs.
 
 ## Writing Good Checkpoints
 

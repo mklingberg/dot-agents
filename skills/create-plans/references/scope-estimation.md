@@ -199,38 +199,11 @@ Complex work gets its own plan with full context budget.
 
 Verification checkpoints create natural boundaries. Autonomous plans between checkpoints execute via subagent with fresh context.
 
-## Autonomous vs Interactive Plans
+## Checkpoints Inside a Plan
 
-**Critical optimization:** Plans without checkpoints don't need main context.
-
-### Autonomous Plans (No Checkpoints)
-- Contains only `type="auto"` tasks
-- No user interaction needed
-- **Execute via subagent with fresh 200k context**
-- Impossible to degrade (always starts at 0%)
-- Creates SUMMARY, commits, reports back
-- Can run in parallel (multiple subagents)
-
-### Interactive Plans (Has Checkpoints)
-- Contains `checkpoint:human-verify` or `checkpoint:decision` tasks
-- Requires user interaction
-- Must execute in main context
-- Still target 50% context (2-3 tasks)
-
-**Planning guidance:** If splitting a phase, try to:
-- Group autonomous work together (→ subagent)
-- Separate interactive work (→ main context)
-- Maximize autonomous plans (more fresh contexts)
-
-Example:
-```
-Phase: Feature X
-- 07-01-PLAN.md: Backend (autonomous) → subagent
-- 07-02-PLAN.md: Frontend (autonomous) → subagent
-- 07-03-PLAN.md: Integration test (has checkpoint:human-verify) → main context
-```
-
-Two fresh contexts, one interactive verification. Perfect.
+Every plan runs in a fresh Implement context; a checkpoint is where that run exits for a human. So:
+- Put a checkpoint **last** in its plan, so everything before it lands in one run.
+- Keep checkpoint-free plans separate where you can: they chain through a roadmap without stopping.
 
 ## Anti-Patterns
 
