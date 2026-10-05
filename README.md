@@ -162,7 +162,6 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`resolving-merge-conflicts`** — intent-preserving merge/rebase conflict resolution
 - **`find-skills`** — discover and install skills on demand
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
-- **`writing-great-skills`** — model-invokable reference: the vocabulary and principles for writing predictable skills
 - **`writing-for-agents`** — model-invokable style guide for anything agents read: skills, `AGENTS.md`, `CLAUDE.md`
 - **`teach`** *(command)* — pedagogical walkthrough of a concept or codebase
 
@@ -262,7 +261,7 @@ This library exists to fix that.
 Some skills here are adapted from strong existing work:
 
 - **[the-maniac](https://github.com/the-maniac/claude-code-resources)** — source of `create-plans`, `create-agent-skills`, and `create-subagents`
-- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-great-skills`, `writing-for-agents`, and `retro`
+- **[Matt Pocock](https://github.com/mattpocock/skills)** — source of `grilling`, `grill-me`, `grill-with-docs`, `tdd`, `code-review`, `prototype`, `resolving-merge-conflicts`, `handoff`, `teach`, `writing-for-agents`, and `retro`
 - **[vercel-labs](https://github.com/vercel-labs/skills)** — source of `find-skills`
 - **[Zara Zhang](https://github.com/zarazhangrui/frontend-slides)** — source of `create-frontend-slides`
 

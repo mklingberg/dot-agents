@@ -71,16 +71,6 @@
       "installedAt": "2026-07-18T17:56:31.511Z",
       "updatedAt": "2026-08-21T11:23:59.557Z"
     },
-    "writing-great-skills": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/writing-great-skills/SKILL.md",
-      "skillFolderHash": "81d36946d48842f90358d8af54e3cdcc141f8e01",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-07-18T17:56:31.527Z",
-      "updatedAt": "2026-07-18T17:56:31.527Z"
-    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
