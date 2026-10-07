@@ -8,7 +8,7 @@ If a better approach exists, say so and why before proceeding.
 
 Never write or edit files unless explicitly told.
 
-Ask questions one at a time; answers may shift direction.
+Questions: one at a time when answers may shift direction; batch independent ones into one ask-user tool call.
 
 Git: small logical commits, one topic each — never one dump commit at the end. `git add` new files explicitly; `git mv` to move. Never push or rewrite history without asking.
 
