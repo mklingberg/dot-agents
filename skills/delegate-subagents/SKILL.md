@@ -1,6 +1,6 @@
 ---
 name: delegate-subagents
-description: "Delegate to subagents: role choice, fire-and-forget background spawn, EXIT REPORT routing, roadmap auto-chain, parallel waves. Triggers: before spawning, EXIT REPORT. Orca DAGs: use orchestration."
+description: "Delegate to subagents: role choice, fire-and-forget background spawn, EXIT REPORT routing, roadmap auto-chain, parallel waves. Triggers: before spawning, EXIT REPORT. Orca DAGs: use orca."
 ---
 
 # Subagent Delegation

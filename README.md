@@ -52,7 +52,7 @@ Flat root by design: folders for taxonomy add nothing the agent uses. Grouping h
 | `to-` | Convert current conversation → artifact | `to-plan` |
 | `grill-` | Interactive pressure-test | `grill-me`, `grill-with-docs` |
 | `review-` | Analyze without side effects | `code-review` |
-| tool/domain noun | Everything for one external system | `azure-devops`, `orca-cli` |
+| tool/domain noun | Everything for one external system | `azure-devops`, `orca` |
 | bare verb | Single distinct action | `handoff`, `pros-cons`, `prototype` |
 
 Use the same prefixes when adding new skills so they cluster predictably in alphabetical listings and `/skill:` completion.
@@ -164,7 +164,9 @@ A few skills encode concrete patterns so the agent does not reinvent them badly.
 - **`confluence`** — read-only Confluence search and page reads; holds the space-key map
 - **`repo-index`** — answers what repos, components and dependencies exist from `INDEX.md`; its refresh workflow rebuilds the derived regions and leaves curated ones untouched. Named for the common path (reading, daily) rather than the rare one (regenerating), which is why it isn't `create-*`
 - **`delegate-subagents`** — which agent role to spawn, background discipline, EXIT REPORT routing, parallel waves
-- **`find-skills`** — discover and install skills on demand
+- **`find-skills`** *(command)* — discover and install skills on demand
+- **`frontend-design`** *(command)* — visual design direction for UI (palette, type, layout, copy)
+- **`evaluate-skills`** *(command)* — behavioral eval of a skill against real prompts
 - **`create-frontend-slides`** *(command)* — presentation-building specialist
 - **`writing-for-agents`** — model-invokable style guide for anything agents read: skills, `AGENTS.md`, `CLAUDE.md`
 - **`teach`** *(command)* — pedagogical walkthrough of a concept or codebase
@@ -218,20 +220,17 @@ resume later with less context loss
 `_experimental/` holds skills that are auto-detected and usable, but not yet promoted as core. Same loading behavior as root-level skills — the folder just signals "still proving its value."
 
 Current:
-- **`frontend-design`** — visual design direction for UI (palette, type, layout, copy)
 - **`backend-microservice-architecture`** *(command)* — backend service design principles
-- **`evaluate-skills`** — behavioral eval of a skill against real prompts
 
-Git worktrees are handled by `orca-cli` — Orca manages the worktrees under
+Git worktrees are handled by `orca` — Orca manages the worktrees under
 `_workspaces/<repo>/<branch>`, so there is no separate raw-`git worktree` skill.
 
 ## Orca integration skills
 
-`orca-cli`, `computer-use`, and `orchestration` bind to the Orca app rather than to a
-way of working, so they are **deliberately not catalogued above**. Their own descriptions
-carry the routing rules — which is which, and when to prefer one over another — and those
-rules change with Orca, not with this library. Treat their absence from the sections above
-as intentional, not drift.
+`orca` (router) and `orca-browser` are hand-rolled thin routers, deliberately not catalogued above.
+The real guides come version-matched from the binary via `orca skills get <name>`.
+They are not in `.skill-lock.json`. Never run `orca skills install`/`update`: that reinstalls
+the upstream `orca-cli`/`orchestration`/`computer-use` stubs.
 
 ## Adding a new skill
 
