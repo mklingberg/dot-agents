@@ -1,19 +1,11 @@
 ---
 name: orchestration
 description: >-
-  Use Orca orchestration for structured multi-agent coordination: threaded
-  messages, blocking ask/reply flows, task dispatch, worker_done/escalation
-  waits, task DAGs, decision gates, coordinator loops, or decomposing work
-  across agents. Use `orca-cli` instead for full ownership handoffs, including
-  requests phrased as "hand off", "handoff", "handover", "give this to another
-  agent", or "another worktree" when the user did not explicitly ask to
-  supervise, monitor, wait for results, or coordinate a DAG. Use `orca-cli` for
-  ordinary terminal control, lightweight terminal prompts, shell commands, Orca
-  worktree management, reading or waiting on terminals, and automation of the
-  browser embedded inside Orca. Use Computer Use for browser windows, webviews,
-  Orca app UI, or desktop UI outside Orca's embedded browser. For ordinary
-  subagent delegation in this harness — which role to spawn, background/await
-  discipline, Implement EXIT REPORT routing — use `delegate-subagents`.
+  Supervised multi-agent coordination via Orca: task dispatch, DAGs, decision
+  gates, threaded/blocking ask-reply, waiting on worker_done/escalations,
+  coordinator loops. Unsupervised handoffs and terminal/worktree/embedded-browser
+  ops: orca-cli. Subagent roles and EXIT REPORTs in this harness:
+  delegate-subagents.
 ---
 
 # Orca Orchestration
