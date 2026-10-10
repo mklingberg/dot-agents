@@ -1,6 +1,7 @@
 ---
 name: evaluate-skills
 description: "Behavioral eval of a skill — run real prompts with/without it, grade outputs, report deltas. Triggers: 'evaluate this skill', 'test skill outputs', 'does my skill help', 'eval-driven'. For static structural review (YAML, description, gotchas), use create-agent-skills audit-skill workflow."
+disable-model-invocation: true
 ---
 
 ## What this skill does
