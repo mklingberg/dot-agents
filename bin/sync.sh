@@ -8,9 +8,7 @@
 #                          (root AGENTS.md is repo-only: maintaining ~/.agents itself)
 #   agents/*.md            Pi-format agent defs                   -> symlink (Pi) / generate (Claude, Copilot)
 #
-# Codex gets AGENTS.md only (via @import; its own file is not ours to own). Codex
-# agent defs stay out of scope. general-purpose is NOT shipped — every harness has
-# a native built-in.
+# general-purpose is NOT shipped — every harness has a native built-in.
 set -euo pipefail
 
 AG="$HOME/.agents"
@@ -30,28 +28,8 @@ link "$AG/global/AGENTS.md"     "$PI/AGENTS.md"
 link "$AG/global/AGENTS.md"     "$CLAUDE/CLAUDE.md"
 link "$AG/global/AGENTS.md"     "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
 
-echo "== codex =="
-# Codex AGENTS.md is user-owned (e.g. @RTK.md), so append an @import instead of
-# symlinking. Covers ~/.codex plus every Orca-managed per-account home.
-IMPORT="@$AG/global/AGENTS.md"
-OLD_IMPORT="@$AG/AGENTS.md"   # pre-move path; now the repo-only file
-for ch in "$HOME/.codex" "$HOME/Library/Application Support/orca/codex-accounts"/*/home; do
-  [ -d "$ch" ] || continue
-  f="$ch/AGENTS.md"
-  if [ -f "$f" ] && grep -qxF "$OLD_IMPORT" "$f"; then
-    { grep -vxF "$OLD_IMPORT" "$f" || true; } > "$f.tmp" && mv "$f.tmp" "$f"
-    echo "  drop $OLD_IMPORT from $f"
-  fi
-  if [ -f "$f" ] && grep -qxF "$IMPORT" "$f"; then
-    echo "  ok   $f"
-  else
-    printf '%s\n' "$IMPORT" >> "$f"
-    echo "  add  $f"
-  fi
-done
-
 echo "== skills =="
-# Pi, Copilot and Codex discover ~/.agents/skills natively (recursive / native scan).
+# Pi and Copilot discover ~/.agents/skills natively (recursive / native scan).
 # Claude scans only ONE level deep -> it can't see _commands/ or _experimental/.
 # Give Claude a flat dir of per-skill symlinks (Claude follows dir symlinks).
 CS="$CLAUDE/skills"
