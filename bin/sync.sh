@@ -4,7 +4,8 @@
 # Source of truth (this repo):
 #   skills/                shared Agent Skills (SKILL.md)         -> flat per-skill symlinks (Claude)
 #                          incl. delegate-subagents (orchestration protocol)
-#   AGENTS.md              global instructions                    -> symlink (CLAUDE.md on Claude)
+#   global/AGENTS.md       global instructions                    -> symlink (CLAUDE.md on Claude)
+#                          (root AGENTS.md is repo-only: maintaining ~/.agents itself)
 #   agents/*.md            Pi-format agent defs                   -> symlink (Pi) / generate (Claude, Copilot)
 #
 # Codex gets AGENTS.md only (via @import; its own file is not ours to own). Codex
@@ -25,17 +26,22 @@ link() { # link <target> <linkname>
 }
 
 echo "== instructions =="
-link "$AG/AGENTS.md"            "$PI/AGENTS.md"
-link "$AG/AGENTS.md"            "$CLAUDE/CLAUDE.md"
-link "$AG/AGENTS.md"            "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
+link "$AG/global/AGENTS.md"     "$PI/AGENTS.md"
+link "$AG/global/AGENTS.md"     "$CLAUDE/CLAUDE.md"
+link "$AG/global/AGENTS.md"     "$COPILOT/AGENTS.md"   # best-effort; project-level AGENTS.md is authoritative
 
 echo "== codex =="
 # Codex AGENTS.md is user-owned (e.g. @RTK.md), so append an @import instead of
 # symlinking. Covers ~/.codex plus every Orca-managed per-account home.
-IMPORT="@$AG/AGENTS.md"
+IMPORT="@$AG/global/AGENTS.md"
+OLD_IMPORT="@$AG/AGENTS.md"   # pre-move path; now the repo-only file
 for ch in "$HOME/.codex" "$HOME/Library/Application Support/orca/codex-accounts"/*/home; do
   [ -d "$ch" ] || continue
   f="$ch/AGENTS.md"
+  if [ -f "$f" ] && grep -qxF "$OLD_IMPORT" "$f"; then
+    { grep -vxF "$OLD_IMPORT" "$f" || true; } > "$f.tmp" && mv "$f.tmp" "$f"
+    echo "  drop $OLD_IMPORT from $f"
+  fi
   if [ -f "$f" ] && grep -qxF "$IMPORT" "$f"; then
     echo "  ok   $f"
   else

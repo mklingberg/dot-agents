@@ -13,7 +13,8 @@ Four shared assets live here and propagate to each tool (see [Cross-harness sync
 | `skills/` | Agent Skills (SKILL.md) — the bulk of this repo |
 | `agents/` | Subagent definitions (Pi-format source) |
 | `skills/delegate-subagents/` | Delegation protocol as a skill (harness-agnostic; exit-handling + roadmap references) |
-| `AGENTS.md` | Global instructions (reporting style, git rules, language, delegation) |
+| `global/AGENTS.md` | Global instructions (reporting style, git rules, language, delegation) |
+| `AGENTS.md` | Repo-only instructions for maintaining `~/.agents` (sync, upstream skill updates) |
 
 ## What this library is really for
 
@@ -28,7 +29,8 @@ The center of gravity is not “more skills.” It is **better agent behavior**:
 
 ```text
 ~/.agents/
-├── AGENTS.md                 Global instructions, shared across harnesses
+├── AGENTS.md                 Repo-only: maintaining ~/.agents itself
+├── global/AGENTS.md          Global instructions, shared across harnesses
 ├── agents/                   Pi-format subagent defs (source of truth)
 │   ├── Explore.md  Research.md  Debug.md  Review.md  Implement.md
 ├── bin/                      sync.sh (propagate) + gen_agent.py (transform)
@@ -75,7 +77,7 @@ Beyond skills, `~/.agents` is the single source for **subagent definitions**, th
 | Asset | Pi | Claude Code | Copilot CLI | Codex |
 |---|---|---|---|---|
 | `skills/` | native scan | **flat per-skill symlinks** `~/.claude/skills/<name>` | native scan | native scan |
-| `AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` | **`@import` line appended** |
+| `global/AGENTS.md` | symlink | symlink as `~/.claude/CLAUDE.md` | symlink `~/.copilot/AGENTS.md` | **`@import` line appended** |
 | `skills/delegate-subagents/` | (via `skills/` scan) | (via flattened symlink) | (via `skills/` scan) | (via `skills/` scan) |
 | `agents/*.md` | symlink | **generated** `.md` | **generated** `.agent.md` | — |
 
@@ -84,7 +86,7 @@ Pi and Copilot scan `~/.agents/skills` natively (any depth) — no symlink neede
 ### Codex: instructions yes, agent defs no
 
 Codex's `AGENTS.md` is user-owned (it typically already holds its own `@import` lines), so
-sync **appends** `@~/.agents/AGENTS.md` rather than symlinking over it — idempotent, and it
+sync **appends** `@~/.agents/global/AGENTS.md` rather than symlinking over it — idempotent, and it
 covers both `~/.codex` and every Orca-managed per-account home
 (`~/Library/Application Support/orca/codex-accounts/*/home`).
 
