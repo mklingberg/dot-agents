@@ -232,6 +232,18 @@ The real guides come version-matched from the binary via `orca skills get <name>
 They are not in `.skill-lock.json`. Never run `orca skills install`/`update`: that reinstalls
 the upstream `orca-cli`/`orchestration`/`computer-use` stubs.
 
+## Locally modified upstream skills
+
+Some skills in `.skill-lock.json` carry local changes on top of upstream. `skills update`
+overwrites them. After any update, run `git diff` on each one below and reapply the local
+changes, merging them with upstream's new text. Upstream wins where the two overlap in intent.
+
+| Skill | Upstream | Local changes (commits touching it after `075136c`) |
+|---|---|---|
+| `grilling` | `mattpocock/skills` | Every question via ask-user tool (open-ended as candidate options + free text); pivot questions asked alone first; contradiction check + closing recap. |
+
+List every new local edit to an upstream skill here, in the same commit.
+
 ## Adding a new skill
 
 1. Pick a name using the prefix conventions above (`create-`, `to-`, `grill-`, `review-`, bare verb, or a tool/domain noun)
