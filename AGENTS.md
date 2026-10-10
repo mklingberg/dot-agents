@@ -5,8 +5,10 @@ This file covers maintaining this repo. The global instructions every harness lo
 
 ## After editing
 
-Run `bash bin/sync.sh` after changing `global/AGENTS.md`, `agents/*.md` or adding/moving a
-skill. Claude and Copilot see only the synced copies.
+Run `bash ~/.agents/bin/sync.sh` yourself after changing `global/AGENTS.md`, `agents/*.md` or
+adding/moving a skill. Claude and Copilot see only the synced copies. It writes into
+`~/.claude`, otherwise write-denied: this script is the sanctioned exception, invoked by that
+exact command.
 
 ## Updating upstream skills
 
